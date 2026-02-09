@@ -51,7 +51,6 @@ coverage:
         # Paths to include in project coverage
         paths:
           - "app"
-          - "src"
         
         # Paths to exclude
         ignore:

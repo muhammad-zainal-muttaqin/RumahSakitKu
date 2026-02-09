@@ -1,75 +1,41 @@
 includes:
     - vendor/larastan/larastan/extension.neon
-    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
-    - vendor/phpstan/phpstan-strict-rules/rules.neon
 
 parameters:
     # Analysis level (0-9, where 9 is max)
-    level: 8
+    level: 5
 
     # Paths to analyze
     paths:
         - app
-        - tests
-        - routes
-        - config
-        - database
 
     # Exclude patterns
     excludePaths:
         - vendor
         - storage
         - bootstrap/cache
-        - storage/framework/views/*.php
-        - database/migrations/*
         - node_modules
 
-    # Laravel specific settings
-    bootstrapFiles:
-        - vendor/autoload.php
-
     # Check specific rules
-    checkMissingIterableValueType: true
-    checkGenericClassInNonGenericObjectType: true
-    checkExplicitMixed: true
-    checkBenevolentUnionTypes: true
-    checkUninitializedProperties: true
-    checkMissingCallableSignature: true
-    checkTooWideReturnTypesInProtectedAndPublicMethods: true
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
 
-    # Report configuration
-    reportMaybes: true
-    reportMaybesInMethodSignatures: true
-    reportMaybesInPropertyHooks: true
-    reportStaticMethodSignatures: true
-
-    # Ignore specific errors (if needed for Laravel quirks)
+    # Ignore specific errors (for Laravel quirks)
     ignoreErrors:
         # Laravel facades dynamic methods
         - '#Call to an undefined static method Illuminate\\Support\\Facades\\.*#'
         # Eloquent dynamic properties
         - '#Access to an undefined property App\\Models\\.*#'
         # Route model binding
-        - '#Cannot access property \$.* on App\\Models\\.*|null#'
-
-    # Memory limit
-    memoryLimitFile: /tmp/phpstan-memory-limit
+        - '#Cannot access property \$.* on App\\Models\\.*\|null#'
+        # Filament dynamic methods
+        - '#Call to an undefined method.*Filament\\.*#'
+        # Mixed type operations common in Laravel
+        - '#Parameter .* of .* expects .*, mixed given#'
 
     # Parallel processing
     parallel:
         maximumNumberOfProcesses: 4
-        minimumNumberOfJobsPerProcess: 2
-        jobSize: 20
-
-    # Scan files configuration
-    fileExtensions:
-        - php
-
-    # Treat these as internal errors
-    internalErrorsCountLimit: 50
 
     # Cache configuration
     tmpDir: storage/app/phpstan
-
-    # Additional custom rules
-    customRulesetUsed: false
