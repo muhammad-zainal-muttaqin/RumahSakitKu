@@ -38,6 +38,7 @@ class RadiologyOrderTest extends TestCase
             'contrast_type',
             'clinical_indication',
             'scheduled_date',
+            'room',
             'priority',
             'status',
             'notes',

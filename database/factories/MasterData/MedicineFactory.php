@@ -16,9 +16,12 @@ class MedicineFactory extends Factory
         $classifications = ['obat_bebas', 'obat_bebas_terbatas', 'obat_keras', 'narkotika', 'psikotropik'];
         $dosageForms = ['tablet', 'kapsul', 'sirup', 'injeksi', 'salep', 'krim', 'gel', 'tetes', 'inhaler', 'supositoria'];
 
+        $genericName = ucfirst($this->faker->word());
+
         return [
             'code' => 'MED' . $this->faker->unique()->numerify('######'),
-            'name' => $this->faker->word() . ' ' . $this->faker->randomElement(['Acid', 'Sodium', 'Hydrochloride', 'Sulfate']),
+            'name' => $genericName . ' ' . $this->faker->randomElement(['Acid', 'Sodium', 'Hydrochloride', 'Sulfate']),
+            'generic_name' => $genericName,
             'classification' => $this->faker->randomElement($classifications),
             'dosage_form' => $this->faker->randomElement($dosageForms),
             'unit' => $this->faker->randomElement(['tablet', 'kapsul', 'botol', 'tube', 'ampul']),

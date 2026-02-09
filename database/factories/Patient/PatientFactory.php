@@ -17,7 +17,6 @@ class PatientFactory extends Factory
         $birthDate = $this->faker->dateTimeBetween('-80 years', '-1 day');
 
         return [
-            'medical_record_number' => 'RM' . $this->faker->unique()->numerify('########'),
             'nik' => $this->faker->unique()->numerify('################'),
             'bpjs_number' => $this->faker->optional()->numerify('000#############'),
             'bpjs_ppk_code' => null,

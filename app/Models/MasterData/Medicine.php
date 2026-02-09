@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $id
  * @property string $code
  * @property string $name
+ * @property string|null $generic_name
  * @property string|null $classification
  * @property string|null $dosage_form
  * @property string|null $unit
@@ -69,6 +70,7 @@ class Medicine extends Model
     protected $fillable = [
         'code',
         'name',
+        'generic_name',
         'classification',
         'dosage_form',
         'unit',

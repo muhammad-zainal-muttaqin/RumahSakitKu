@@ -35,6 +35,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $contrast_type
  * @property string|null $clinical_indication
  * @property Carbon|null $scheduled_date
+ * @property string|null $room
  * @property string $priority
  * @property string $status
  * @property string|null $notes
@@ -87,6 +88,7 @@ class RadiologyOrder extends Model
         'contrast_type',
         'clinical_indication',
         'scheduled_date',
+        'room',
         'priority',
         'status',
         'notes',

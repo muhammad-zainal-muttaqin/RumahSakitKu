@@ -78,6 +78,7 @@ class RadiologyResult extends Model
 
     protected $casts = [
         'result_images' => 'array',
+        'exposure_parameters' => 'array',
         'reported_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',

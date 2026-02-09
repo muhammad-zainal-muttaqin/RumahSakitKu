@@ -15,9 +15,9 @@ return new class extends Migration
             $table->foreignId('visit_id')->constrained();
             $table->foreignId('medical_record_id')->constrained();
             $table->date('prescription_date')->nullable();
-            $table->enum('prescription_type', ['regular', 'emergency', 'compound'])->default('regular');
+            $table->enum('prescription_type', ['regular', 'emergency', 'compound', 'non_racikan', 'racikan', 'cito'])->default('regular');
             $table->enum('priority', ['normal', 'urgent'])->default('normal');
-            $table->enum('status', ['pending', 'verified', 'dispensed', 'cancelled'])->default('pending');
+            $table->enum('status', ['pending', 'verified', 'processing', 'completed', 'rejected', 'dispensed', 'cancelled'])->default('pending');
             $table->text('clinical_indication')->nullable();
             $table->text('allergies')->nullable();
             $table->foreignId('prescribed_by')->nullable()->constrained('employees')->nullOnDelete();

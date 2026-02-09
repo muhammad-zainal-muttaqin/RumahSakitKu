@@ -61,7 +61,7 @@ class PatientServiceTest extends TestCase
     #[Test]
     public function it_searches_patients_by_medical_record_number(): void
     {
-        $result = $this->service->searchPatients('RM-240101-0001');
+        $result = $this->service->searchPatients('240101-01');
 
         $this->assertInstanceOf(Collection::class, $result);
     }
@@ -90,8 +90,7 @@ class PatientServiceTest extends TestCase
     {
         $result = $this->service->generateMedicalRecordNumber();
 
-        $this->assertStringStartsWith('RM-', $result);
-        $this->assertMatchesRegularExpression('/^RM-\d{6}-\d{4}$/', $result);
+        $this->assertMatchesRegularExpression('/^\d{6}-\d{2}$/', $result);
     }
 
     #[Test]
@@ -103,8 +102,8 @@ class PatientServiceTest extends TestCase
         $number2 = $this->service->generateMedicalRecordNumber();
 
         // Both should match the expected format
-        $this->assertMatchesRegularExpression('/^RM-\d{6}-\d{4}$/', $number1);
-        $this->assertMatchesRegularExpression('/^RM-\d{6}-\d{4}$/', $number2);
+        $this->assertMatchesRegularExpression('/^\d{6}-\d{2}$/', $number1);
+        $this->assertMatchesRegularExpression('/^\d{6}-\d{2}$/', $number2);
 
         // If they're different, they should differ in the sequence number
         if ($number1 !== $number2) {
@@ -256,7 +255,7 @@ class PatientServiceTest extends TestCase
         // The service should always return a valid format even on error
         $result = $this->service->generateMedicalRecordNumber();
 
-        $this->assertMatchesRegularExpression('/^RM-\d{6}-\d{4}$/', $result);
+        $this->assertMatchesRegularExpression('/^\d{6}-\d{2}$/', $result);
     }
 
     #[Test]
@@ -268,7 +267,7 @@ class PatientServiceTest extends TestCase
         }
 
         foreach ($numbers as $number) {
-            $this->assertMatchesRegularExpression('/^RM-\d{6}-\d{4}$/', $number);
+            $this->assertMatchesRegularExpression('/^\d{6}-\d{2}$/', $number);
         }
     }
 

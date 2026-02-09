@@ -51,7 +51,7 @@ class PatientService
     /**
      * Generate the next medical record number.
      *
-     * Format: RM-YYMMDD-XXXX where XXXX is a zero-padded sequential number
+     * Format: YYMMDD-XX where XX is a zero-padded sequential number
      * that resets daily.
      *
      * @return string The generated medical record number
@@ -60,27 +60,27 @@ class PatientService
     {
         try {
             $datePrefix = now()->format('ymd');
-            $prefix = "RM-{$datePrefix}-";
+            $prefix = "{$datePrefix}-";
 
             $lastPatient = Patient::where('medical_record_number', 'like', "{$prefix}%")
                 ->orderBy('medical_record_number', 'desc')
                 ->first();
 
             if ($lastPatient) {
-                $lastSequence = (int) substr($lastPatient->medical_record_number, -4);
+                $lastSequence = (int) substr($lastPatient->medical_record_number, -2);
                 $nextSequence = $lastSequence + 1;
             } else {
                 $nextSequence = 1;
             }
 
-            return $prefix . str_pad((string) $nextSequence, 4, '0', STR_PAD_LEFT);
+            return $prefix . str_pad((string) $nextSequence, 2, '0', STR_PAD_LEFT);
         } catch (Exception $e) {
             Log::error('PatientService: Error generating medical record number', [
                 'error' => $e->getMessage(),
             ]);
 
             // Fallback with timestamp to avoid collisions
-            return 'RM-' . now()->format('ymd') . '-' . str_pad((string) random_int(1, 9999), 4, '0', STR_PAD_LEFT);
+            return now()->format('ymd') . '-' . str_pad((string) random_int(1, 99), 2, '0', STR_PAD_LEFT);
         }
     }
 

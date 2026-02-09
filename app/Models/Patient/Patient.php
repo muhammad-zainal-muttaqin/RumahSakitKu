@@ -83,16 +83,21 @@ class Patient extends Model
         'gender',
         'blood_type',
         'address',
+        'phone',
         'phone_primary',
         'phone_secondary',
         'email',
         'emergency_name',
+        'emergency_contact_name',
         'emergency_phone',
+        'emergency_contact_phone',
         'marital_status',
         'occupation',
         'insurance_name',
+        'insurance_type',
         'insurance_number',
         'bpjs_number',
+        'bpjs_card_number',
         'bpjs_ppk_code',
         'bpjs_class',
         'photo_path',
@@ -127,6 +132,10 @@ class Patient extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
+    ];
+
+    protected array $auditExclude = [
+        'phone_primary',
     ];
 
     /**
@@ -170,7 +179,8 @@ class Patient extends Model
             $q->where('name', 'like', "%{$search}%")
                 ->orWhere('medical_record_number', 'like', "%{$search}%")
                 ->orWhere('nik', 'like', "%{$search}%")
-                ->orWhere('bpjs_number', 'like', "%{$search}%");
+                ->orWhere('bpjs_number', 'like', "%{$search}%")
+                ->orWhere('bpjs_card_number', 'like', "%{$search}%");
         });
     }
 
@@ -214,6 +224,24 @@ class Patient extends Model
             };
         }
 
+        if (array_key_exists('marital_status', $attributes) && $attributes['marital_status'] !== null) {
+            $normalizedStatus = strtolower(trim((string) $attributes['marital_status']));
+            $statusMap = [
+                'single' => 'Belum Menikah',
+                'married' => 'Menikah',
+                'divorced' => 'Cerai',
+                'widowed' => 'Duda/Janda',
+                'belum menikah' => 'Belum Menikah',
+                'menikah' => 'Menikah',
+                'cerai' => 'Cerai',
+                'duda/janda' => 'Duda/Janda',
+            ];
+
+            if (array_key_exists($normalizedStatus, $statusMap)) {
+                $attributes['marital_status'] = $statusMap[$normalizedStatus];
+            }
+        }
+
         if (array_key_exists('phone', $attributes) && !array_key_exists('phone_primary', $attributes)) {
             $attributes['phone_primary'] = $attributes['phone'];
         }
@@ -229,14 +257,6 @@ class Patient extends Model
         if (array_key_exists('bpjs_card_number', $attributes) && !array_key_exists('bpjs_number', $attributes)) {
             $attributes['bpjs_number'] = $attributes['bpjs_card_number'];
         }
-
-        unset(
-            $attributes['phone'],
-            $attributes['emergency_contact_name'],
-            $attributes['emergency_contact_phone'],
-            $attributes['insurance_type'],
-            $attributes['bpjs_card_number']
-        );
 
         return $attributes;
     }

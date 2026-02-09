@@ -24,6 +24,7 @@ class MedicineTest extends TestCase
         $expectedFillable = [
             'code',
             'name',
+            'generic_name',
             'classification',
             'dosage_form',
             'unit',

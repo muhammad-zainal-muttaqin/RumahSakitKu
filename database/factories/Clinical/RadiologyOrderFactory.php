@@ -30,6 +30,7 @@ class RadiologyOrderFactory extends Factory
             'contrast_type' => null,
             'clinical_indication' => $this->faker->optional()->sentence(),
             'scheduled_date' => now()->addHours($this->faker->numberBetween(1, 48)),
+            'room' => 'Ruang CT Scan 1',
             'priority' => 'normal',
             'status' => 'pending',
             'total_price' => $this->faker->randomFloat(2, 500000, 5000000),

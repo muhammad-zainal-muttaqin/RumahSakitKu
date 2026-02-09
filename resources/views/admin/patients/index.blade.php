@@ -8,5 +8,10 @@
     @if(session('success'))
         <div>{{ session('success') }}</div>
     @endif
+    <ul>
+        @foreach($patients as $patient)
+            <li>{{ $patient->name }}</li>
+        @endforeach
+    </ul>
 </body>
 </html>

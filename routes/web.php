@@ -17,17 +17,21 @@ use App\Models\Clinical\Surgery;
 use App\Models\Clinical\SurgeryImplant;
 use App\Models\Clinical\LaboratoryOrder;
 use App\Models\Clinical\LaboratoryResult;
+use App\Models\Clinical\RadiologyOrder;
+use App\Models\Clinical\RadiologyResult;
 use App\Models\MasterData\Bed;
 use App\Models\MasterData\Employee;
 use App\Models\MasterData\LabTest;
 use App\Models\MasterData\Polyclinic;
 use App\Models\MasterData\Room;
+use App\Models\MasterData\Medicine;
 use App\Models\AuditLog;
 use App\Models\BpjsLog;
 use App\Models\SatuSehatLog;
 use App\Services\TriageService;
 use App\Services\SatuSehat\SatuSehatService;
 use App\Services\SurgeryService;
+use App\Notifications\RadiologyReportReady;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 
@@ -127,6 +131,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
                 $q->where('name', 'like', "%{$search}%")
                     ->orWhere('nik', 'like', "%{$search}%")
                     ->orWhere('medical_record_number', 'like', "%{$search}%")
+                    ->orWhere('bpjs_number', 'like', "%{$search}%")
                     ->orWhere('bpjs_card_number', 'like', "%{$search}%");
             });
         }
@@ -192,7 +197,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         $data = $request->validate([
             'name' => 'sometimes|required|string|max:100',
             'nik' => 'sometimes|nullable|string|size:16|unique:patients,nik,' . $patient->id,
-            'phone' => 'sometimes|nullable|string',
+            'phone' => 'sometimes|required|string',
             'address' => 'sometimes|nullable|string',
         ]);
 
@@ -207,6 +212,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
             $updateData['address'] = $data['address'];
         }
         if (array_key_exists('phone', $data)) {
+            $updateData['phone'] = $data['phone'];
             $updateData['phone_primary'] = $data['phone'];
         }
 
@@ -465,10 +471,27 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
             ->with('labTest')
             ->get();
 
+        $radiologyOrders = RadiologyOrder::query()
+            ->where('medical_record_id', $medicalRecord->id)
+            ->pluck('id');
+
+        $radiologyResults = RadiologyResult::query()
+            ->whereIn('radiology_order_id', $radiologyOrders)
+            ->get();
+
         $body = "<h1>Medical Record {$medicalRecord->record_number}</h1>";
         foreach ($results as $result) {
             $testName = $result->labTest?->name ?? 'Lab Test';
             $body .= '<p>' . e($testName) . ': ' . e((string) $result->display_value) . '</p>';
+        }
+
+        foreach ($radiologyResults as $result) {
+            if ($result->conclusion) {
+                $body .= '<p>' . e((string) $result->conclusion) . '</p>';
+            }
+            if ($result->report_text) {
+                $body .= '<p>' . e((string) $result->report_text) . '</p>';
+            }
         }
 
         return response($body);
@@ -824,8 +847,282 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     });
 
     // Pharmacy Routes
-    Route::get('/pharmacy/prescriptions', function () {
-        return view('admin.pharmacy.prescriptions');
+    $ensurePharmacyAccess = function (): void {
+        $user = auth()->user();
+        if (!$user || (!$user->hasRole('pharmacy') && !$user->hasRole('admin'))) {
+            abort(403);
+        }
+    };
+
+    Route::get('/pharmacy/prescriptions', function (Request $request) use ($ensurePharmacyAccess) {
+        $ensurePharmacyAccess();
+
+        $query = Prescription::query()->with('items');
+        if ($request->filled('priority')) {
+            $query->where('priority', (string) $request->query('priority'));
+        }
+
+        $prescriptions = $query
+            ->where('status', 'pending')
+            ->orderByDesc('created_at')
+            ->get();
+
+        $body = '<h1>Prescriptions</h1>';
+        foreach ($prescriptions as $prescription) {
+            $body .= '<p>' . e((string) $prescription->prescription_number) . '</p>';
+        }
+
+        return response($body, 200);
+    });
+
+    Route::get('/pharmacy/prescriptions/history', function () use ($ensurePharmacyAccess) {
+        $ensurePharmacyAccess();
+
+        $prescriptions = Prescription::query()
+            ->where('status', 'completed')
+            ->orderByDesc('updated_at')
+            ->get();
+
+        $body = '<h1>Prescription History</h1>';
+        foreach ($prescriptions as $prescription) {
+            $body .= '<p>' . e((string) $prescription->prescription_number) . '</p>';
+        }
+
+        return response($body, 200);
+    });
+
+    Route::get('/pharmacy/prescriptions/{prescription}', function (Prescription $prescription) use ($ensurePharmacyAccess) {
+        $ensurePharmacyAccess();
+
+        $prescription->load('items');
+        $body = '<h1>Prescription ' . e((string) $prescription->prescription_number) . '</h1>';
+        foreach ($prescription->items as $item) {
+            $body .= '<p>' . e((string) $item->generic_name) . '</p>';
+        }
+
+        return response($body, 200);
+    });
+
+    Route::post('/pharmacy/prescriptions/{prescription}/verify', function (Request $request, Prescription $prescription) use ($ensurePharmacyAccess) {
+        $ensurePharmacyAccess();
+
+        $prescription->update([
+            'verified_by_pharmacist' => true,
+            'verified_at' => now(),
+            'dispensed_by' => auth()->user()?->employee_id,
+            'notes' => $request->input('notes'),
+            'updated_by' => auth()->id(),
+        ]);
+
+        return redirect()->back()->with('success', 'Prescription verified');
+    });
+
+    Route::post('/pharmacy/prescriptions/{prescription}/process', function (Prescription $prescription) use ($ensurePharmacyAccess) {
+        $ensurePharmacyAccess();
+
+        if (!$prescription->verified_by_pharmacist) {
+            return redirect()->back()->withErrors(['prescription' => 'Prescription must be verified first']);
+        }
+
+        $prescription->update([
+            'status' => 'processing',
+            'updated_by' => auth()->id(),
+        ]);
+
+        return redirect()->back()->with('success', 'Prescription processing');
+    });
+
+    Route::post('/pharmacy/prescriptions/{prescription}/dispense', function (Request $request, Prescription $prescription) use ($ensurePharmacyAccess) {
+        $ensurePharmacyAccess();
+
+        if (!$prescription->verified_by_pharmacist) {
+            abort(403);
+        }
+
+        $dispensedItems = $request->input('dispensed_items', []);
+        if (!is_array($dispensedItems) || $dispensedItems === []) {
+            return redirect()->back()->withErrors(['dispensed_items' => 'Dispensed items are required']);
+        }
+
+        $errors = [];
+        $itemsToUpdate = [];
+
+        foreach ($dispensedItems as $row) {
+            $itemId = $row['item_id'] ?? null;
+            $quantity = isset($row['dispensed_quantity']) ? (float) $row['dispensed_quantity'] : 0.0;
+
+            $item = PrescriptionItem::query()
+                ->where('prescription_id', $prescription->id)
+                ->whereKey($itemId)
+                ->first();
+
+            if (!$item) {
+                $errors['item_id'] = 'Invalid prescription item.';
+                continue;
+            }
+
+            if ($quantity <= 0) {
+                $errors['dispensed_quantity'] = 'Invalid dispensed quantity.';
+                continue;
+            }
+
+            $medicine = $item->medicine;
+            if ($medicine && $medicine->is_expired) {
+                $errors['expired'] = 'Cannot dispense expired medicine.';
+                continue;
+            }
+
+            if ($medicine && $medicine->stock < $quantity) {
+                $errors['stock'] = 'Insufficient stock for dispensing.';
+                continue;
+            }
+
+            $itemsToUpdate[] = [
+                'item' => $item,
+                'quantity' => $quantity,
+                'medicine' => $medicine,
+            ];
+        }
+
+        if (!empty($errors)) {
+            return redirect()->back()->withErrors($errors);
+        }
+
+        foreach ($itemsToUpdate as $row) {
+            /** @var PrescriptionItem $item */
+            $item = $row['item'];
+            $quantity = (float) $row['quantity'];
+            /** @var Medicine|null $medicine */
+            $medicine = $row['medicine'];
+
+            $item->update([
+                'is_dispensed' => true,
+                'dispensed_quantity' => $quantity,
+                'dispensed_at' => now(),
+                'updated_by' => auth()->id(),
+            ]);
+
+            if ($medicine) {
+                $medicine->update([
+                    'stock' => $medicine->stock - $quantity,
+                ]);
+            }
+        }
+
+        $prescription->refresh();
+        $allDispensed = $prescription->items->every(function (PrescriptionItem $item): bool {
+            return $item->is_dispensed
+                && $item->dispensed_quantity !== null
+                && $item->dispensed_quantity >= $item->quantity;
+        });
+
+        $prescription->update([
+            'status' => $allDispensed ? 'completed' : 'processing',
+            'dispensed_at' => now(),
+            'dispensed_by' => auth()->user()?->employee_id,
+            'updated_by' => auth()->id(),
+        ]);
+
+        return redirect()->back()->with('success', 'Prescription dispensed');
+    });
+
+    Route::post('/pharmacy/prescriptions/{prescription}/reject', function (Request $request, Prescription $prescription) use ($ensurePharmacyAccess) {
+        $ensurePharmacyAccess();
+
+        $prescription->update([
+            'status' => 'rejected',
+            'notes' => $request->input('rejection_reason'),
+            'updated_by' => auth()->id(),
+        ]);
+
+        return redirect()->back()->with('success', 'Prescription rejected');
+    });
+
+    Route::post('/pharmacy/prescriptions/{prescription}/substitute', function (Request $request, Prescription $prescription) use ($ensurePharmacyAccess) {
+        $ensurePharmacyAccess();
+
+        $itemId = (int) $request->input('original_item_id');
+        $substituteId = (int) $request->input('substitute_medicine_id');
+        $substitutionNotes = $request->input('substitution_notes');
+
+        $item = PrescriptionItem::query()
+            ->where('prescription_id', $prescription->id)
+            ->whereKey($itemId)
+            ->first();
+        $medicine = Medicine::query()->find($substituteId);
+
+        if (!$item || !$medicine) {
+            return redirect()->back()->withErrors(['substitution' => 'Invalid substitution request']);
+        }
+
+        $item->update([
+            'medicine_id' => $medicine->id,
+            'generic_name' => $medicine->generic_name ?: $medicine->name,
+            'substitution_notes' => $substitutionNotes,
+            'updated_by' => auth()->id(),
+        ]);
+
+        return redirect()->back()->with('success', 'Medicine substituted');
+    });
+
+    Route::get('/pharmacy/medicines', function (Request $request) use ($ensurePharmacyAccess) {
+        $ensurePharmacyAccess();
+
+        $query = Medicine::query();
+        if ($request->filled('search')) {
+            $search = (string) $request->query('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('generic_name', 'like', "%{$search}%")
+                    ->orWhere('code', 'like', "%{$search}%");
+            });
+        }
+
+        $medicines = $query->orderBy('name')->get();
+        $body = '<h1>Medicines</h1>';
+        foreach ($medicines as $medicine) {
+            $stockValue = rtrim(rtrim((string) $medicine->stock, '0'), '.');
+            $body .= '<p>' . e((string) $medicine->name) . ' - ' . e($stockValue) . '</p>';
+        }
+
+        return response($body, 200);
+    });
+
+    Route::get('/pharmacy/medicines/low-stock', function () use ($ensurePharmacyAccess) {
+        $ensurePharmacyAccess();
+
+        $medicines = Medicine::query()
+            ->whereColumn('stock', '<=', 'min_stock')
+            ->orderBy('name')
+            ->get();
+
+        $body = '<h1>Low Stock Medicines</h1>';
+        foreach ($medicines as $medicine) {
+            $body .= '<p>' . e((string) $medicine->name) . '</p>';
+        }
+
+        return response($body, 200);
+    });
+
+    Route::post('/pharmacy/medicines/{medicine}/update-stock', function (Request $request, Medicine $medicine) use ($ensurePharmacyAccess) {
+        $ensurePharmacyAccess();
+
+        $data = $request->validate([
+            'quantity' => 'required|numeric|min:0.01',
+            'type' => 'required|in:in,out',
+            'reason' => 'nullable|string',
+        ]);
+
+        $quantity = (float) $data['quantity'];
+        if ($data['type'] === 'out') {
+            $quantity = -1 * $quantity;
+        }
+
+        $medicine->update([
+            'stock' => $medicine->stock + $quantity,
+        ]);
+
+        return redirect()->back()->with('success', 'Stock updated');
     });
 
     // User Management (Admin only)
@@ -1952,16 +2249,216 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     });
 
     // Radiology Routes
-    Route::get('/radiology/orders', function () {
-        return view('admin.radiology.orders');
+    Route::get('/radiology/orders', function (Request $request) {
+        $query = RadiologyOrder::query();
+        if ($request->filled('priority')) {
+            $query->where('priority', (string) $request->query('priority'));
+        }
+
+        $orders = $query->orderByDesc('created_at')->get();
+        $body = '<h1>Radiology Orders</h1>';
+        foreach ($orders as $order) {
+            $body .= '<p>' . e((string) $order->order_number) . '</p>';
+        }
+
+        return response($body, 200);
     });
 
     Route::post('/radiology/orders', function (Request $request) {
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'visit_id' => 'required|exists:visits,id',
+            'patient_id' => 'required|exists:patients,id',
+            'doctor_id' => 'nullable|exists:employees,id',
+            'medical_record_id' => 'nullable|exists:medical_records,id',
+            'examination_type' => 'required|string',
+            'body_area' => 'required|string',
+            'position' => 'nullable|string',
+            'contrast' => 'nullable|boolean',
+            'contrast_type' => 'nullable|string',
+            'clinical_indication' => 'nullable|string',
+            'priority' => 'nullable|in:normal,urgent,emergency',
+            'notes' => 'nullable|string',
+        ]);
+
+        $validator->after(function ($validator) use ($request) {
+            if ($request->boolean('contrast') && empty($request->input('contrast_type'))) {
+                $validator->errors()->add('contrast_type', 'Contrast type is required.');
+            }
+        });
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $data = $validator->validated();
+        $prefix = 'RAD' . now()->format('Ymd');
+        $lastOrder = RadiologyOrder::query()
+            ->where('order_number', 'like', "{$prefix}%")
+            ->orderByDesc('order_number')
+            ->first();
+        $sequence = $lastOrder ? ((int) substr((string) $lastOrder->order_number, -4) + 1) : 1;
+
+        RadiologyOrder::create([
+            'order_number' => $prefix . str_pad((string) $sequence, 4, '0', STR_PAD_LEFT),
+            'visit_id' => $data['visit_id'],
+            'patient_id' => $data['patient_id'],
+            'doctor_id' => $data['doctor_id'] ?? auth()->user()?->employee_id,
+            'medical_record_id' => $data['medical_record_id'] ?? null,
+            'examination_type' => $data['examination_type'],
+            'body_area' => $data['body_area'],
+            'position' => $data['position'] ?? null,
+            'contrast' => (bool) ($data['contrast'] ?? false),
+            'contrast_type' => $data['contrast_type'] ?? null,
+            'clinical_indication' => $data['clinical_indication'] ?? null,
+            'priority' => $data['priority'] ?? 'normal',
+            'status' => 'pending',
+            'notes' => $data['notes'] ?? null,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
+        ]);
+
         return redirect('/admin/radiology/orders')->with('success', 'Radiology order created');
     });
 
-    Route::post('/radiology/orders/{order}/results', function ($order) {
-        return redirect()->back()->with('success', 'Results entered');
+    Route::post('/radiology/orders/{order}/schedule', function (Request $request, RadiologyOrder $order) {
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'scheduled_date' => 'required|date',
+            'room' => 'required|string|max:100',
+            'notes' => 'nullable|string',
+        ]);
+
+        $validator->after(function ($validator) use ($request, $order) {
+            $scheduledDate = $request->input('scheduled_date');
+            $room = (string) $request->input('room');
+            if (!$scheduledDate || !$room) {
+                return;
+            }
+
+            $hasConflict = RadiologyOrder::query()
+                ->where('room', $room)
+                ->where('status', 'scheduled')
+                ->where('scheduled_date', $scheduledDate)
+                ->where('id', '!=', $order->id)
+                ->exists();
+
+            if ($hasConflict) {
+                $validator->errors()->add('scheduled_date', 'Room already booked for this time.');
+            }
+        });
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $data = $validator->validated();
+        $order->update([
+            'scheduled_date' => $data['scheduled_date'],
+            'room' => $data['room'],
+            'notes' => $data['notes'] ?? $order->notes,
+            'status' => 'scheduled',
+            'updated_by' => auth()->id(),
+        ]);
+
+        return redirect()->back()->with('success', 'Radiology scheduled');
+    });
+
+    Route::post('/radiology/orders/{order}/upload', function (Request $request, RadiologyOrder $order) {
+        $images = $request->file('images', []);
+        $paths = [];
+        foreach ($images as $image) {
+            if ($image) {
+                $paths[] = $image->getClientOriginalName();
+            }
+        }
+
+        $result = RadiologyResult::firstOrNew(['radiology_order_id' => $order->id]);
+        $result->result_images = $paths;
+        $result->created_by = $result->created_by ?? auth()->id();
+        $result->updated_by = auth()->id();
+        $result->save();
+
+        if ($order->status !== 'in_progress') {
+            $order->update([
+                'status' => 'in_progress',
+                'updated_by' => auth()->id(),
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Images uploaded');
+    });
+
+    Route::post('/radiology/orders/{order}/complete', function (Request $request, RadiologyOrder $order) {
+        $data = $request->validate([
+            'technician_notes' => 'nullable|string',
+            'exposure_parameters' => 'nullable|string',
+            'dose_info' => 'nullable|string',
+        ]);
+
+        $result = RadiologyResult::firstOrNew(['radiology_order_id' => $order->id]);
+        $result->technician_notes = $data['technician_notes'] ?? $result->technician_notes;
+        $result->exposure_parameters = $data['exposure_parameters'] ? ['raw' => $data['exposure_parameters']] : $result->exposure_parameters;
+        $result->dose_info = $data['dose_info'] ?? $result->dose_info;
+        $result->created_by = $result->created_by ?? auth()->id();
+        $result->updated_by = auth()->id();
+        $result->save();
+
+        $order->update([
+            'status' => 'completed',
+            'updated_by' => auth()->id(),
+        ]);
+
+        return redirect()->back()->with('success', 'Radiology completed');
+    });
+
+    Route::post('/radiology/results/{result}/report', function (Request $request, RadiologyResult $result) {
+        $data = $request->validate([
+            'report_text' => 'required|string',
+            'conclusion' => 'required|string',
+            'recommendation' => 'nullable|string',
+            'radiologist_id' => 'nullable|exists:employees,id',
+        ]);
+
+        $result->update([
+            'report_text' => $data['report_text'],
+            'conclusion' => $data['conclusion'],
+            'recommendation' => $data['recommendation'] ?? null,
+            'radiologist_id' => $data['radiologist_id'] ?? auth()->user()?->employee_id,
+            'reported_at' => now(),
+            'updated_by' => auth()->id(),
+        ]);
+
+        $order = $result->radiologyOrder;
+        if ($order) {
+            $order->update([
+                'status' => 'reported',
+                'updated_by' => auth()->id(),
+            ]);
+
+            if ($order->doctor_id) {
+                $doctorUser = \App\Models\User::query()
+                    ->where('employee_id', $order->doctor_id)
+                    ->first();
+                if ($doctorUser) {
+                    $doctorUser->notify(new RadiologyReportReady($order));
+                }
+            }
+        }
+
+        return redirect()->back()->with('success', 'Radiology report created');
+    });
+
+    Route::get('/patients/{patient}/radiology-history', function (Patient $patient) {
+        $orders = RadiologyOrder::query()
+            ->where('patient_id', $patient->id)
+            ->orderByDesc('created_at')
+            ->get();
+
+        $body = '<h1>Radiology History</h1>';
+        foreach ($orders as $order) {
+            $body .= '<p>' . e((string) $order->order_number) . '</p>';
+        }
+
+        return response($body, 200);
     });
 
     // Emergency Routes

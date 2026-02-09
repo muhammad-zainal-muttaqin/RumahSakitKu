@@ -31,16 +31,21 @@ class PatientTest extends TestCase
             'gender',
             'blood_type',
             'address',
+            'phone',
             'phone_primary',
             'phone_secondary',
             'email',
             'emergency_name',
+            'emergency_contact_name',
             'emergency_phone',
+            'emergency_contact_phone',
             'marital_status',
             'occupation',
             'insurance_name',
+            'insurance_type',
             'insurance_number',
             'bpjs_number',
+            'bpjs_card_number',
             'bpjs_ppk_code',
             'bpjs_class',
             'photo_path',
@@ -157,10 +162,10 @@ class PatientTest extends TestCase
     #[Test]
     public function it_has_search_scope_that_searches_by_medical_record_number(): void
     {
-        $patient = Patient::factory()->create(['medical_record_number' => 'RM12345678']);
-        Patient::factory()->create(['medical_record_number' => 'RM87654321']);
+        $patient = Patient::factory()->create(['medical_record_number' => '240101-01']);
+        Patient::factory()->create(['medical_record_number' => '240101-02']);
 
-        $results = Patient::search('RM12345678')->get();
+        $results = Patient::search('240101-01')->get();
 
         $this->assertCount(1, $results);
         $this->assertTrue($results->contains($patient));
@@ -259,7 +264,7 @@ class PatientTest extends TestCase
         $patient2 = Patient::factory()->create();
 
         $this->assertNotEquals($patient1->medical_record_number, $patient2->medical_record_number);
-        $this->assertStringStartsWith('RM', $patient1->medical_record_number);
-        $this->assertStringStartsWith('RM', $patient2->medical_record_number);
+        $this->assertMatchesRegularExpression('/^\d{6}-\d{2}$/', $patient1->medical_record_number);
+        $this->assertMatchesRegularExpression('/^\d{6}-\d{2}$/', $patient2->medical_record_number);
     }
 }

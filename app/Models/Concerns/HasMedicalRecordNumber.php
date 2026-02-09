@@ -15,13 +15,13 @@ use Illuminate\Support\Facades\Log;
  * Trait HasMedicalRecordNumber
  *
  * Auto-generates unique medical record numbers (MRN) on patient creation.
- * Format: RM-YYYYMMDD-XXXX (where XXXX is auto-increment sequence)
- * Includes retry logic for uniqueness and a timestamp-based fallback.
+ * Format: YYMMDD-XX (where XX is auto-increment sequence)
+ * Includes retry logic for uniqueness and a random fallback.
  *
  * Features:
  * - Automatic MRN generation on model creation
  * - Unique MRN validation with retry logic
- * - Fallback MRN generation using timestamp
+ * - Fallback MRN generation using random sequence
  * - MRN parsing and validation utilities
  * - Query scopes for MRN-based filtering
  *
@@ -31,7 +31,7 @@ use Illuminate\Support\Facades\Log;
  * {
  *     use HasMedicalRecordNumber;
  *
- *     // Optional: Custom prefix (default: RM)
+ *     // Optional: Custom prefix (default: empty)
  *     protected string $mrnPrefix = 'MR';
  * }
  * ```
@@ -54,7 +54,7 @@ trait HasMedicalRecordNumber
      *
      * @var string
      */
-    protected string $mrnPrefix = 'RM';
+    protected string $mrnPrefix = '';
 
     /**
      * Boot the medical record number trait.
@@ -75,10 +75,9 @@ trait HasMedicalRecordNumber
     /**
      * Generate a unique medical record number.
      *
-     * Format: RM-YYYYMMDD-XXXX
-     * - RM: Prefix (Rekam Medis)
-     * - YYYYMMDD: Current date
-     * - XXXX: Auto-increment sequence (0001-9999)
+     * Format: YYMMDD-XX
+     * - YYMMDD: Current date
+     * - XX: Auto-increment sequence (01-99)
      *
      * Includes retry logic to ensure uniqueness.
      *
@@ -87,20 +86,35 @@ trait HasMedicalRecordNumber
      */
     public function generateMedicalRecordNumber(): string
     {
-        $date = now()->format('Ymd');
-        $prefix = "{$this->getMrnPrefix()}-{$date}-";
-
-        // Get the last sequence number for today
-        $lastSequence = $this->getLastSequenceForDate($date);
-        $nextSequence = $lastSequence + 1;
+        $baseDate = $this->registered_at ? Carbon::parse($this->registered_at) : now();
+        $prefix = $this->getMrnPrefix();
+        $prefixPart = $prefix !== '' ? "{$prefix}-" : '';
+        $maxSequence = 99;
 
         // Generate MRN with retry logic for uniqueness
         $maxRetries = 10;
         $attempt = 0;
 
         while ($attempt < $maxRetries) {
-            $sequenceStr = str_pad((string) $nextSequence, 4, '0', STR_PAD_LEFT);
-            $mrn = $prefix . $sequenceStr;
+            $pickedDate = null;
+            $nextSequence = null;
+
+            for ($dayOffset = 0; $dayOffset < 30; $dayOffset++) {
+                $date = $baseDate->copy()->addDays($dayOffset)->format('ymd');
+                $lastSequence = $this->getLastSequenceForDate($date);
+                if ($lastSequence < $maxSequence) {
+                    $pickedDate = $date;
+                    $nextSequence = $lastSequence + 1;
+                    break;
+                }
+            }
+
+            if ($pickedDate === null || $nextSequence === null) {
+                break;
+            }
+
+            $sequenceStr = str_pad((string) $nextSequence, 2, '0', STR_PAD_LEFT);
+            $mrn = "{$prefixPart}{$pickedDate}-{$sequenceStr}";
 
             if (!$this->medicalRecordNumberExists($mrn)) {
                 return $mrn;
@@ -112,7 +126,7 @@ trait HasMedicalRecordNumber
         }
 
         // If all retries failed, use timestamp-based fallback
-        $fallbackMrn = $this->generateFallbackMrn($date);
+        $fallbackMrn = $this->generateFallbackMrn($baseDate->format('ymd'));
 
         Log::warning('Medical record number generation required fallback', [
             'attempted' => $attempt,
@@ -127,15 +141,17 @@ trait HasMedicalRecordNumber
      *
      * Queries the database to find the highest sequence number used today.
      *
-     * @param string $date The date in YYYYMMDD format
+     * @param string $date The date in YYMMDD format
      * @return int The last sequence number (0 if none found)
      */
     protected function getLastSequenceForDate(string $date): int
     {
-        $prefix = "{$this->getMrnPrefix()}-{$date}-";
+        $prefix = $this->getMrnPrefix();
+        $prefixPart = $prefix !== '' ? "{$prefix}-" : '';
+        $prefixValue = "{$prefixPart}{$date}-";
 
         try {
-            $lastMrn = static::where('medical_record_number', 'like', $prefix . '%')
+            $lastMrn = static::where('medical_record_number', 'like', $prefixValue . '%')
                 ->orderBy('medical_record_number', 'desc')
                 ->value('medical_record_number');
 
@@ -177,26 +193,28 @@ trait HasMedicalRecordNumber
     }
 
     /**
-     * Generate fallback MRN using timestamp.
+     * Generate fallback MRN using random sequence.
      *
      * Used when sequential MRN generation fails uniqueness checks.
-     * Format: RM-YYYYMMDD-HHMMSSXXXX (includes time and random)
+     * Format: YYMMDD-XX (random fallback sequence)
      *
-     * @param string $date The date in YYYYMMDD format
+     * @param string $date The date in YYMMDD format
      * @return string The fallback medical record number
      */
     protected function generateFallbackMrn(string $date): string
     {
-        $timestamp = now()->format('His'); // Hour, minute, second
-        $random = random_int(1000, 9999);
+        $random = random_int(1, 99);
+        $sequence = str_pad((string) $random, 2, '0', STR_PAD_LEFT);
+        $prefix = $this->getMrnPrefix();
+        $prefixPart = $prefix !== '' ? "{$prefix}-" : '';
 
-        return "{$this->getMrnPrefix()}-{$date}-{$timestamp}{$random}";
+        return "{$prefixPart}{$date}-{$sequence}";
     }
 
     /**
      * Get MRN prefix.
      *
-     * Returns the model's custom prefix or defaults to 'RM'.
+     * Returns the model's custom prefix or defaults to empty string.
      *
      * @return string The prefix to use for MRNs
      */
@@ -204,21 +222,22 @@ trait HasMedicalRecordNumber
     {
         return property_exists($this, 'mrnPrefix')
             ? $this->mrnPrefix
-            : 'RM';
+            : '';
     }
 
     /**
      * Validate medical record number format.
      *
-     * Checks if the MRN matches the expected pattern: PREFIX-YYYYMMDD-XXXX
+     * Checks if the MRN matches the expected pattern: YYMMDD-XX
      *
      * @param string $mrn The medical record number to validate
      * @return bool True if the format is valid
      */
     public static function isValidMedicalRecordNumber(string $mrn): bool
     {
-        $prefix = 'RM';
-        $pattern = '/^' . $prefix . '-\d{8}-\d{4}$/';
+        $prefix = (new static())->getMrnPrefix();
+        $prefixPart = $prefix !== '' ? preg_quote($prefix, '/') . '-' : '';
+        $pattern = '/^' . $prefixPart . '\d{6}-\d{2}$/';
 
         return (bool) preg_match($pattern, $mrn);
     }
@@ -234,10 +253,12 @@ trait HasMedicalRecordNumber
     public static function extractDateFromMrn(string $mrn): ?Carbon
     {
         $parts = explode('-', $mrn);
+        $prefix = (new static())->getMrnPrefix();
+        $datePart = $prefix !== '' ? ($parts[1] ?? null) : ($parts[0] ?? null);
 
-        if (count($parts) >= 2 && strlen($parts[1]) === 8) {
+        if ($datePart && strlen($datePart) === 6) {
             try {
-                return Carbon::createFromFormat('Ymd', $parts[1]);
+                return Carbon::createFromFormat('ymd', $datePart);
             } catch (Exception $e) {
                 return null;
             }
@@ -293,10 +314,12 @@ trait HasMedicalRecordNumber
      */
     public function scopeByMrnDateRange($query, string $startDate, string $endDate)
     {
-        $startPrefix = "{$this->getMrnPrefix()}-" . str_replace('-', '', $startDate);
-        $endPrefix = "{$this->getMrnPrefix()}-" . str_replace('-', '', $endDate);
+        $prefix = $this->getMrnPrefix();
+        $prefixPart = $prefix !== '' ? "{$prefix}-" : '';
+        $startPrefix = $prefixPart . str_replace('-', '', $startDate);
+        $endPrefix = $prefixPart . str_replace('-', '', $endDate);
 
-        return $query->whereBetween('medical_record_number', [$startPrefix, $endPrefix . '-9999']);
+        return $query->whereBetween('medical_record_number', [$startPrefix . '-00', $endPrefix . '-99']);
     }
 
     /**
@@ -336,11 +359,13 @@ trait HasMedicalRecordNumber
             return null;
         }
 
+        $prefix = $this->getMrnPrefix();
+        if ($prefix === '') {
+            return $mrn;
+        }
+
         $parts = explode('-', $mrn);
-
-        // Remove prefix (first element)
         array_shift($parts);
-
         return implode('-', $parts);
     }
 
@@ -357,7 +382,7 @@ trait HasMedicalRecordNumber
             return null;
         }
 
-        // Format: RM-YYYYMMDD-XXXX as is
+        // Format: YYMMDD-XX as is
         return $mrn;
     }
 }
