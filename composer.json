@@ -3,7 +3,7 @@
     "type": "project",
     "description": "Sistem Informasi Manajemen Rumah Sakit - RumahSakitKu",
     "keywords": ["laravel", "filament", "simrs", "hospital", "management"],
-    "license": "proprietary",
+    "license": "AGPL-3.0-or-later",
     "require": {
         "php": "^8.2",
         "barryvdh/laravel-dompdf": "^3.1",
