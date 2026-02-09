@@ -1,0 +1,62 @@
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+docker/
+
+# Environment
+.env
+.env.backup
+.env.local
+.env.docker
+
+# Vendor (will be installed in container)
+vendor/
+node_modules/
+
+# Storage (will be created in container)
+storage/app/public/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/logs/*
+!storage/app/public/.gitignore
+!storage/framework/cache/.gitignore
+!storage/framework/sessions/.gitignore
+!storage/framework/views/.gitignore
+!storage/logs/.gitignore
+
+# Bootstrap cache
+bootstrap/cache/*
+!bootstrap/cache/.gitignore
+
+# Testing
+.phpunit.cache
+.phpunit.result.cache
+coverage/
+
+# IDE
+.idea
+.vscode
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation (not needed in container)
+README.md
+DOCKER_SETUP.md
+TESTING_REPORT.md
+docker-setup.ps1
+sail.bat
+
+# Other
+*.log
+npm-debug.log
+yarn-error.log

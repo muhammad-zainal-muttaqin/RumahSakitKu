@@ -1,0 +1,99 @@
+# Laravel.gitignore template
+/.phpunit.cache
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/public/css
+/public/js
+/storage/*.key
+/storage/pail
+/storage/logs/*.log
+/storage/framework/cache/data
+/storage/framework/sessions
+/storage/framework/views
+/vendor
+.env
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-error.log
+/.fleet
+/.idea
+/.vscode
+/.zed
+
+# Additional SIMRS specific
+/.claude
+*.log
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.cache
+*.cache
+.php-cs-fixer.cache
+storage/app/phpstan
+
+# IDE
+*.sublime-project
+*.sublime-workspace
+.project
+.settings
+.classpath
+.claude
+
+# OS
+$RECYCLE.BIN/
+Desktop.ini
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.old
+*.orig
+
+# Debug/fix scripts
+debug_*.php
+check_*.php
+token_*.php
+fix_*.ps1
+fix_*.bat
+*_results.txt
+
+# Windows artifacts
+nul
+
+# One-off batch/shell scripts
+*.bat
+
+# Coverage
+/coverage
+.phpunit.cache/
+
+# Backup
+*.sql.gz
+*.sql.zip
+backup/
+
+# Local env
+.env.local
+.env.*.local
+!.env.example
+!.env.testing.example
+!.env.docker
+
+# Docker volumes
+docker/volumes/
+
+# Build
+/dist
+/build

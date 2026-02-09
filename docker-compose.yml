@@ -1,0 +1,107 @@
+version: '3.8'
+
+services:
+    # Laravel Application
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: simrs-app
+        restart: unless-stopped
+        working_dir: /var/www/html
+        volumes:
+            - ./:/var/www/html
+            - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        networks:
+            - simrs-network
+        depends_on:
+            - mysql
+            - redis
+
+    # Nginx Web Server
+    nginx:
+        image: nginx:alpine
+        container_name: simrs-nginx
+        restart: unless-stopped
+        ports:
+            - "8000:80"
+        volumes:
+            - ./:/var/www/html
+            - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+        networks:
+            - simrs-network
+        depends_on:
+            - app
+
+    # MySQL Database
+    mysql:
+        image: mysql:8.0
+        container_name: simrs-mysql
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: rumahsakitu_simrs
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_PASSWORD: secret
+            MYSQL_USER: simrs
+        volumes:
+            - mysql-data:/var/lib/mysql
+            - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+        ports:
+            - "3306:3306"
+        networks:
+            - simrs-network
+
+    # Redis Cache
+    redis:
+        image: redis:alpine
+        container_name: simrs-redis
+        restart: unless-stopped
+        ports:
+            - "6379:6379"
+        networks:
+            - simrs-network
+
+    # Queue Worker
+    queue:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: simrs-queue
+        restart: unless-stopped
+        working_dir: /var/www/html
+        command: php artisan queue:work --sleep=3 --tries=3
+        volumes:
+            - ./:/var/www/html
+        networks:
+            - simrs-network
+        depends_on:
+            - mysql
+            - redis
+
+    # Scheduler
+    scheduler:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: simrs-scheduler
+        restart: unless-stopped
+        working_dir: /var/www/html
+        command: >
+            sh -c "while true; do
+              php artisan schedule:run --no-interaction;
+              sleep 60;
+            done"
+        volumes:
+            - ./:/var/www/html
+        networks:
+            - simrs-network
+        depends_on:
+            - mysql
+
+volumes:
+    mysql-data:
+        driver: local
+
+networks:
+    simrs-network:
+        driver: bridge

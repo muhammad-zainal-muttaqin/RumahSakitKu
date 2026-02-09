@@ -1,0 +1,281 @@
+# Codecov configuration for SIMRS project
+# https://docs.codecov.com/docs/codecovyml-reference
+
+codecov:
+  # Require CI to pass before uploading coverage
+  require_ci_to_pass: true
+  
+  # Token (should be set in GitHub secrets)
+  # token: ${CODECOV_TOKEN}
+  
+  # Allow coverage to be updated in PR comments
+  allow_coverage_offsets: true
+  
+  # Max age of CI completion (in seconds) - 24 hours
+  max_report_age: 86400
+  
+  # Disable the Codecov check in PRs if no coverage data is found
+  disable_default_path_fixes: false
+
+# Coverage configuration
+coverage:
+  # Round coverage to 2 decimal places
+  precision: 2
+  
+  # Round down
+  round: down
+  
+  # Coverage range colors
+  #   80% and above: green
+  #   60% to 80%: yellow
+  #   below 60%: red
+  range: "60...80"
+  
+  # Status checks for different contexts
+  status:
+    # Project-wide coverage status
+    project:
+      default:
+        # Target coverage percentage
+        target: 80%
+        
+        # Allow coverage to drop by this percentage
+        threshold: 2%
+        
+        # Base coverage on parent commit or pull request base
+        base: auto
+        
+        # Only include changed files in PR
+        only_pulls: false
+        
+        # Paths to include in project coverage
+        paths:
+          - "app"
+          - "src"
+        
+        # Paths to exclude
+        ignore:
+          - "app/Console"
+          - "app/Exceptions"
+          - "app/Providers"
+          - "tests"
+          - "config"
+          - "database"
+          - "routes"
+          - "resources"
+          - "bootstrap"
+          - "storage"
+        
+        # Branches to check
+        branches:
+          - main
+          - develop
+        
+        # Show status even if no coverage data
+        if_not_found: success
+        
+        # Show status for informational purposes only
+        informational: false
+        
+        # Allow coverage to continue decreasing
+        continue_on_error: false
+    
+    # Patch coverage status (coverage of changes in PR)
+    patch:
+      default:
+        # Target coverage for changed lines
+        target: 80%
+        
+        # Allow coverage to drop by this percentage
+        threshold: 2%
+        
+        # Base coverage calculation
+        base: auto
+        
+        # Paths to include
+        paths:
+          - "app"
+        
+        # Paths to exclude
+        ignore:
+          - "app/Console"
+          - "app/Exceptions"
+          - "app/Providers"
+        
+        # Branches to check
+        branches:
+          - main
+          - develop
+        
+        if_not_found: success
+        informational: false
+        only_pulls: false
+    
+    # Changes coverage status (coverage impact of changes)
+    changes:
+      default:
+        # Show changes in coverage
+        if_not_found: success
+        only_pulls: false
+
+# Pull request comment configuration
+comment:
+  # Enable PR comments
+  layout: "reach,diff,flags,tree,betaprofiling"
+  
+  # Show behavior: default, once, or new
+  behavior: default
+  
+  # Require base report to post comment
+  require_base: false
+  
+  # Require head report to post comment
+  require_head: true
+  
+  # Hide PR comment if coverage hasn't changed
+  hide_project_coverage: false
+  
+  # Post comment even if coverage is the same
+  show_carryforward_flags: true
+  
+  # Enable comment for coverage changes
+  after_n_builds: 1
+
+# GitHub checks configuration
+github_checks:
+  # Enable GitHub Checks annotations
+  annotations: true
+
+# Flags for different test types
+flags:
+  unittests:
+    # Carry forward coverage from previous commits
+    carryforward: true
+    
+    # Paths associated with this flag
+    paths:
+      - "app"
+    
+    # Flag is considered standalone
+    joined: false
+  
+  featuretests:
+    carryforward: true
+    paths:
+      - "app"
+    joined: false
+
+# Path fixes (map paths in coverage reports to repository paths)
+fixes:
+  - "::"
+
+# Ignore specific files/patterns from coverage
+ignore:
+  # Configuration files
+  - "config/**/*"
+  - "bootstrap/**/*"
+  - "storage/**/*"
+  
+  # Database files
+  - "database/factories/**/*"
+  - "database/seeders/**/*"
+  - "database/migrations/**/*"
+  
+  # Resources
+  - "resources/**/*"
+  - "routes/**/*"
+  
+  # Tests
+  - "tests/**/*"
+  - "spec/**/*"
+  
+  # Service providers
+  - "app/Providers/**/*"
+  
+  # Console commands
+  - "app/Console/**/*"
+  
+  # Exceptions
+  - "app/Exceptions/**/*"
+  
+  # Language files
+  - "lang/**/*"
+  
+  # Public assets
+  - "public/**/*"
+
+# Profiling (beta)
+profiling:
+  # Enable critical files profiling
+  critical_files_paths:
+    - "app/Http/Controllers"
+    - "app/Services"
+    - "app/Repositories"
+    - "app/Models"
+
+# Component management (group files for reporting)
+component_management:
+  default_rules:
+    # Default statuses for all components
+    statuses:
+      - type: project
+        target: auto
+        branches:
+          - main
+          - develop
+  
+  individual_components:
+    # Models component
+    - component_id: models
+      name: Models
+      paths:
+        - "app/Models/**"
+      statuses:
+        - type: project
+          target: 85%
+    
+    # Controllers component
+    - component_id: controllers
+      name: Controllers
+      paths:
+        - "app/Http/Controllers/**"
+      statuses:
+        - type: project
+          target: 75%
+    
+    # Services component
+    - component_id: services
+      name: Services
+      paths:
+        - "app/Services/**"
+      statuses:
+        - type: project
+          target: 85%
+    
+    # Repositories component
+    - component_id: repositories
+      name: Repositories
+      paths:
+        - "app/Repositories/**"
+      statuses:
+        - type: project
+          target: 85%
+
+# Parsers configuration
+parsers:
+  gcov:
+    branch_detection:
+      conditional: true
+      loop: true
+      method: false
+      macro: false
+  
+  javascript:
+    enable_partials: false
+
+# Notifications (optional)
+# notify:
+#   slack:
+#     default:
+#       url: "${SLACK_WEBHOOK_URL}"
+#       only_pulls: false
