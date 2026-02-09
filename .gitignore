@@ -9,9 +9,12 @@
 /storage/*.key
 /storage/pail
 /storage/logs/*.log
-/storage/framework/cache/data
-/storage/framework/sessions
-/storage/framework/views
+/storage/framework/cache/data/*
+!/storage/framework/cache/data/.gitkeep
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitkeep
+/storage/framework/views/*
+!/storage/framework/views/.gitkeep
 /vendor
 .env
 .env.backup
