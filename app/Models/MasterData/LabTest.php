@@ -96,6 +96,25 @@ class LabTest extends Model
     }
 
     /**
+     * Normalize legacy aliases used by feature tests.
+     *
+     * @param array<string, mixed> $attributes
+     */
+    public function fill(array $attributes): static
+    {
+        if (array_key_exists('test_name', $attributes)) {
+            $attributes['name'] = $attributes['test_name'];
+        }
+        if (array_key_exists('reference_range', $attributes)) {
+            $attributes['reference_value'] = $attributes['reference_range'];
+        }
+
+        unset($attributes['test_name'], $attributes['reference_range']);
+
+        return parent::fill($attributes);
+    }
+
+    /**
      * Scope a query to only include active lab tests.
      */
     public function scopeActive($query)

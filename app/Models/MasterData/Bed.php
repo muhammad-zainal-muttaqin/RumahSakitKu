@@ -177,7 +177,12 @@ class Bed extends Model
         $this->status = 'terisi';
         $this->occupied_at = now();
 
-        return $this->save();
+        $saved = $this->save();
+        if ($saved) {
+            $this->syncRoomAvailability();
+        }
+
+        return $saved;
     }
 
     /**
@@ -190,7 +195,43 @@ class Bed extends Model
         $this->vacated_at = now();
         $this->occupied_at = null;
 
-        return $this->save();
+        $saved = $this->save();
+        if ($saved) {
+            $this->syncRoomAvailability();
+        }
+
+        return $saved;
+    }
+
+    private function syncRoomAvailability(): void
+    {
+        if (!$this->room_id) {
+            return;
+        }
+
+        $occupiedBeds = self::query()
+            ->where('room_id', $this->room_id)
+            ->where('status', 'terisi')
+            ->whereNotNull('current_visit_id')
+            ->count();
+
+        $room = Room::query()->find($this->room_id);
+        if (!$room) {
+            return;
+        }
+
+        $totalBeds = (int) ($room->getRawOriginal('total_beds') ?? 0);
+        $availableBeds = $totalBeds > 0
+            ? max(0, $totalBeds - $occupiedBeds)
+            : self::query()
+                ->where('room_id', $this->room_id)
+                ->where('status', 'kosong')
+                ->whereNull('current_visit_id')
+                ->count();
+
+        Room::query()
+            ->whereKey($this->room_id)
+            ->update(['available_beds' => $availableBeds]);
     }
 
     /**

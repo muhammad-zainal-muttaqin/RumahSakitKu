@@ -172,24 +172,34 @@ class SatuSehatService
         $log = $this->logRequest($resourceType, $localType, $localId, $method, $data);
 
         try {
-            $http = Http::timeout($this->timeout)
-                ->retry($this->retryTimes, $this->retrySleep, function ($exception, $request) {
-                    if ($exception instanceof RequestException && $exception->response?->status() === 401) {
-                        $this->refreshToken();
-                        return true;
-                    }
-                    return $exception instanceof ConnectionException;
-                })
-                ->withHeaders($headers);
+            $send = function (array $requestHeaders) use ($method, $url, $data) {
+                $http = Http::timeout($this->timeout)
+                    ->retry(
+                        $this->retryTimes,
+                        $this->retrySleep,
+                        function ($exception) {
+                            return $exception instanceof ConnectionException;
+                        },
+                        false
+                    )
+                    ->withHeaders($requestHeaders);
 
-            $response = match (strtoupper($method)) {
-                'GET' => $http->get($url),
-                'POST' => $http->post($url, $data),
-                'PUT' => $http->put($url, $data),
-                'PATCH' => $http->patch($url, $data),
-                'DELETE' => $http->delete($url),
-                default => throw new InvalidArgumentException("Unsupported HTTP method: {$method}"),
+                return match (strtoupper($method)) {
+                    'GET' => $http->get($url),
+                    'POST' => $http->post($url, $data),
+                    'PUT' => $http->put($url, $data),
+                    'PATCH' => $http->patch($url, $data),
+                    'DELETE' => $http->delete($url),
+                    default => throw new InvalidArgumentException("Unsupported HTTP method: {$method}"),
+                };
             };
+
+            $response = $send($headers);
+
+            if ($response->status() === 401) {
+                $this->refreshToken();
+                $response = $send($this->getHeaders());
+            }
 
             if ($response->successful()) {
                 $responseData = $response->json() ?? [];

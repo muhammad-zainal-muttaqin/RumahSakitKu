@@ -206,6 +206,14 @@ class Patient extends Model
      */
     private function normalizeLegacyAttributes(array $attributes): array
     {
+        if (array_key_exists('gender', $attributes) && $attributes['gender'] !== null) {
+            $attributes['gender'] = match (strtolower(trim((string) $attributes['gender']))) {
+                'l', 'male', 'm', 'laki-laki' => 'male',
+                'p', 'female', 'f', 'perempuan' => 'female',
+                default => $attributes['gender'],
+            };
+        }
+
         if (array_key_exists('phone', $attributes) && !array_key_exists('phone_primary', $attributes)) {
             $attributes['phone_primary'] = $attributes['phone'];
         }
@@ -238,7 +246,21 @@ class Patient extends Model
      */
     public function fill(array $attributes): static
     {
-        return parent::fill($this->normalizeLegacyAttributes($attributes));
+        $compatibility = [];
+        foreach (['satusehat_ihs_number'] as $key) {
+            if (array_key_exists($key, $attributes)) {
+                $compatibility[$key] = $attributes[$key];
+                unset($attributes[$key]);
+            }
+        }
+
+        $model = parent::fill($this->normalizeLegacyAttributes($attributes));
+
+        foreach ($compatibility as $key => $value) {
+            $this->setAttribute($key, $value);
+        }
+
+        return $model;
     }
 
     // ==================== CACHING METHODS ====================

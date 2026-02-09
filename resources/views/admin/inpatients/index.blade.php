@@ -5,5 +5,6 @@
 </head>
 <body>
     <h1>Inpatients</h1>
+    <p>Rawat Inap</p>
 </body>
 </html>

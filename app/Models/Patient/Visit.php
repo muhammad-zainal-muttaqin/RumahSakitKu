@@ -183,6 +183,7 @@ class Visit extends Model
             'is_completed',
             'discharge_diagnosis',
             'discharge_notes',
+            'satusehat_encounter_id',
         ];
 
         foreach ($legacyKeys as $key) {
@@ -348,6 +349,24 @@ class Visit extends Model
         }
 
         return $this->completed_at;
+    }
+
+    /**
+     * Backward-compatible duration accessor (minutes).
+     */
+    public function getDurationAttribute(): ?int
+    {
+        $start = $this->check_in_at ?? $this->admission_date ?? $this->registration_date;
+        $end = $this->check_out_at ?? $this->completed_at ?? $this->discharge_date;
+
+        if (!$start || !$end) {
+            return null;
+        }
+
+        $startAt = $start instanceof Carbon ? $start : Carbon::parse((string) $start);
+        $endAt = $end instanceof Carbon ? $end : Carbon::parse((string) $end);
+
+        return max(1, (int) $startAt->diffInMinutes($endAt));
     }
 
     /**

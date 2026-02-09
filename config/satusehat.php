@@ -4,7 +4,7 @@ return [
     'mode' => env('SATUSEHAT_MODE', 'development'),
 
     'development' => [
-        'auth_url' => 'https://api-satusehat-stg.kemkes.go.id/oauth2/v1',
+        'auth_url' => 'https://api-satusehat-stg.kemkes.go.id/oauth2',
         'base_url' => 'https://api-satusehat-stg.kemkes.go.id/fhir-r4/v1',
         'client_id' => env('SATUSEHAT_CLIENT_ID'),
         'client_secret' => env('SATUSEHAT_CLIENT_SECRET'),
@@ -12,7 +12,7 @@ return [
     ],
 
     'production' => [
-        'auth_url' => env('SATUSEHAT_AUTH_URL', 'https://api-satusehat.kemkes.go.id/oauth2/v1'),
+        'auth_url' => env('SATUSEHAT_AUTH_URL', 'https://api-satusehat.kemkes.go.id/oauth2'),
         'base_url' => env('SATUSEHAT_BASE_URL', 'https://api-satusehat.kemkes.go.id/fhir-r4/v1'),
         'client_id' => env('SATUSEHAT_CLIENT_ID'),
         'client_secret' => env('SATUSEHAT_CLIENT_SECRET'),

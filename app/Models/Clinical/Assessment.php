@@ -194,7 +194,108 @@ class Assessment extends Model
      */
     public function fill(array $attributes): static
     {
-        return parent::fill($this->normalizeLegacyAttributes($attributes));
+        $vitalSigns = null;
+        if (array_key_exists('vital_signs', $attributes)) {
+            $vitalSigns = $attributes['vital_signs'];
+            unset($attributes['vital_signs']);
+        }
+
+        $model = parent::fill($this->normalizeLegacyAttributes($attributes));
+
+        if ($vitalSigns !== null) {
+            $this->setVitalSignsAttribute($vitalSigns);
+        }
+
+        return $model;
+    }
+
+    /**
+     * Backward-compatible JSON vital signs payload.
+     *
+     * @param mixed $value
+     */
+    public function setVitalSignsAttribute($value): void
+    {
+        $decoded = is_array($value) ? $value : (is_string($value) ? json_decode($value, true) : null);
+        if (!is_array($decoded)) {
+            $decoded = [];
+        }
+
+        $this->attributes['vital_signs'] = empty($decoded) ? null : json_encode($decoded);
+
+        if (isset($decoded['systolic']) && empty($this->attributes['systolic_bp'])) {
+            $this->attributes['systolic_bp'] = (float) $decoded['systolic'];
+        }
+        if (isset($decoded['diastolic']) && empty($this->attributes['diastolic_bp'])) {
+            $this->attributes['diastolic_bp'] = (float) $decoded['diastolic'];
+        }
+        if (!empty($decoded['blood_pressure']) && is_string($decoded['blood_pressure']) && str_contains($decoded['blood_pressure'], '/')) {
+            [$systolic, $diastolic] = array_map('trim', explode('/', $decoded['blood_pressure'], 2));
+            if ($systolic !== '' && empty($this->attributes['systolic_bp'])) {
+                $this->attributes['systolic_bp'] = (float) $systolic;
+            }
+            if ($diastolic !== '' && empty($this->attributes['diastolic_bp'])) {
+                $this->attributes['diastolic_bp'] = (float) $diastolic;
+            }
+        }
+        if (isset($decoded['heart_rate']) && empty($this->attributes['pulse_rate'])) {
+            $this->attributes['pulse_rate'] = (float) $decoded['heart_rate'];
+        }
+        if (isset($decoded['temperature']) && empty($this->attributes['body_temperature'])) {
+            $this->attributes['body_temperature'] = (float) $decoded['temperature'];
+        }
+        if (isset($decoded['respiratory_rate']) && empty($this->attributes['respiratory_rate'])) {
+            $this->attributes['respiratory_rate'] = (float) $decoded['respiratory_rate'];
+        }
+        if (isset($decoded['oxygen_saturation']) && empty($this->attributes['oxygen_saturation'])) {
+            $this->attributes['oxygen_saturation'] = (float) $decoded['oxygen_saturation'];
+        }
+        if (isset($decoded['weight_kg']) && empty($this->attributes['weight'])) {
+            $this->attributes['weight'] = (float) $decoded['weight_kg'];
+        }
+        if (isset($decoded['height_cm']) && empty($this->attributes['height'])) {
+            $this->attributes['height'] = (float) $decoded['height_cm'];
+        }
+
+        $weight = (float) ($this->attributes['weight'] ?? 0);
+        $heightCm = (float) ($this->attributes['height'] ?? 0);
+        if ($weight > 0 && $heightCm > 0) {
+            $heightM = $heightCm / 100;
+            $this->attributes['bmi'] = round($weight / ($heightM * $heightM), 2);
+        }
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getVitalSignsAttribute($value): array
+    {
+        $decoded = is_array($value) ? $value : json_decode((string) $value, true);
+        if (is_array($decoded)) {
+            return $decoded;
+        }
+
+        $result = [];
+        if ($this->systolic_bp !== null) {
+            $result['systolic'] = (float) $this->systolic_bp;
+        }
+        if ($this->diastolic_bp !== null) {
+            $result['diastolic'] = (float) $this->diastolic_bp;
+        }
+        if ($this->pulse_rate !== null) {
+            $result['heart_rate'] = (float) $this->pulse_rate;
+        }
+        if ($this->respiratory_rate !== null) {
+            $result['respiratory_rate'] = (float) $this->respiratory_rate;
+        }
+        if ($this->body_temperature !== null) {
+            $result['temperature'] = (float) $this->body_temperature;
+        }
+        if ($this->oxygen_saturation !== null) {
+            $result['oxygen_saturation'] = (float) $this->oxygen_saturation;
+        }
+
+        return $result;
     }
 
     /**
@@ -269,7 +370,7 @@ class Assessment extends Model
             return 'normal';
         } elseif ($systolic < 130 && $diastolic < 80) {
             return 'elevated';
-        } elseif ($systolic < 140 || $diastolic < 90) {
+        } elseif ($systolic <= 140 && $diastolic <= 90) {
             return 'stage1';
         } else {
             return 'stage2';

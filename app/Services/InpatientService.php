@@ -81,9 +81,6 @@ class InpatientService
                 'check_in_at' => now(),
             ]);
 
-            // Update room available beds
-            $room->decrement('available_beds');
-
             DB::commit();
 
             Log::info('InpatientService: Patient admitted successfully', [
@@ -155,20 +152,10 @@ class InpatientService
             if ($currentBed) {
                 // Vacate current bed
                 $currentBed->vacate();
-
-                // Update current room available beds
-                if ($currentBed->room) {
-                    $currentBed->room->increment('available_beds');
-                }
             }
 
             // Occupy new bed
             $newBed->occupy($visitId);
-
-            // Update new room available beds
-            if ($newBed->room) {
-                $newBed->room->decrement('available_beds');
-            }
 
             // Update visit
             $visit->update([
@@ -225,11 +212,6 @@ class InpatientService
             if ($currentBed) {
                 // Vacate bed
                 $currentBed->vacate();
-
-                // Update room available beds
-                if ($currentBed->room) {
-                    $currentBed->room->increment('available_beds');
-                }
             }
 
             // Update visit
