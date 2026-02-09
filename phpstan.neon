@@ -9,13 +9,6 @@ parameters:
     paths:
         - app
 
-    # Exclude patterns
-    excludePaths:
-        - vendor
-        - storage
-        - bootstrap/cache
-        - node_modules
-
     # Check specific rules
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
