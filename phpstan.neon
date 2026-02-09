@@ -9,10 +9,6 @@ parameters:
     paths:
         - app
 
-    # Check specific rules
-    checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
-
     # Ignore specific errors (for Laravel quirks)
     ignoreErrors:
         # Laravel facades dynamic methods
