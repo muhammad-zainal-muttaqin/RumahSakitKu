@@ -45,6 +45,7 @@ class ReportService
      * Cache TTL for report calculations in seconds (1 hour).
      */
     private const CACHE_TTL = 3600;
+    private const TREND_CACHE_TTL = 300;
 
     /**
      * Cache wrapper that bypasses persistent cache during tests.
@@ -67,9 +68,12 @@ class ReportService
      */
     private function applyInclusiveDateRange($query, string $column, Carbon $startDate, Carbon $endDate)
     {
+        $start = $startDate->copy()->startOfDay();
+        $endExclusive = $endDate->copy()->addDay()->startOfDay();
+
         return $query
-            ->whereDate($column, '>=', $startDate->toDateString())
-            ->whereDate($column, '<=', $endDate->toDateString());
+            ->where($column, '>=', $start)
+            ->where($column, '<', $endExclusive);
     }
 
     private function getTotalBeds(?int $roomId = null): int
@@ -403,25 +407,42 @@ class ReportService
      */
     public function getDailyVisitTrend(Carbon $startDate, Carbon $endDate): Collection
     {
-        $period = CarbonPeriod::create($startDate, $endDate);
-        $data = collect();
+        $cacheKey = "trend:visits:daily:{$startDate->format('Y-m-d')}:{$endDate->format('Y-m-d')}";
 
-        foreach ($period as $date) {
-            $counts = Visit::whereDate('registration_date', $date)
-                ->select('visit_type', DB::raw('COUNT(*) as count'))
-                ->groupBy('visit_type')
-                ->pluck('count', 'visit_type');
+        $data = $this->remember($cacheKey, self::TREND_CACHE_TTL, function () use ($startDate, $endDate): array {
+            $start = $startDate->copy()->startOfDay();
+            $end = $endDate->copy()->endOfDay();
 
-            $data->push([
-                'date' => $date->format('Y-m-d'),
-                'rawat_jalan' => $counts['rawat_jalan'] ?? 0,
-                'rawat_inap' => $counts['rawat_inap'] ?? 0,
-                'igd' => $counts['igd'] ?? 0,
-                'mcu' => $counts['mcu'] ?? 0,
-            ]);
-        }
+            $rawRows = Visit::query()
+                ->where('registration_date', '>=', $start)
+                ->where('registration_date', '<=', $end)
+                ->selectRaw('DATE(registration_date) as day, visit_type, COUNT(*) as count')
+                ->groupBy(DB::raw('DATE(registration_date)'), 'visit_type')
+                ->get();
 
-        return $data;
+            $byDay = [];
+            foreach ($rawRows as $row) {
+                $day = (string) $row->day;
+                $visitType = (string) $row->visit_type;
+                $byDay[$day][$visitType] = (int) $row->count;
+            }
+
+            $series = [];
+            foreach (CarbonPeriod::create($start->copy()->startOfDay(), $end->copy()->startOfDay()) as $date) {
+                $day = $date->format('Y-m-d');
+                $series[] = [
+                    'date' => $day,
+                    'rawat_jalan' => $byDay[$day]['rawat_jalan'] ?? 0,
+                    'rawat_inap' => $byDay[$day]['rawat_inap'] ?? 0,
+                    'igd' => $byDay[$day]['igd'] ?? 0,
+                    'mcu' => $byDay[$day]['mcu'] ?? 0,
+                ];
+            }
+
+            return $series;
+        });
+
+        return collect($data);
     }
 
     /**
@@ -472,26 +493,130 @@ class ReportService
      */
     public function getDailyRevenueTrend(Carbon $startDate, Carbon $endDate): Collection
     {
-        $period = CarbonPeriod::create($startDate, $endDate);
-        $data = collect();
+        $cacheKey = "trend:revenue:daily:{$startDate->format('Y-m-d')}:{$endDate->format('Y-m-d')}";
 
-        foreach ($period as $date) {
-            $payments = Payment::whereDate('payment_date', $date)
+        $data = $this->remember($cacheKey, self::TREND_CACHE_TTL, function () use ($startDate, $endDate): array {
+            $start = $startDate->copy()->startOfDay();
+            $end = $endDate->copy()->endOfDay();
+
+            $rawRows = Payment::query()
+                ->where('payment_date', '>=', $start)
+                ->where('payment_date', '<=', $end)
                 ->where('is_refunded', false)
-                ->select('payment_method', DB::raw('SUM(amount) as total'))
-                ->groupBy('payment_method')
-                ->pluck('total', 'payment_method');
+                ->selectRaw('DATE(payment_date) as day, payment_method, SUM(amount) as total')
+                ->groupBy(DB::raw('DATE(payment_date)'), 'payment_method')
+                ->get();
 
-            $data->push([
-                'date' => $date->format('Y-m-d'),
-                'cash' => $payments['cash'] ?? 0,
-                'bpjs' => $payments['bpjs'] ?? 0,
-                'insurance' => $payments['insurance'] ?? 0,
-                'other' => ($payments['credit_card'] ?? 0) + ($payments['debit_card'] ?? 0) + ($payments['bank_transfer'] ?? 0) + ($payments['mobile_payment'] ?? 0),
-            ]);
-        }
+            $byDay = [];
+            foreach ($rawRows as $row) {
+                $day = (string) $row->day;
+                $method = (string) $row->payment_method;
+                $total = (float) $row->total;
 
-        return $data;
+                $byDay[$day] ??= [
+                    'cash' => 0.0,
+                    'bpjs' => 0.0,
+                    'insurance' => 0.0,
+                    'other' => 0.0,
+                ];
+
+                if ($method === 'cash') {
+                    $byDay[$day]['cash'] += $total;
+                    continue;
+                }
+
+                if ($method === 'bpjs') {
+                    $byDay[$day]['bpjs'] += $total;
+                    continue;
+                }
+
+                if ($method === 'insurance') {
+                    $byDay[$day]['insurance'] += $total;
+                    continue;
+                }
+
+                $byDay[$day]['other'] += $total;
+            }
+
+            $series = [];
+            foreach (CarbonPeriod::create($start->copy()->startOfDay(), $end->copy()->startOfDay()) as $date) {
+                $day = $date->format('Y-m-d');
+                $series[] = [
+                    'date' => $day,
+                    'cash' => $byDay[$day]['cash'] ?? 0.0,
+                    'bpjs' => $byDay[$day]['bpjs'] ?? 0.0,
+                    'insurance' => $byDay[$day]['insurance'] ?? 0.0,
+                    'other' => $byDay[$day]['other'] ?? 0.0,
+                ];
+            }
+
+            return $series;
+        });
+
+        return collect($data);
+    }
+
+    /**
+     * Get monthly revenue trend for yearly chart.
+     */
+    public function getMonthlyRevenueTrend(int $year): Collection
+    {
+        $cacheKey = "trend:revenue:monthly:{$year}";
+
+        $data = $this->remember($cacheKey, self::TREND_CACHE_TTL, function () use ($year): array {
+            $start = Carbon::create($year, 1, 1)->startOfDay();
+            $end = Carbon::create($year, 12, 31)->endOfDay();
+
+            $rawRows = Payment::query()
+                ->where('payment_date', '>=', $start)
+                ->where('payment_date', '<=', $end)
+                ->where('is_refunded', false)
+                ->selectRaw('MONTH(payment_date) as month_num, payment_method, SUM(amount) as total')
+                ->groupBy('month_num', 'payment_method')
+                ->get();
+
+            $byMonth = [];
+            for ($month = 1; $month <= 12; $month++) {
+                $byMonth[$month] = [
+                    'month' => Carbon::create($year, $month, 1)->format('M'),
+                    'cash' => 0.0,
+                    'bpjs' => 0.0,
+                    'insurance' => 0.0,
+                    'other' => 0.0,
+                ];
+            }
+
+            foreach ($rawRows as $row) {
+                $month = (int) $row->month_num;
+                $method = (string) $row->payment_method;
+                $total = (float) $row->total;
+
+                if (!isset($byMonth[$month])) {
+                    continue;
+                }
+
+                if ($method === 'cash') {
+                    $byMonth[$month]['cash'] += $total;
+                    continue;
+                }
+
+                if ($method === 'bpjs') {
+                    $byMonth[$month]['bpjs'] += $total;
+                    continue;
+                }
+
+                if ($method === 'insurance') {
+                    $byMonth[$month]['insurance'] += $total;
+                    continue;
+                }
+
+                $byMonth[$month]['other'] += $total;
+            }
+
+            return array_values($byMonth);
+        });
+
+        return collect($data);
     }
 
     /**

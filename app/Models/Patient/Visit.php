@@ -390,7 +390,12 @@ class Visit extends Model
      */
     public function scopeToday($query)
     {
-        return $query->whereDate('registration_date', today());
+        $start = now()->startOfDay();
+        $endExclusive = $start->copy()->addDay();
+
+        return $query
+            ->where('registration_date', '>=', $start)
+            ->where('registration_date', '<', $endExclusive);
     }
 
     /**

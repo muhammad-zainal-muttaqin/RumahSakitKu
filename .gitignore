@@ -11,10 +11,13 @@
 /storage/logs/*.log
 /storage/framework/cache/data/*
 !/storage/framework/cache/data/.gitkeep
+/storage/framework/cache/*.php
 /storage/framework/sessions/*
 !/storage/framework/sessions/.gitkeep
 /storage/framework/views/*
 !/storage/framework/views/.gitkeep
+/bootstrap/cache/*.php
+/bootstrap/cache/filament/*
 /vendor
 .env
 .env.backup

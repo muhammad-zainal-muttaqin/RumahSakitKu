@@ -7,7 +7,6 @@ namespace App\Filament\Widgets;
 use App\Services\ReportService;
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
-use Illuminate\Support\Facades\Cache;
 
 class RevenueChart extends ChartWidget
 {
@@ -35,21 +34,7 @@ class RevenueChart extends ChartWidget
         };
 
         if ($this->period === 'year') {
-            // Monthly data for year view
-            $data = collect();
-            for ($i = 1; $i <= 12; $i++) {
-                $monthStart = now()->month($i)->startOfMonth();
-                $monthEnd = now()->month($i)->endOfMonth();
-                $revenue = $reportService->getRevenueByPaymentMethod($monthStart, $monthEnd);
-                
-                $data->push([
-                    'month' => $monthStart->format('M'),
-                    'cash' => $revenue['cash'],
-                    'bpjs' => $revenue['bpjs'],
-                    'insurance' => $revenue['insurance'],
-                    'other' => $revenue['other'],
-                ]);
-            }
+            $data = $reportService->getMonthlyRevenueTrend((int) now()->year);
 
             return [
                 'datasets' => [
@@ -81,12 +66,8 @@ class RevenueChart extends ChartWidget
         // Daily data
         $startDate = now()->subDays($days - 1)->startOfDay();
         $endDate = now()->endOfDay();
-        
-        $cacheKey = 'revenue_chart_' . $startDate->format('Ymd') . '_' . $endDate->format('Ymd');
-        
-        $trend = Cache::remember($cacheKey, 300, function () use ($reportService, $startDate, $endDate) {
-            return $reportService->getDailyRevenueTrend($startDate, $endDate);
-        });
+
+        $trend = $reportService->getDailyRevenueTrend($startDate, $endDate);
 
         return [
             'datasets' => [

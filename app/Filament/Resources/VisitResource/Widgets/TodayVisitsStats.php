@@ -4,22 +4,20 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\VisitResource\Widgets;
 
-use App\Models\Patient\Visit;
-use BackedEnum;
+use App\Services\VisitMetricsService;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
-use UnitEnum;
 
 class TodayVisitsStats extends BaseWidget
 {
     protected function getStats(): array
     {
-        $todayQuery = Visit::today();
+        $counts = app(VisitMetricsService::class)->getTodayStatusCounts();
 
-        $totalToday = $todayQuery->count();
-        $waiting = Visit::today()->where('status', 'waiting')->count();
-        $inProgress = Visit::today()->where('status', 'in_progress')->count();
-        $completed = Visit::today()->where('status', 'completed')->count();
+        $totalToday = $counts['total'] ?? 0;
+        $waiting = $counts['waiting'] ?? 0;
+        $inProgress = $counts['in_progress'] ?? 0;
+        $completed = $counts['completed'] ?? 0;
 
         return [
             Stat::make('Total Hari Ini', $totalToday)

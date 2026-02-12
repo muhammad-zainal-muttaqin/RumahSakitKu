@@ -7,10 +7,8 @@ namespace App\Filament\Resources\VisitResource\Pages;
 use Filament\Actions\CreateAction;
 use App\Filament\Resources\VisitResource\Widgets\TodayVisitsStats;
 use App\Filament\Resources\VisitResource;
-use App\Models\Patient\Visit;
-use Filament\Actions;
+use App\Services\VisitMetricsService;
 use Filament\Resources\Pages\ListRecords;
-use Filament\Resources\Components\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
 class ListVisits extends ListRecords
@@ -34,49 +32,51 @@ class ListVisits extends ListRecords
 
     public function getTabs(): array
     {
+        $metrics = app(VisitMetricsService::class)->getTabBadgeCounts();
+
         return [
             'all' => \Filament\Schemas\Components\Tabs\Tab::make('Semua')
                 ->icon('heroicon-o-list-bullet')
-                ->badge(Visit::count()),
+                ->badge($metrics['all'] ?? 0),
 
             'today' => \Filament\Schemas\Components\Tabs\Tab::make('Hari Ini')
                 ->icon('heroicon-o-calendar')
-                ->badge(Visit::today()->count())
+                ->badge($metrics['today'] ?? 0)
                 ->modifyQueryUsing(fn (Builder $query) => $query->today()),
 
             'registered' => \Filament\Schemas\Components\Tabs\Tab::make('Terdaftar')
                 ->icon('heroicon-o-clipboard-document')
-                ->badge(Visit::where('status', 'registered')->count())
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'registered')),
+                ->badge($metrics['registered'] ?? 0)
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('visit_status', VisitMetricsService::legacyStatusToVisitStatus('registered'))),
 
             'waiting' => \Filament\Schemas\Components\Tabs\Tab::make('Menunggu')
                 ->icon('heroicon-o-clock')
-                ->badge(Visit::where('status', 'waiting')->count())
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'waiting')),
+                ->badge($metrics['waiting'] ?? 0)
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('visit_status', VisitMetricsService::legacyStatusToVisitStatus('waiting'))),
 
             'in_progress' => \Filament\Schemas\Components\Tabs\Tab::make('Sedang Dilayani')
                 ->icon('heroicon-o-play')
-                ->badge(Visit::where('status', 'in_progress')->count())
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'in_progress')),
+                ->badge($metrics['in_progress'] ?? 0)
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('visit_status', VisitMetricsService::legacyStatusToVisitStatus('in_progress'))),
 
             'completed' => \Filament\Schemas\Components\Tabs\Tab::make('Selesai')
                 ->icon('heroicon-o-check-circle')
-                ->badge(Visit::where('status', 'completed')->count())
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'completed')),
+                ->badge($metrics['completed'] ?? 0)
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('visit_status', VisitMetricsService::legacyStatusToVisitStatus('completed'))),
 
             'cancelled' => \Filament\Schemas\Components\Tabs\Tab::make('Dibatalkan')
                 ->icon('heroicon-o-x-circle')
-                ->badge(Visit::where('status', 'cancelled')->count())
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'cancelled')),
+                ->badge($metrics['cancelled'] ?? 0)
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('visit_status', VisitMetricsService::legacyStatusToVisitStatus('cancelled'))),
 
             'rawat_jalan' => \Filament\Schemas\Components\Tabs\Tab::make('Rawat Jalan')
                 ->icon('heroicon-o-building-office')
-                ->badge(Visit::where('visit_type', 'rawat_jalan')->count())
+                ->badge($metrics['rawat_jalan'] ?? 0)
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('visit_type', 'rawat_jalan')),
 
             'igd' => \Filament\Schemas\Components\Tabs\Tab::make('IGD')
                 ->icon('heroicon-o-truck')
-                ->badge(Visit::where('visit_type', 'igd')->count())
+                ->badge($metrics['igd'] ?? 0)
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('visit_type', 'igd')),
         ];
     }
