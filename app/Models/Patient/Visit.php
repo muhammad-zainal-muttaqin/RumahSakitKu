@@ -526,12 +526,7 @@ class Visit extends Model
         });
 
         static::saved(function (self $visit): void {
-            // Clear today's visit count caches
-            $today = now()->toDateString();
-            Cache::forget("visits:count:{$today}");
-            Cache::forget("visits:count:by_type:{$today}");
-            Cache::forget('visits:active:*');
-
+            self::invalidateVisitMetricsCache();
             // Clear polyclinic queue stats
             if ($visit->polyclinic_id) {
                 CacheService::forgetQueueStats($visit->polyclinic_id);
@@ -539,14 +534,53 @@ class Visit extends Model
         });
 
         static::deleted(function (self $visit): void {
-            $today = now()->toDateString();
-            Cache::forget("visits:count:{$today}");
-            Cache::forget("visits:count:by_type:{$today}");
-            Cache::forget('visits:active:*');
-
+            self::invalidateVisitMetricsCache();
             if ($visit->polyclinic_id) {
                 CacheService::forgetQueueStats($visit->polyclinic_id);
             }
         });
+    }
+
+    private static function invalidateVisitMetricsCache(): void
+    {
+        $now = now();
+        $today = $now->toDateString();
+
+        Cache::forget("visits:count:{$today}");
+        Cache::forget("visits:count:by_type:{$today}");
+        Cache::forget("visits:metrics:today-status:{$today}");
+        Cache::forget("visits:metrics:tab-badges:{$today}");
+
+        $todayStart = $now->copy()->startOfDay()->format('Y-m-d');
+        $todayEnd = $now->copy()->endOfDay()->format('Y-m-d');
+        $weekStart = $now->copy()->startOfWeek()->startOfDay()->format('Y-m-d');
+        $weekEnd = $now->copy()->endOfWeek()->endOfDay()->format('Y-m-d');
+        $monthStart = $now->copy()->startOfMonth()->startOfDay()->format('Y-m-d');
+        $monthEnd = $now->copy()->endOfMonth()->endOfDay()->format('Y-m-d');
+        $yearStart = $now->copy()->startOfYear()->startOfDay()->format('Y-m-d');
+        $yearEnd = $now->copy()->endOfYear()->endOfDay()->format('Y-m-d');
+
+        Cache::forget("visits:counts:{$todayStart}:{$todayEnd}");
+        Cache::forget("visits:counts:{$weekStart}:{$weekEnd}");
+        Cache::forget("visits:counts:{$monthStart}:{$monthEnd}");
+        Cache::forget("visits:counts:{$yearStart}:{$yearEnd}");
+
+        Cache::forget("stats_overview_today_{$now->copy()->startOfDay()->format('Ymd')}");
+        Cache::forget("stats_overview_week_{$now->copy()->startOfWeek()->format('Ymd')}");
+        Cache::forget("stats_overview_month_{$now->copy()->startOfMonth()->format('Ymd')}");
+        Cache::forget("stats_overview_year_{$now->copy()->startOfYear()->format('Ymd')}");
+
+        Cache::forget(sprintf(
+            'trend:visits:daily:%s:%s',
+            $now->copy()->subDays(6)->startOfDay()->format('Y-m-d'),
+            $now->copy()->endOfDay()->format('Y-m-d')
+        ));
+
+        // Broad invalidation for Redis-backed deployments using wildcard keys.
+        CacheService::flushPattern('visits:active:*');
+        CacheService::flushPattern('visits:metrics:*');
+        CacheService::flushPattern('visits:counts:*');
+        CacheService::flushPattern('trend:visits:daily:*');
+        CacheService::flushPattern('stats_overview_*');
     }
 }

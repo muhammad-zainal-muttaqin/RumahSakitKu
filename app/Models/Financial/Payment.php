@@ -7,10 +7,12 @@ namespace App\Models\Financial;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Concerns\HasAuditLogs;
+use App\Services\CacheService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Payment Model
@@ -143,6 +145,41 @@ class Payment extends Model
                 'status' => $newBalance <= 0 ? 'paid' : 'pending',
             ]);
         });
+
+        static::saved(function (self $payment): void {
+            self::invalidateRevenueMetricsCache($payment);
+        });
+
+        static::deleted(function (self $payment): void {
+            self::invalidateRevenueMetricsCache($payment);
+        });
+    }
+
+    private static function invalidateRevenueMetricsCache(self $payment): void
+    {
+        $now = now();
+        $dailyTrendEnd = $now->copy()->endOfDay()->format('Y-m-d');
+
+        foreach ([1, 7, 30] as $days) {
+            $dailyTrendStart = $now->copy()->subDays($days - 1)->startOfDay()->format('Y-m-d');
+            Cache::forget("trend:revenue:daily:{$dailyTrendStart}:{$dailyTrendEnd}");
+        }
+
+        $year = $payment->payment_date instanceof Carbon
+            ? $payment->payment_date->year
+            : ($payment->payment_date ? Carbon::parse((string) $payment->payment_date)->year : $now->year);
+
+        Cache::forget("trend:revenue:monthly:{$now->year}");
+        Cache::forget("trend:revenue:monthly:{$year}");
+
+        Cache::forget("stats_overview_today_{$now->copy()->startOfDay()->format('Ymd')}");
+        Cache::forget("stats_overview_week_{$now->copy()->startOfWeek()->format('Ymd')}");
+        Cache::forget("stats_overview_month_{$now->copy()->startOfMonth()->format('Ymd')}");
+        Cache::forget("stats_overview_year_{$now->copy()->startOfYear()->format('Ymd')}");
+
+        CacheService::flushPattern('trend:revenue:daily:*');
+        CacheService::flushPattern('trend:revenue:monthly:*');
+        CacheService::flushPattern('stats_overview_*');
     }
 
     /**
