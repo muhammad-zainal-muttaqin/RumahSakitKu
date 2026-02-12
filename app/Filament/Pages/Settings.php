@@ -33,6 +33,13 @@ class Settings extends SettingsPage
 
     protected static string $settings = HospitalSettings::class;
 
+    public function mount(): void
+    {
+        HospitalSettings::ensureDefaults();
+
+        parent::mount();
+    }
+
     public function form(Schema $form): Schema
     {
         return $form

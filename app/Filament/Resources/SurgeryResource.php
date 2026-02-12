@@ -637,8 +637,8 @@ class SurgeryResource extends Resource
                     ->icon('heroicon-m-calendar')
                     ->color('info')
                     ->requiresConfirmation()
-                    ->visible(fn (Model $record): bool =>
-                        in_array($record->status, ['cancelled'])
+                    ->visible(fn (?Model $record): bool =>
+                        in_array($record?->status, ['cancelled'])
                     )
                     ->action(function (Model $record, SurgeryService $service): void {
                         $record->update([
@@ -656,8 +656,8 @@ class SurgeryResource extends Resource
                     ->color('primary')
                     ->requiresConfirmation()
                     ->modalDescription('Apakah Anda yakin ingin memulai operasi ini?')
-                    ->visible(fn (Model $record): bool =>
-                        in_array($record->status, ['scheduled', 'preparation'])
+                    ->visible(fn (?Model $record): bool =>
+                        in_array($record?->status, ['scheduled', 'preparation'])
                     )
                     ->action(function (Model $record, SurgeryService $service): void {
                         $service->startSurgery($record->id);
@@ -671,7 +671,7 @@ class SurgeryResource extends Resource
                     ->color('success')
                     ->requiresConfirmation()
                     ->modalDescription('Tandai operasi sebagai selesai?')
-                    ->visible(fn (Model $record): bool => $record->status === 'in_progress')
+                    ->visible(fn (?Model $record): bool => $record?->status === 'in_progress')
                     ->action(function (Model $record, SurgeryService $service): void {
                         $service->completeSurgery($record->id, [
                             'safety_checklist_sign_out' => true,
@@ -686,8 +686,8 @@ class SurgeryResource extends Resource
                     ->color('danger')
                     ->requiresConfirmation()
                     ->modalDescription('Apakah Anda yakin ingin membatalkan operasi ini?')
-                    ->visible(fn (Model $record): bool =>
-                        !in_array($record->status, ['completed', 'cancelled'])
+                    ->visible(fn (?Model $record): bool =>
+                        !in_array($record?->status, ['completed', 'cancelled'])
                     )
                     ->schema([
                         Textarea::make('cancellation_reason')
@@ -709,7 +709,7 @@ class SurgeryResource extends Resource
                     ->icon('heroicon-m-clock')
                     ->color('warning')
                     ->requiresConfirmation()
-                    ->visible(fn (Model $record): bool => $record->status === 'scheduled')
+                    ->visible(fn (?Model $record): bool => $record?->status === 'scheduled')
                     ->action(function (Model $record): void {
                         $record->update(['status' => 'preparation']);
                     })

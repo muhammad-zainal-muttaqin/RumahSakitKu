@@ -26,7 +26,7 @@ class ViewMedicalRecord extends ViewRecord
         return [
             EditAction::make()
                 ->icon('heroicon-o-pencil')
-                ->visible(fn (Model $record): bool => !$record->is_finalized),
+                ->visible(fn (?Model $record): bool => !($record?->is_finalized ?? false)),
 
             Action::make('finalize')
                 ->label('Finalisasi')
@@ -36,7 +36,7 @@ class ViewMedicalRecord extends ViewRecord
                 ->modalHeading('Finalisasi Rekam Medis')
                 ->modalDescription('Apakah Anda yakin ingin memfinalisasi rekam medis ini? Setelah difinalisasi, data tidak dapat diubah.')
                 ->modalSubmitActionLabel('Ya, Finalisasi')
-                ->visible(fn (Model $record): bool => !$record->is_finalized)
+                ->visible(fn (?Model $record): bool => !($record?->is_finalized ?? false))
                 ->action(function (Model $record): void {
                     $record->update([
                         'is_finalized' => true,
@@ -52,7 +52,7 @@ class ViewMedicalRecord extends ViewRecord
                 ->color('gray')
                 ->url(fn (Model $record): string => route('medical-records.print', $record))
                 ->openUrlInNewTab()
-                ->visible(fn (Model $record): bool => $record->is_finalized),
+                ->visible(fn (?Model $record): bool => $record?->is_finalized === true),
 
             Action::make('back')
                 ->label('Kembali')
@@ -178,7 +178,7 @@ class ViewMedicalRecord extends ViewRecord
                 Section::make('Informasi Finalisasi')
                     ->icon('heroicon-o-lock-closed')
                     ->collapsible()
-                    ->visible(fn (Model $record): bool => $record->is_finalized)
+                    ->visible(fn (?Model $record): bool => $record?->is_finalized === true)
                     ->schema([
                         Grid::make(3)
                             ->schema([

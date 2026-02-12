@@ -41,31 +41,31 @@ class ListBeds extends ListRecords
                 ->icon('heroicon-o-check-circle')
                 ->badge(Bed::where('status', 'kosong')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'kosong'))
-                ->color('success'),
+                ->badgeColor('success'),
 
             'terisi' => \Filament\Schemas\Components\Tabs\Tab::make('Terisi')
                 ->icon('heroicon-o-user')
                 ->badge(Bed::where('status', 'terisi')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'terisi'))
-                ->color('danger'),
+                ->badgeColor('danger'),
 
             'reserved' => \Filament\Schemas\Components\Tabs\Tab::make('Dipesan')
                 ->icon('heroicon-o-clock')
                 ->badge(Bed::where('status', 'reserved')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'reserved'))
-                ->color('warning'),
+                ->badgeColor('warning'),
 
             'maintenance' => \Filament\Schemas\Components\Tabs\Tab::make('Maintenance')
                 ->icon('heroicon-o-wrench')
                 ->badge(Bed::where('status', 'maintenance')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'maintenance'))
-                ->color('gray'),
+                ->badgeColor('gray'),
 
             'cleaning' => \Filament\Schemas\Components\Tabs\Tab::make('Cleaning')
                 ->icon('heroicon-o-sparkles')
                 ->badge(Bed::where('status', 'cleaning')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'cleaning'))
-                ->color('info'),
+                ->badgeColor('info'),
         ];
     }
 

@@ -7,6 +7,7 @@ namespace App\Filament\Widgets;
 use App\Services\ReportService;
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\Cache;
 
 class RevenueChart extends ChartWidget
 {
@@ -17,6 +18,8 @@ class RevenueChart extends ChartWidget
     protected static int|null $sort = 4;
 
     protected ?string $maxHeight = '300px';
+
+    protected ?string $pollingInterval = null;
 
     public ?string $period = 'week';
 
@@ -34,7 +37,9 @@ class RevenueChart extends ChartWidget
         };
 
         if ($this->period === 'year') {
-            $data = $reportService->getMonthlyRevenueTrend((int) now()->year);
+            $year = (int) now()->year;
+            $cacheKey = "revenue_trend_year_{$year}";
+            $data = Cache::remember($cacheKey, 600, fn () => $reportService->getMonthlyRevenueTrend($year));
 
             return [
                 'datasets' => [
@@ -67,7 +72,13 @@ class RevenueChart extends ChartWidget
         $startDate = now()->subDays($days - 1)->startOfDay();
         $endDate = now()->endOfDay();
 
-        $trend = $reportService->getDailyRevenueTrend($startDate, $endDate);
+        $cacheKey = sprintf(
+            'revenue_trend_%s_%s',
+            $startDate->format('Ymd'),
+            $endDate->format('Ymd')
+        );
+
+        $trend = Cache::remember($cacheKey, 300, fn () => $reportService->getDailyRevenueTrend($startDate, $endDate));
 
         return [
             'datasets' => [

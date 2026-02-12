@@ -471,9 +471,9 @@ class VisitResource extends Resource
                     ->icon('heroicon-m-play')
                     ->color('primary')
                     ->requiresConfirmation()
-                    ->visible(fn (Model $record): bool => 
-                        in_array($record->status, ['registered', 'waiting']) && 
-                        is_null($record->check_in_at)
+                    ->visible(fn (?Model $record): bool =>
+                        in_array($record?->status, ['registered', 'waiting']) &&
+                        is_null($record?->check_in_at)
                     )
                     ->action(function (Model $record): void {
                         $record->update([
@@ -488,9 +488,9 @@ class VisitResource extends Resource
                     ->icon('heroicon-m-check-circle')
                     ->color('success')
                     ->requiresConfirmation()
-                    ->visible(fn (Model $record): bool => 
-                        in_array($record->status, ['registered', 'waiting', 'in_progress']) && 
-                        !$record->is_completed
+                    ->visible(fn (?Model $record): bool =>
+                        in_array($record?->status, ['registered', 'waiting', 'in_progress']) &&
+                        !($record?->is_completed ?? false)
                     )
                     ->action(function (Model $record): void {
                         $record->update([
@@ -507,8 +507,8 @@ class VisitResource extends Resource
                     ->color('danger')
                     ->requiresConfirmation()
                     ->modalDescription('Apakah Anda yakin ingin membatalkan kunjungan ini?')
-                    ->visible(fn (Model $record): bool => 
-                        !in_array($record->status, ['completed', 'cancelled'])
+                    ->visible(fn (?Model $record): bool =>
+                        !in_array($record?->status, ['completed', 'cancelled'])
                     )
                     ->action(function (Model $record): void {
                         $record->update([

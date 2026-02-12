@@ -229,7 +229,7 @@ class BedResource extends Resource
                     ->label('Pasien')
                     ->placeholder('-')
                     ->searchable()
-                    ->visible(fn (Model $record): bool => $record->status === 'terisi'),
+                    ->visible(fn (?Model $record): bool => $record?->status === 'terisi'),
 
                 TextColumn::make('occupied_at')
                     ->label('Dihuni Sejak')
@@ -302,7 +302,7 @@ class BedResource extends Resource
                         ->label('Isi')
                         ->icon('heroicon-o-user-plus')
                         ->color('success')
-                        ->visible(fn (Model $record): bool => $record->status === 'kosong')
+                        ->visible(fn (?Model $record): bool => $record?->status === 'kosong')
                         ->url(fn (Model $record): string => route('filament.admin.resources.inpatients.create', ['bed_id' => $record->id])),
 
                     Action::make('setReserved')
@@ -313,7 +313,7 @@ class BedResource extends Resource
                         ->modalHeading('Pesan Tempat Tidur')
                         ->modalDescription('Apakah Anda yakin ingin memesan tempat tidur ini?')
                         ->modalSubmitActionLabel('Ya, Pesan')
-                        ->visible(fn (Model $record): bool => $record->status === 'kosong')
+                        ->visible(fn (?Model $record): bool => $record?->status === 'kosong')
                         ->action(function (Model $record): void {
                             $record->setReserved();
                             Notification::make()
@@ -330,7 +330,7 @@ class BedResource extends Resource
                         ->modalHeading('Jadikan Tersedia')
                         ->modalDescription('Apakah Anda yakin ingin menjadikan tempat tidur ini tersedia?')
                         ->modalSubmitActionLabel('Ya, Jadikan Tersedia')
-                        ->visible(fn (Model $record): bool => in_array($record->status, ['reserved', 'maintenance', 'cleaning']))
+                        ->visible(fn (?Model $record): bool => in_array($record?->status, ['reserved', 'maintenance', 'cleaning']))
                         ->action(function (Model $record): void {
                             $record->status = 'kosong';
                             $record->save();
@@ -348,7 +348,7 @@ class BedResource extends Resource
                         ->modalHeading('Set Maintenance')
                         ->modalDescription('Apakah Anda yakin ingin mengubah status tempat tidur ini menjadi maintenance?')
                         ->modalSubmitActionLabel('Ya, Set Maintenance')
-                        ->visible(fn (Model $record): bool => !in_array($record->status, ['terisi', 'maintenance']))
+                        ->visible(fn (?Model $record): bool => !in_array($record?->status, ['terisi', 'maintenance']))
                         ->action(function (Model $record): void {
                             $record->setMaintenance('Maintenance oleh admin');
                             Notification::make()
@@ -365,7 +365,7 @@ class BedResource extends Resource
                         ->modalHeading('Set Cleaning')
                         ->modalDescription('Apakah Anda yakin ingin mengubah status tempat tidur ini menjadi dibersihkan?')
                         ->modalSubmitActionLabel('Ya, Set Cleaning')
-                        ->visible(fn (Model $record): bool => !in_array($record->status, ['terisi', 'cleaning']))
+                        ->visible(fn (?Model $record): bool => !in_array($record?->status, ['terisi', 'cleaning']))
                         ->action(function (Model $record): void {
                             $record->setCleaning();
                             Notification::make()
@@ -382,7 +382,7 @@ class BedResource extends Resource
                         ->modalHeading('Kosongkan Tempat Tidur')
                         ->modalDescription('Apakah Anda yakin ingin mengosongkan tempat tidur ini?')
                         ->modalSubmitActionLabel('Ya, Kosongkan')
-                        ->visible(fn (Model $record): bool => $record->status === 'terisi')
+                        ->visible(fn (?Model $record): bool => $record?->status === 'terisi')
                         ->action(function (Model $record): void {
                             $record->vacate();
                             Notification::make()
@@ -395,7 +395,7 @@ class BedResource extends Resource
                         ->label('Pindah')
                         ->icon('heroicon-o-arrow-path')
                         ->color('primary')
-                        ->visible(fn (Model $record): bool => $record->status === 'terisi')
+                        ->visible(fn (?Model $record): bool => $record?->status === 'terisi')
                         ->schema([
                             Select::make('new_room_id')
                                 ->label('Kamar Baru')

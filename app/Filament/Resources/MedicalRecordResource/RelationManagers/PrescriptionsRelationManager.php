@@ -283,10 +283,10 @@ class PrescriptionsRelationManager extends RelationManager
 
                 EditAction::make()
                     ->icon('heroicon-o-pencil')
-                    ->visible(fn (Model $record): bool => !$this->getOwnerRecord()->is_finalized && $record->status !== 'dispensed'),
+                    ->visible(fn (?Model $record): bool => !$this->getOwnerRecord()->is_finalized && $record?->status !== 'dispensed'),
 
                 DeleteAction::make()
-                    ->visible(fn (Model $record): bool => !$this->getOwnerRecord()->is_finalized && $record->status === 'draft'),
+                    ->visible(fn (?Model $record): bool => !$this->getOwnerRecord()->is_finalized && $record?->status === 'draft'),
 
                 Action::make('print')
                     ->label('Cetak')
@@ -294,7 +294,7 @@ class PrescriptionsRelationManager extends RelationManager
                     ->color('gray')
                     ->url(fn (Model $record): string => route('prescriptions.print', $record))
                     ->openUrlInNewTab()
-                    ->visible(fn (Model $record): bool => $record->status !== 'draft'),
+                    ->visible(fn (?Model $record): bool => $record?->status !== 'draft'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

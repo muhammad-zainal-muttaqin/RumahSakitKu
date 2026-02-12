@@ -18,6 +18,8 @@ class RoomOccupancyChart extends ChartWidget
 
     protected ?string $maxHeight = '300px';
 
+    protected ?string $pollingInterval = null;
+
     protected function getData(): array
     {
         $cacheKey = 'room_occupancy_' . now()->format('Ymd');

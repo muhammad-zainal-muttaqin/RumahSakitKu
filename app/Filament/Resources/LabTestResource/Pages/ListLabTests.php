@@ -34,31 +34,31 @@ class ListLabTests extends ListRecords
                 ->icon('heroicon-o-beaker')
                 ->badge(LabTest::where('category', 'hematologi')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('category', 'hematologi'))
-                ->color('danger'),
+                ->badgeColor('danger'),
 
             'kimia_darah' => \Filament\Schemas\Components\Tabs\Tab::make('Kimia Darah')
                 ->icon('heroicon-o-beaker')
                 ->badge(LabTest::where('category', 'kimia_darah')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('category', 'kimia_darah'))
-                ->color('primary'),
+                ->badgeColor('primary'),
 
             'urinalisa' => \Filament\Schemas\Components\Tabs\Tab::make('Urinalisa')
                 ->icon('heroicon-o-beaker')
                 ->badge(LabTest::where('category', 'urinalisa')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('category', 'urinalisa'))
-                ->color('warning'),
+                ->badgeColor('warning'),
 
             'mikrobiologi' => \Filament\Schemas\Components\Tabs\Tab::make('Mikrobiologi')
                 ->icon('heroicon-o-beaker')
                 ->badge(LabTest::where('category', 'mikrobiologi')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('category', 'mikrobiologi'))
-                ->color('success'),
+                ->badgeColor('success'),
 
             'imunologi' => \Filament\Schemas\Components\Tabs\Tab::make('Imunologi/Serologi')
                 ->icon('heroicon-o-beaker')
                 ->badge(LabTest::whereIn('category', ['imunologi', 'serologi'])->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->whereIn('category', ['imunologi', 'serologi']))
-                ->color('info'),
+                ->badgeColor('info'),
         ];
     }
 

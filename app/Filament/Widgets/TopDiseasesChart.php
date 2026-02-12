@@ -19,6 +19,8 @@ class TopDiseasesChart extends ChartWidget
 
     protected ?string $maxHeight = '350px';
 
+    protected ?string $pollingInterval = null;
+
     public ?string $period = 'month';
 
     protected function getData(): array

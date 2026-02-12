@@ -15,7 +15,72 @@
             Kelola backup database sistem Anda. Backup otomatis dilakukan sesuai jadwal yang diatur.
         </x-slot>
 
-        {{ $this->table }}
+        @php
+            $backups = $this->getBackups();
+        @endphp
+
+        @if (count($backups) === 0)
+            <div class="py-8 text-center text-sm text-gray-500 dark:text-gray-400">
+                Belum ada backup. Buat backup database pertama Anda.
+            </div>
+        @else
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                            <th class="px-3 py-2 text-left font-medium">Nama File</th>
+                            <th class="px-3 py-2 text-left font-medium">Ukuran</th>
+                            <th class="px-3 py-2 text-left font-medium">Dibuat</th>
+                            <th class="px-3 py-2 text-left font-medium">Otomatis</th>
+                            <th class="px-3 py-2 text-right font-medium">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($backups as $backup)
+                            <tr class="border-b border-gray-100 dark:border-gray-800">
+                                <td class="px-3 py-2">{{ $backup['name'] }}</td>
+                                <td class="px-3 py-2">{{ $backup['size'] }}</td>
+                                <td class="px-3 py-2">
+                                    {{ \Illuminate\Support\Carbon::parse($backup['created_at'])->format('d M Y H:i:s') }}
+                                </td>
+                                <td class="px-3 py-2">
+                                    @if ($backup['is_automated'])
+                                        <span class="text-success-600">Ya</span>
+                                    @else
+                                        <span class="text-gray-500">Tidak</span>
+                                    @endif
+                                </td>
+                                <td class="px-3 py-2 text-right">
+                                    <div class="inline-flex items-center gap-2">
+                                        <x-filament::button size="xs" color="success" wire:click="downloadBackup('{{ addslashes($backup['name']) }}')">
+                                            Download
+                                        </x-filament::button>
+
+                                        @if (auth()->user()?->hasRole('admin') || auth()->user()?->hasRole('super_admin'))
+                                            <x-filament::button
+                                                size="xs"
+                                                color="warning"
+                                                x-on:click="if (confirm('Restore database dari backup ini?')) { $wire.restoreBackup('{{ addslashes($backup['name']) }}') }"
+                                            >
+                                                Restore
+                                            </x-filament::button>
+                                        @endif
+
+                                        <x-filament::button
+                                            size="xs"
+                                            color="danger"
+                                            x-on:click="if (confirm('Hapus file backup ini?')) { $wire.deleteBackup('{{ addslashes($backup['name']) }}') }"
+                                        >
+                                            Hapus
+                                        </x-filament::button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
     </x-filament::section>
 
     <x-filament::section class="mt-6">

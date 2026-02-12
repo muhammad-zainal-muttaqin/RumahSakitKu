@@ -19,6 +19,8 @@ class PatientDistributionChart extends ChartWidget
 
     protected ?string $maxHeight = '300px';
 
+    protected ?string $pollingInterval = null;
+
     public ?string $period = 'today';
 
     protected function getData(): array

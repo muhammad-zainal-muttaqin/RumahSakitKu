@@ -34,25 +34,25 @@ class ListMedicines extends ListRecords
                 ->icon('heroicon-o-check-circle')
                 ->badge(Medicine::where('classification', 'obat_bebas')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('classification', 'obat_bebas'))
-                ->color('success'),
+                ->badgeColor('success'),
 
             'obat_keras' => \Filament\Schemas\Components\Tabs\Tab::make('Obat Keras')
                 ->icon('heroicon-o-exclamation-triangle')
                 ->badge(Medicine::where('classification', 'obat_keras')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('classification', 'obat_keras'))
-                ->color('warning'),
+                ->badgeColor('warning'),
 
             'narkotika' => \Filament\Schemas\Components\Tabs\Tab::make('Narkotika')
                 ->icon('heroicon-o-shield-exclamation')
                 ->badge(Medicine::where('classification', 'narkotika')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('classification', 'narkotika'))
-                ->color('danger'),
+                ->badgeColor('danger'),
 
             'low_stock' => \Filament\Schemas\Components\Tabs\Tab::make('Stok Rendah')
                 ->icon('heroicon-o-arrow-trending-down')
                 ->badge(Medicine::whereColumn('stock', '<=', 'min_stock')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->whereColumn('stock', '<=', 'min_stock'))
-                ->color('warning'),
+                ->badgeColor('warning'),
 
             'expiring_soon' => \Filament\Schemas\Components\Tabs\Tab::make('Segera Kadaluarsa')
                 ->icon('heroicon-o-clock')
@@ -62,7 +62,7 @@ class ListMedicines extends ListRecords
                 ->modifyQueryUsing(fn (Builder $query) => $query
                     ->where('expired_date', '>=', now())
                     ->where('expired_date', '<=', now()->addDays(30)))
-                ->color('danger'),
+                ->badgeColor('danger'),
         ];
     }
 

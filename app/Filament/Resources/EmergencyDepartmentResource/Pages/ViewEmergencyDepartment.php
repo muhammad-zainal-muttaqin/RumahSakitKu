@@ -90,7 +90,7 @@ class ViewEmergencyDepartment extends ViewRecord
 
                 \Filament\Schemas\Components\Section::make('Data Triase')
                     ->icon('heroicon-o-heart')
-                    ->visible(fn (Model $record): bool => $record->medicalRecord?->assessments->isNotEmpty() ?? false)
+                    ->visible(fn (?Model $record): bool => $record?->medicalRecord?->assessments?->isNotEmpty() ?? false)
                     ->schema([
                         TextEntry::make('triage_category')
                             ->label('Kategori Triase')
@@ -170,7 +170,7 @@ class ViewEmergencyDepartment extends ViewRecord
                             ->label('Nama Dokter')
                             ->placeholder('Belum ditugaskan'),
                     ])
-                    ->visible(fn (Model $record): bool => $record->doctor !== null)
+                    ->visible(fn (?Model $record): bool => $record?->doctor !== null)
                     ->collapsible(),
 
                 \Filament\Schemas\Components\Section::make('Catatan')
@@ -180,7 +180,7 @@ class ViewEmergencyDepartment extends ViewRecord
                             ->label('Catatan')
                             ->placeholder('-'),
                     ])
-                    ->visible(fn (Model $record): bool => !empty($record->notes))
+                    ->visible(fn (?Model $record): bool => !empty($record?->notes))
                     ->collapsible(),
             ]);
     }

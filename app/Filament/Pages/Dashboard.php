@@ -53,8 +53,10 @@ class Dashboard extends BaseDashboard
     public function filtersForm(Schema $schema): Schema
     {
         return $schema
+            ->columns(1)
             ->schema([
                 Section::make()
+                    ->columnSpanFull()
                     ->schema([
                         Select::make('period')
                             ->label('Periode')
@@ -66,9 +68,10 @@ class Dashboard extends BaseDashboard
                             ])
                             ->default('today')
                             ->live()
-                            ->selectablePlaceholder(false),
+                            ->selectablePlaceholder(false)
+                            ->columnSpanFull(),
                     ])
-                    ->columns(3),
+                    ->columns(1),
             ]);
     }
 

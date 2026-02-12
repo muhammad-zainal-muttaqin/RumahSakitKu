@@ -16,6 +16,8 @@ class StatsOverviewWidget extends BaseWidget
 {
     protected static ?int $sort = 1;
 
+    protected ?string $pollingInterval = null;
+
     public ?string $period = 'today';
 
     protected function getStats(): array

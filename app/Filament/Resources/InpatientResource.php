@@ -507,9 +507,9 @@ class InpatientResource extends Resource
                         ->label('Pindah Kamar')
                         ->icon('heroicon-m-arrow-path')
                         ->color('warning')
-                        ->visible(fn (Model $record): bool => 
-                            !$record->is_completed && 
-                            in_array($record->inpatient_status, ['registered', 'admitted', 'transferred']))
+                        ->visible(fn (?Model $record): bool =>
+                            !($record?->is_completed ?? false) &&
+                            in_array($record?->inpatient_status, ['registered', 'admitted', 'transferred']))
                         ->schema([
                             Select::make('new_room_id')
                                 ->label('Kamar Baru')
@@ -560,9 +560,9 @@ class InpatientResource extends Resource
                         ->icon('heroicon-m-check-circle')
                         ->color('success')
                         ->requiresConfirmation()
-                        ->visible(fn (Model $record): bool => 
-                            !$record->is_completed && 
-                            in_array($record->inpatient_status, ['registered', 'admitted', 'discharge_planned', 'transferred']))
+                        ->visible(fn (?Model $record): bool =>
+                            !($record?->is_completed ?? false) &&
+                            in_array($record?->inpatient_status, ['registered', 'admitted', 'discharge_planned', 'transferred']))
                         ->schema([
                             DatePicker::make('discharge_date')
                                 ->label('Tanggal Pulang')
@@ -606,9 +606,9 @@ class InpatientResource extends Resource
                         ->label('Rencana Pulang')
                         ->icon('heroicon-m-clock')
                         ->color('warning')
-                        ->visible(fn (Model $record): bool => 
-                            !$record->is_completed && 
-                            $record->inpatient_status === 'admitted')
+                        ->visible(fn (?Model $record): bool =>
+                            !($record?->is_completed ?? false) &&
+                            $record?->inpatient_status === 'admitted')
                         ->schema([
                             DatePicker::make('planned_discharge_date')
                                 ->label('Tanggal Rencana Pulang')

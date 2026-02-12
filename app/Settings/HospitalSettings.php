@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Settings;
 
 use Spatie\LaravelSettings\Settings;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class HospitalSettings extends Settings
 {
@@ -144,5 +146,36 @@ class HospitalSettings extends Settings
             'items_per_page' => 25,
             'debug_mode' => false,
         ];
+    }
+
+    public static function ensureDefaults(): void
+    {
+        if (!Schema::hasTable('settings')) {
+            return;
+        }
+
+        $group = static::group();
+        $existing = DB::table('settings')
+            ->where('group', $group)
+            ->pluck('key')
+            ->all();
+
+        $existingLookup = array_flip($existing);
+        $now = now();
+
+        foreach (static::defaults() as $key => $value) {
+            if (isset($existingLookup[$key])) {
+                continue;
+            }
+
+            DB::table('settings')->insert([
+                'group' => $group,
+                'key' => $key,
+                'value' => json_encode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+                'locked' => false,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]);
+        }
     }
 }

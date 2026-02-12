@@ -52,10 +52,18 @@ class MedicalRecordPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, MedicalRecord $medicalRecord): bool
+    public function deleteAny(User $user): bool
     {
         return $user->can('medical_records.delete') ||
                $user->hasRole(['admin', 'super_admin']);
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     */
+    public function delete(User $user, ?MedicalRecord $medicalRecord = null): bool
+    {
+        return $this->deleteAny($user);
     }
 
     /**

@@ -317,7 +317,7 @@ class EmployeeResource extends Resource
                     ->label('SIP')
                     ->placeholder('-')
                     ->toggleable()
-                    ->visible(fn (Model $record): bool => $record->is_doctor),
+                    ->visible(fn (?Model $record): bool => $record?->is_doctor === true),
 
                 BadgeColumn::make('sip_status')
                     ->label('Status SIP')
@@ -342,7 +342,7 @@ class EmployeeResource extends Resource
                         'no_license' => 'heroicon-o-minus-circle',
                         default => 'heroicon-o-question-mark-circle',
                     })
-                    ->visible(fn (Model $record): bool => $record->is_doctor)
+                    ->visible(fn (?Model $record): bool => $record?->is_doctor === true)
                     ->toggleable(),
 
                 BadgeColumn::make('str_status')
@@ -368,7 +368,7 @@ class EmployeeResource extends Resource
                         'no_license' => 'heroicon-o-minus-circle',
                         default => 'heroicon-o-question-mark-circle',
                     })
-                    ->visible(fn (Model $record): bool => $record->is_doctor)
+                    ->visible(fn (?Model $record): bool => $record?->is_doctor === true)
                     ->toggleable(),
 
                 BadgeColumn::make('status')

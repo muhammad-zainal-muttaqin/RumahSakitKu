@@ -222,7 +222,7 @@ class CpptsRelationManager extends RelationManager
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
                     ->requiresConfirmation()
-                    ->visible(fn (Model $record): bool => !$record->is_verified && !$this->getOwnerRecord()->is_finalized)
+                    ->visible(fn (?Model $record): bool => !($record?->is_verified ?? false) && !$this->getOwnerRecord()->is_finalized)
                     ->action(function (Model $record): void {
                         $record->update([
                             'is_verified' => true,

@@ -417,7 +417,7 @@ class CpptResource extends Resource
                     ->modalHeading('Verifikasi CPPT')
                     ->modalDescription('Apakah Anda yakin ingin memverifikasi CPPT ini?')
                     ->modalSubmitActionLabel('Ya, Verifikasi')
-                    ->visible(fn (Model $record): bool => ! $record->is_verified && Auth::user()?->hasRole(['dokter', 'admin']))
+                    ->visible(fn (?Model $record): bool => ! ($record?->is_verified ?? false) && Auth::user()?->hasRole(['dokter', 'admin']))
                     ->action(function (Model $record): void {
                         $record->update([
                             'is_verified' => true,

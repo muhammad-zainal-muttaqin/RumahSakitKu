@@ -145,7 +145,7 @@ class BedsRelationManager extends RelationManager
                 TextColumn::make('currentVisit.patient.name')
                     ->label('Pasien')
                     ->placeholder('-')
-                    ->visible(fn (Model $record): bool => $record->status === 'terisi'),
+                    ->visible(fn (?Model $record): bool => $record?->status === 'terisi'),
 
                 TextColumn::make('occupied_at')
                     ->label('Dihuni Sejak')

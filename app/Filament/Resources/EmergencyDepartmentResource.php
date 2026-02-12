@@ -15,6 +15,11 @@ use App\Models\Patient\Patient;
 use App\Models\Patient\Visit;
 use App\Services\TriageService;
 use Filament\Forms;
+use Filament\Actions\Action;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Table;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
@@ -547,16 +552,16 @@ class EmergencyDepartmentResource extends Resource
                             );
                     }),
             ])
-            ->actions([
+            ->recordActions([
                 // Check-in Action
-                Tables\Actions\Action::make('check_in')
+                Action::make('check_in')
                     ->label('Check-in')
                     ->icon('heroicon-m-play')
                     ->color('primary')
                     ->requiresConfirmation()
-                    ->visible(fn (Model $record): bool =>
-                        in_array($record->status, ['registered', 'waiting']) &&
-                        is_null($record->check_in_at)
+                    ->visible(fn (?Model $record): bool =>
+                        in_array($record?->status, ['registered', 'waiting']) &&
+                        is_null($record?->check_in_at)
                     )
                     ->action(function (Model $record): void {
                         $record->update([
@@ -573,14 +578,14 @@ class EmergencyDepartmentResource extends Resource
                     ->after(fn () => redirect(request()->header('Referer'))),
 
                 // Admission Action
-                Tables\Actions\Action::make('admission')
+                Action::make('admission')
                     ->label('Admisi')
                     ->icon('heroicon-m-clipboard-document-check')
                     ->color('info')
                     ->requiresConfirmation()
                     ->modalDescription('Apakah Anda yakin ingin mengadmisi pasien ini?')
-                    ->visible(fn (Model $record): bool =>
-                        !in_array($record->status, ['completed', 'cancelled'])
+                    ->visible(fn (?Model $record): bool =>
+                        !in_array($record?->status, ['completed', 'cancelled'])
                     )
                     ->action(function (Model $record): void {
                         Notification::make()
@@ -591,14 +596,14 @@ class EmergencyDepartmentResource extends Resource
                     }),
 
                 // Transfer to Inpatient (Ranap) Action
-                Tables\Actions\Action::make('transfer_inpatient')
+                Action::make('transfer_inpatient')
                     ->label('Transfer ke Ranap')
                     ->icon('heroicon-m-home-modern')
                     ->color('warning')
                     ->requiresConfirmation()
                     ->modalDescription('Apakah Anda yakin ingin mentransfer pasien ini ke Rawat Inap?')
-                    ->visible(fn (Model $record): bool =>
-                        !in_array($record->status, ['completed', 'cancelled'])
+                    ->visible(fn (?Model $record): bool =>
+                        !in_array($record?->status, ['completed', 'cancelled'])
                     )
                     ->action(function (Model $record): void {
                         $record->update([
@@ -616,14 +621,14 @@ class EmergencyDepartmentResource extends Resource
                     }),
 
                 // Discharge Action
-                Tables\Actions\Action::make('discharge')
+                Action::make('discharge')
                     ->label('Discharge')
                     ->icon('heroicon-m-arrow-right-circle')
                     ->color('success')
                     ->requiresConfirmation()
                     ->modalDescription('Apakah Anda yakin ingin discharge pasien ini?')
-                    ->visible(fn (Model $record): bool =>
-                        !in_array($record->status, ['completed', 'cancelled'])
+                    ->visible(fn (?Model $record): bool =>
+                        !in_array($record?->status, ['completed', 'cancelled'])
                     )
                     ->action(function (Model $record): void {
                         $record->update([
@@ -640,12 +645,12 @@ class EmergencyDepartmentResource extends Resource
                     })
                     ->after(fn () => redirect(request()->header('Referer'))),
 
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ViewAction::make(),
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ])
             ->emptyStateHeading('Belum ada pasien IGD')

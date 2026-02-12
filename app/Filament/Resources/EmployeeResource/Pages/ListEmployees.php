@@ -44,19 +44,19 @@ class ListEmployees extends ListRecords
                 ->icon('heroicon-o-check-circle')
                 ->badge(Employee::where('status', 'aktif')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'aktif'))
-                ->color('success'),
+                ->badgeColor('success'),
 
             'cuti' => \Filament\Schemas\Components\Tabs\Tab::make('Cuti')
                 ->icon('heroicon-o-clock')
                 ->badge(Employee::where('status', 'cuti')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'cuti'))
-                ->color('warning'),
+                ->badgeColor('warning'),
 
             'pensiun' => \Filament\Schemas\Components\Tabs\Tab::make('Pensiun')
                 ->icon('heroicon-o-arrow-left-start-on-rectangle')
                 ->badge(Employee::where('status', 'pensiun')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'pensiun'))
-                ->color('gray'),
+                ->badgeColor('gray'),
         ];
     }
 

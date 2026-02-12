@@ -7,6 +7,7 @@ namespace App\Filament\Widgets;
 use App\Services\ReportService;
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\Cache;
 
 class VisitTrendChart extends ChartWidget
 {
@@ -18,6 +19,8 @@ class VisitTrendChart extends ChartWidget
 
     protected ?string $maxHeight = '300px';
 
+    protected ?string $pollingInterval = null;
+
     public ?string $period = 'week';
 
     protected function getData(): array
@@ -28,7 +31,13 @@ class VisitTrendChart extends ChartWidget
         $startDate = now()->subDays(6)->startOfDay();
         $endDate = now()->endOfDay();
 
-        $trend = $reportService->getDailyVisitTrend($startDate, $endDate);
+        $cacheKey = sprintf(
+            'visit_trend_%s_%s',
+            $startDate->format('Ymd'),
+            $endDate->format('Ymd')
+        );
+
+        $trend = Cache::remember($cacheKey, 300, fn () => $reportService->getDailyVisitTrend($startDate, $endDate));
 
         return [
             'datasets' => [

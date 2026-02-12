@@ -6,7 +6,6 @@ namespace App\Filament\Pages;
 
 use BackedEnum;
 use UnitEnum;
-use Illuminate\Database\Eloquent\Collection;
 use Exception;
 use App\Models\AuditLog;
 use ZipArchive;
@@ -17,22 +16,12 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Filament\Tables\Actions\BulkAction;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Table;
-use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Process\Process;
 
-class Backup extends Page implements HasTable
+class Backup extends Page
 {
-    use InteractsWithTable;
-
     protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-archive-box-arrow-down';
 
     protected static ?string $navigationLabel = 'Backup & Restore';
@@ -57,78 +46,10 @@ class Backup extends Page implements HasTable
         }
     }
 
-    public function table(Table $table): Table
-    {
-        return $table
-            ->query($this->getBackupQuery())
-            ->columns([
-                TextColumn::make('name')
-                    ->label('Nama File')
-                    ->searchable()
-                    ->sortable()
-                    ->icon('heroicon-o-document')
-                    ->iconColor('primary'),
-
-                TextColumn::make('size')
-                    ->label('Ukuran')
-                    ->sortable(),
-
-                TextColumn::make('created_at')
-                    ->label('Dibuat')
-                    ->dateTime('d M Y H:i:s')
-                    ->sortable(),
-
-                IconColumn::make('is_automated')
-                    ->label('Otomatis')
-                    ->boolean()
-                    ->trueIcon('heroicon-o-check-circle')
-                    ->falseIcon('heroicon-o-x-circle')
-                    ->trueColor('success')
-                    ->falseColor('gray'),
-            ])
-            ->defaultSort('created_at', 'desc')
-            ->filters([
-                //
-            ])
-            ->recordActions([
-                Action::make('download')
-                    ->label('Download')
-                    ->icon('heroicon-o-arrow-down-tray')
-                    ->color('success')
-                    ->action(fn (array $data) => $this->downloadBackup($data['name'])),
-
-                Action::make('restore')
-                    ->label('Restore')
-                    ->icon('heroicon-o-arrow-uturn-left')
-                    ->color('warning')
-                    ->requiresConfirmation()
-                    ->modalHeading('Restore Database?')
-                    ->modalDescription('Database saat ini akan diganti dengan backup ini. Pastikan Anda sudah membuat backup terbaru.')
-                    ->modalSubmitActionLabel('Ya, Restore')
-                    ->visible(fn (): bool => Auth::user()?->hasRole('admin') || Auth::user()?->hasRole('super_admin'))
-                    ->action(fn (array $data) => $this->restoreBackup($data['name'])),
-
-                Action::make('delete')
-                    ->label('Hapus')
-                    ->icon('heroicon-o-trash')
-                    ->color('danger')
-                    ->requiresConfirmation()
-                    ->action(fn (array $data) => $this->deleteBackup($data['name'])),
-            ])
-            ->toolbarActions([
-                \Filament\Actions\BulkAction::make('delete')
-                    ->label('Hapus Terpilih')
-                    ->icon('heroicon-o-trash')
-                    ->color('danger')
-                    ->requiresConfirmation()
-                    ->action(fn ($records) => $this->deleteMultipleBackups($records)),
-            ])
-            ->emptyStateHeading('Belum ada backup')
-            ->emptyStateDescription('Buat backup database pertama Anda.')
-            ->emptyStateIcon('heroicon-o-archive-box');
-    }
-
-    protected function getBackupQuery()
+    /**
+     * @return array<int, array{name: string, path: string, size: string, created_at: \Illuminate\Support\Carbon, is_automated: bool}>
+     */
+    public function getBackups(): array
     {
         $files = collect(Storage::disk($this->disk)->files($this->backupPath))
             ->filter(fn ($file) => str_ends_with($file, '.sql') || str_ends_with($file, '.sql.gz') || str_ends_with($file, '.zip'))
@@ -140,15 +61,11 @@ class Backup extends Page implements HasTable
                     'created_at' => now()->setTimestamp(Storage::disk($this->disk)->lastModified($file)),
                     'is_automated' => str_contains($file, 'scheduled'),
                 ];
-            });
+            })
+            ->sortByDesc('created_at')
+            ->values();
 
-        // Convert to a query-compatible format
-        return new class($files) extends Collection {
-            public function __construct($items)
-            {
-                parent::__construct($items);
-            }
-        };
+        return $files->toArray();
     }
 
     protected function getHeaderActions(): array
@@ -342,7 +259,7 @@ class Backup extends Page implements HasTable
     /**
      * Download a backup file.
      */
-    protected function downloadBackup(string $filename): void
+    public function downloadBackup(string $filename): void
     {
         $filepath = "{$this->backupPath}/{$filename}";
 
@@ -360,7 +277,7 @@ class Backup extends Page implements HasTable
     /**
      * Restore database from backup.
      */
-    protected function restoreBackup(string $filename): void
+    public function restoreBackup(string $filename): void
     {
         try {
             // Only admin can restore
@@ -456,7 +373,7 @@ class Backup extends Page implements HasTable
     /**
      * Delete a backup file.
      */
-    protected function deleteBackup(string $filename): void
+    public function deleteBackup(string $filename): void
     {
         $filepath = "{$this->backupPath}/{$filename}";
 
@@ -473,26 +390,6 @@ class Backup extends Page implements HasTable
                 ->danger()
                 ->send();
         }
-    }
-
-    /**
-     * Delete multiple backup files.
-     */
-    protected function deleteMultipleBackups($records): void
-    {
-        $count = 0;
-        foreach ($records as $record) {
-            $filepath = "{$this->backupPath}/{$record['name']}";
-            if (Storage::disk($this->disk)->exists($filepath)) {
-                Storage::disk($this->disk)->delete($filepath);
-                $count++;
-            }
-        }
-
-        Notification::make()
-            ->title("{$count} backup dihapus")
-            ->success()
-            ->send();
     }
 
     /**
