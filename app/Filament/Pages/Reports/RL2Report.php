@@ -185,11 +185,11 @@ class RL2Report extends Page implements HasForms, HasTable
                     ->where('is_doctor', true)
                     ->whereNull('specialist_polyclinic_id')
                     ->count(),
-                'total_nurses' => (clone $activeEmployees)->where('is_nurse', true)->count(),
-                'total_midwives' => (clone $activeEmployees)
+                'nurses' => (clone $activeEmployees)->where('is_nurse', true)->count(),
+                'midwives' => (clone $activeEmployees)
                     ->where('profession', 'like', '%bidan%')
                     ->count(),
-                'total_pharmacists' => (clone $activeEmployees)
+                'pharmacists' => (clone $activeEmployees)
                     ->where('profession', 'like', '%farmasi%')
                     ->count(),
                 'total_employees' => (clone $activeEmployees)->count(),

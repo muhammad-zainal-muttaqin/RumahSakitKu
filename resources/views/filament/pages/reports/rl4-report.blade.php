@@ -37,7 +37,7 @@
         <x-filament::section class="mt-6">
             <x-slot name="heading">
                 <div class="flex items-center gap-2">
-                    <x-heroicon-o-chart-bar class="h-5 w-5" />
+                    <x-heroicon-o-chart-bar style="width: 1.25rem; height: 1.25rem;" />
                     10 Besar Penyakit
                 </div>
             </x-slot>
@@ -74,7 +74,7 @@
     <x-filament::section class="mt-6">
         <x-slot name="heading">
             <div class="flex items-center gap-2">
-                <x-heroicon-o-table-cells class="h-5 w-5" />
+                <x-heroicon-o-table-cells style="width: 1.25rem; height: 1.25rem;" />
                 Detail Penyakit
             </div>
         </x-slot>

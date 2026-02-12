@@ -216,7 +216,7 @@ class SurgeryResource extends Resource
                             ->options(fn () => Employee::where('is_doctor', true)
                                 ->pluck('full_name_with_title', 'id'))
                             ->placeholder('Pilih operator')
-                            ->prefixIcon('heroicon-m-user-md'),
+                            ->prefixIcon('heroicon-m-user-circle'),
 
                         Select::make('assistant_surgeon_id')
                             ->label('Asisten Operator')
@@ -226,7 +226,7 @@ class SurgeryResource extends Resource
                             ->options(fn () => Employee::where('is_doctor', true)
                                 ->pluck('full_name_with_title', 'id'))
                             ->placeholder('Pilih asisten')
-                            ->prefixIcon('heroicon-m-user-md'),
+                            ->prefixIcon('heroicon-m-user-circle'),
 
                         Select::make('anesthesiologist_id')
                             ->label('Dokter Anestesi')
@@ -753,9 +753,11 @@ class SurgeryResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::today()
+        $count = static::getModel()::today()
             ->whereNotIn('status', ['completed', 'cancelled'])
-            ->count() ?: null;
+            ->count();
+
+        return $count > 0 ? (string) $count : null;
     }
 
     public static function getNavigationBadgeColor(): ?string
@@ -771,3 +773,5 @@ class SurgeryResource extends Resource
         ];
     }
 }
+
+

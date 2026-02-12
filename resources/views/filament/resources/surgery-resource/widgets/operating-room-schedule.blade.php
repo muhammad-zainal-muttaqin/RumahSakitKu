@@ -4,11 +4,11 @@
             {{-- Summary Stats --}}
             <div class="flex flex-wrap gap-4 text-sm text-gray-500 dark:text-gray-400">
                 <div class="flex items-center gap-1">
-                    <x-heroicon-o-building-office class="w-4 h-4" />
+                    <x-heroicon-o-building-office style="width: 1rem; height: 1rem;" />
                     <span>{{ $activeRoomsCount }} OK Aktif</span>
                 </div>
                 <div class="flex items-center gap-1">
-                    <x-heroicon-o-rectangle-stack class="w-4 h-4" />
+                    <x-heroicon-o-rectangle-stack style="width: 1rem; height: 1rem;" />
                     <span>{{ $totalSurgeriesCount }} Total Operasi</span>
                 </div>
             </div>
@@ -21,7 +21,7 @@
                         <div class="px-4 py-3 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center gap-2">
-                                    <x-heroicon-o-building-office class="w-5 h-5 text-primary-500" />
+                                    <x-heroicon-o-building-office class="text-primary-500" style="width: 1.25rem; height: 1.25rem;" />
                                     <span class="font-medium text-gray-900 dark:text-white">
                                         {{ $roomData['name'] }}
                                     </span>
@@ -38,19 +38,19 @@
                                 <div class="flex gap-2 mt-2 text-xs">
                                     @if ($roomData['in_progress'] > 0)
                                         <span class="inline-flex items-center gap-1 text-warning-600 dark:text-warning-400">
-                                            <x-heroicon-m-play class="w-3 h-3" />
+                                            <x-heroicon-m-play style="width: 0.75rem; height: 0.75rem;" />
                                             {{ $roomData['in_progress'] }} Berlangsung
                                         </span>
                                     @endif
                                     @if ($roomData['completed'] > 0)
                                         <span class="inline-flex items-center gap-1 text-success-600 dark:text-success-400">
-                                            <x-heroicon-m-check-circle class="w-3 h-3" />
+                                            <x-heroicon-m-check-circle style="width: 0.75rem; height: 0.75rem;" />
                                             {{ $roomData['completed'] }} Selesai
                                         </span>
                                     @endif
                                     @if ($roomData['cito'] > 0)
                                         <span class="inline-flex items-center gap-1 text-danger-600 dark:text-danger-400">
-                                            <x-heroicon-m-bolt class="w-3 h-3" />
+                                            <x-heroicon-m-bolt style="width: 0.75rem; height: 0.75rem;" />
                                             {{ $roomData['cito'] }} CITO
                                         </span>
                                     @endif
@@ -106,15 +106,15 @@
 
                                         {{-- Priority Indicator --}}
                                         @if (in_array($surgery->surgery_type, ['cito', 'emergency']))
-                                            <x-heroicon-m-bolt class="w-4 h-4 text-danger-500 flex-shrink-0" title="CITO/Emergency" />
+                                            <x-heroicon-m-bolt class="text-danger-500 flex-shrink-0" style="width: 1rem; height: 1rem;" title="CITO/Emergency" />
                                         @elseif ($surgery->surgery_type === 'urgent')
-                                            <x-heroicon-m-exclamation-triangle class="w-4 h-4 text-warning-500 flex-shrink-0" title="Urgent" />
+                                            <x-heroicon-m-exclamation-triangle class="text-warning-500 flex-shrink-0" style="width: 1rem; height: 1rem;" title="Urgent" />
                                         @endif
                                     </div>
                                 </div>
                             @empty
                                 <div class="px-4 py-6 text-center text-sm text-gray-500 dark:text-gray-400">
-                                    <x-heroicon-o-calendar class="w-8 h-8 mx-auto mb-2 text-gray-300 dark:text-gray-600" />
+                                    <x-heroicon-o-calendar class="text-gray-300 dark:text-gray-600" style="display: block; width: 2rem; height: 2rem; margin: 0 auto 0.5rem auto;" />
                                     <p>Tidak ada jadwal</p>
                                 </div>
                             @endforelse

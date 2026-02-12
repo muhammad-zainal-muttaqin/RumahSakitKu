@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Listeners\Invoice;
 
-use App\Models\Finance\JournalEntry;
 use App\Events\Invoice\PaymentReceived;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
 class ProcessPaymentReconciliation implements ShouldQueue
 {
@@ -41,8 +41,18 @@ class ProcessPaymentReconciliation implements ShouldQueue
     
     private function createJournalEntry($payment): void
     {
+        $journalEntryClass = 'App\\Models\\Financial\\JournalEntry';
+
+        if (! class_exists($journalEntryClass)) {
+            Log::warning('JournalEntry model is missing, skipping reconciliation journal entry.', [
+                'payment_id' => $payment->id,
+            ]);
+
+            return;
+        }
+
         // Journal entry logic for financial records
-        JournalEntry::create([
+        $journalEntryClass::create([
             'payment_id' => $payment->id,
             'debit_account' => 'cash',
             'credit_account' => 'accounts_receivable',

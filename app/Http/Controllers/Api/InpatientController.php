@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\MasterData\Bed;
 use Exception;
-use App\Models\Patient\Inpatient;
+use App\Models\Patient\Visit as Inpatient;
 use App\Models\Patient\Visit;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

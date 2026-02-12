@@ -203,7 +203,7 @@ class AssessmentResource extends Resource
                                     ->minValue(0)
                                     ->maxValue(100)
                                     ->placeholder('16')
-                                    ->suffixIcon('heroicon-m-wind')
+                                    ->suffixIcon('heroicon-m-cloud')
                                     ->hint(function (\Filament\Schemas\Components\Utilities\Get $get): ?string {
                                         $rr = $get('vital_signs.respiratory_rate');
                                         if (!$rr) return null;
@@ -223,7 +223,7 @@ class AssessmentResource extends Resource
                                     ->maxValue(45)
                                     ->step(0.1)
                                     ->placeholder('36.5')
-                                    ->suffixIcon('heroicon-m-thermometer')
+                                    ->suffixIcon('heroicon-m-fire')
                                     ->hint(function (\Filament\Schemas\Components\Utilities\Get $get): ?string {
                                         $temp = $get('vital_signs.body_temperature');
                                         if (!$temp) return null;
@@ -730,7 +730,7 @@ class AssessmentResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::count();
+        return (string) (static::getModel()::count());
     }
 
     public static function getNavigationBadgeColor(): ?string
@@ -768,3 +768,5 @@ class AssessmentResource extends Resource
         // BMI is calculated on display and also stored in the model's accessor
     }
 }
+
+

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection as SupportCollection;
 use App\Models\MasterData\Employee;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -48,7 +49,9 @@ class User extends Authenticatable
 {
     use HasFactory;
     use Notifiable;
-    use HasRoles;
+    use HasRoles {
+        hasRole as protected spatieHasRole;
+    }
 
     protected $fillable = [
         'name',
@@ -121,9 +124,19 @@ class User extends Authenticatable
     /**
      * Check if user has a specific role.
      */
-    public function hasRole(string $role): bool
+    public function hasRole($role, ?string $guard = null): bool
     {
-        return $this->roles->contains('name', $role);
+        if (is_array($role) || $role instanceof SupportCollection) {
+            foreach ($role as $roleName) {
+                if ($this->spatieHasRole($roleName, $guard)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        return $this->spatieHasRole($role, $guard);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Services\BPJS\BpjsService;
+use App\Services\BPJS\BpjsVclaimService;
 use App\Services\SatuSehat\SatuSehatService;
 use App\Services\Patient\PatientService;
 use App\Services\Billing\BillingService;
@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->app->singleton(BpjsService::class);
+        $this->app->singleton(BpjsVclaimService::class);
         $this->app->singleton(SatuSehatService::class);
         $this->app->singleton(PatientService::class);
         $this->app->singleton(BillingService::class);

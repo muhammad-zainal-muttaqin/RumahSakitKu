@@ -144,7 +144,7 @@ class ViewInpatient extends ViewRecord
 
                         TextEntry::make('bed.bed_number')
                             ->label('Nomor Bed')
-                            ->icon('heroicon-m-bed')
+                            ->icon('heroicon-m-home-modern')
                             ->placeholder('-'),
 
                         TextEntry::make('bed.bed_name')
@@ -192,11 +192,11 @@ class ViewInpatient extends ViewRecord
                     ->collapsible(),
 
                 \Filament\Schemas\Components\Section::make('Dokter Penanggung Jawab')
-                    ->icon('heroicon-o-user-md')
+                    ->icon('heroicon-o-user-circle')
                     ->schema([
                         TextEntry::make('doctor.name')
                             ->label('Dokter PJ')
-                            ->icon('heroicon-m-user-md')
+                            ->icon('heroicon-m-user-circle')
                             ->placeholder('Belum ditugaskan'),
 
                         TextEntry::make('admission_diagnosis')
@@ -392,3 +392,5 @@ class ViewInpatient extends ViewRecord
         ];
     }
 }
+
+

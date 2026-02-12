@@ -45,7 +45,7 @@ class Settings extends SettingsPage
                             ->schema([
                                 \Filament\Schemas\Components\Section::make('Data Rumah Sakit')
                                     ->description('Informasi umum tentang rumah sakit')
-                                    ->icon('heroicon-o-hospital')
+                                    ->icon('heroicon-o-building-office-2')
                                     ->schema([
                                         TextInput::make('hospital_name')
                                             ->label('Nama Rumah Sakit')
@@ -557,3 +557,4 @@ class Settings extends SettingsPage
             ->send();
     }
 }
+

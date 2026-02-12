@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use Exception;
-use App\Services\Bpjs\BpjsService;
+use App\Services\BPJS\BpjsVclaimService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 /**
  * BPJS Integration API Controller.
- * 
+ *
  * Handles BPJS integration for patient verification, SEP creation,
  * and referral management.
  */
@@ -21,14 +21,14 @@ class BpjsController extends BaseController
     /**
      * BPJS Service instance.
      */
-    protected BpjsService $bpjsService;
+    protected BpjsVclaimService $bpjsService;
 
     /**
      * Constructor.
      *
-     * @param BpjsService $bpjsService
+     * @param BpjsVclaimService $bpjsService
      */
-    public function __construct(BpjsService $bpjsService)
+    public function __construct(BpjsVclaimService $bpjsService)
     {
         $this->bpjsService = $bpjsService;
     }

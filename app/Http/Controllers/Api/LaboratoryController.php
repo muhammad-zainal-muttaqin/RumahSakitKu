@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use Exception;
 use App\Http\Resources\LabOrderResource;
-use App\Models\Clinical\LabOrder;
+use App\Models\Clinical\LaboratoryOrder as LabOrder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -27,7 +27,7 @@ class LaboratoryController extends BaseController
     public function index(Request $request): JsonResponse
     {
         $query = LabOrder::query()
-            ->with(['patient', 'doctor', 'visit', 'items.test'])
+            ->with(['patient', 'doctor', 'visit', 'results.labTest'])
             ->when($request->search, function ($q, $search) {
                 $q->where('order_number', 'like', "%{$search}%")
                     ->orWhereHas('patient', function ($sub) use ($search) {
@@ -76,29 +76,29 @@ class LaboratoryController extends BaseController
                 'patient_id' => $validated['patient_id'],
                 'visit_id' => $validated['visit_id'],
                 'medical_record_id' => $validated['medical_record_id'] ?? null,
-                'doctor_id' => $request->user()->id,
+                'doctor_id' => $request->user()->employee_id,
                 'order_number' => $this->generateOrderNumber(),
                 'order_date' => now(),
                 'priority' => $validated['priority'],
                 'status' => 'pending',
-                'clinical_diagnosis' => $validated['clinical_diagnosis'] ?? null,
-                'specimen_type' => $validated['specimen_type'] ?? null,
-                'specimen_collection_time' => $validated['specimen_collection_time'] ?? null,
-                'notes' => $validated['notes'] ?? null,
+                'diagnosis_notes' => $validated['clinical_diagnosis'] ?? null,
+                'clinical_notes' => $validated['notes'] ?? null,
+                'is_cito' => $validated['priority'] === 'cito',
+                'created_by' => $request->user()->id,
             ]);
 
             foreach ($validated['items'] as $item) {
-                $order->items()->create([
+                $order->results()->create([
                     'lab_test_id' => $item['lab_test_id'],
-                    'status' => 'pending',
                     'notes' => $item['notes'] ?? null,
+                    'created_by' => $request->user()->id,
                 ]);
             }
 
             DB::commit();
 
             return $this->createdResponse(
-                new LabOrderResource($order->load(['patient', 'doctor', 'items.test'])),
+                new LabOrderResource($order->load(['patient', 'doctor', 'visit', 'results.labTest'])),
                 'Lab order created successfully'
             );
         } catch (Exception $e) {
@@ -110,20 +110,19 @@ class LaboratoryController extends BaseController
     /**
      * Display the specified lab order.
      *
-     * @param LabOrder $labOrder
+     * @param LabOrder $order
      * @return JsonResponse
      */
-    public function show(LabOrder $labOrder): JsonResponse
+    public function show(LabOrder $order): JsonResponse
     {
         return $this->successResponse(
-            new LabOrderResource($labOrder->load([
+            new LabOrderResource($order->load([
                 'patient',
                 'doctor',
                 'visit',
                 'medicalRecord',
-                'items.test',
-                'items.results',
-                'validator',
+                'results.labTest',
+                'results.validatedBy',
             ]))
         );
     }
@@ -132,69 +131,66 @@ class LaboratoryController extends BaseController
      * Update lab order results.
      *
      * @param Request $request
-     * @param LabOrder $labOrder
+     * @param LabOrder $order
      * @return JsonResponse
      */
-    public function results(Request $request, LabOrder $labOrder): JsonResponse
+    public function results(Request $request, LabOrder $order): JsonResponse
     {
-        if (!in_array($labOrder->status, ['pending', 'in_progress'])) {
+        if (!in_array($order->status, ['pending', 'in_progress'])) {
             return $this->errorResponse('Cannot update results for this order', 422);
         }
 
         $validated = $request->validate([
             'results' => ['required', 'array', 'min:1'],
-            'results.*.item_id' => ['required', 'exists:lab_order_items,id'],
+            'results.*.item_id' => ['required', 'exists:laboratory_results,id'],
             'results.*.value' => ['required', 'string'],
             'results.*.reference_range' => ['nullable', 'string'],
             'results.*.unit' => ['nullable', 'string'],
             'results.*.flag' => ['nullable', 'in:normal,low,high,critical'],
             'results.*.notes' => ['nullable', 'string'],
-            'equipment_used' => ['nullable', 'string'],
-            'method_used' => ['nullable', 'string'],
         ]);
 
         try {
             DB::beginTransaction();
 
             foreach ($validated['results'] as $result) {
-                $item = $labOrder->items()->findOrFail($result['item_id']);
-                
-                $item->results()->create([
-                    'value' => $result['value'],
+                $item = $order->results()->findOrFail($result['item_id']);
+                $value = (string) $result['value'];
+                $isNumeric = is_numeric($value);
+
+                $item->update([
+                    'result_value' => $isNumeric ? (float) $value : null,
+                    'result_text' => $isNumeric ? null : $value,
                     'reference_range' => $result['reference_range'] ?? null,
                     'unit' => $result['unit'] ?? null,
                     'flag' => $result['flag'] ?? 'normal',
                     'notes' => $result['notes'] ?? null,
-                    'tested_by' => $request->user()->id,
-                    'tested_at' => now(),
-                ]);
-
-                $item->update([
-                    'status' => 'completed',
-                    'result_value' => $result['value'],
-                    'result_flag' => $result['flag'] ?? 'normal',
+                    'updated_by' => $request->user()->id,
                 ]);
             }
 
-            // Update order status if all items have results
-            $allCompleted = $labOrder->items()->where('status', '!=', 'completed')->doesntExist();
+            // Update order status if all results have values
+            $allCompleted = $order->results()
+                ->whereNull('result_value')
+                ->whereNull('result_text')
+                ->doesntExist();
             if ($allCompleted) {
-                $labOrder->update([
+                $order->update([
                     'status' => 'completed',
                     'completed_at' => now(),
-                    'equipment_used' => $validated['equipment_used'] ?? null,
-                    'method_used' => $validated['method_used'] ?? null,
+                    'updated_by' => $request->user()->id,
                 ]);
             } else {
-                $labOrder->update([
+                $order->update([
                     'status' => 'in_progress',
+                    'updated_by' => $request->user()->id,
                 ]);
             }
 
             DB::commit();
 
             return $this->successResponse(
-                new LabOrderResource($labOrder->fresh()->load(['patient', 'items.test', 'items.results'])),
+                new LabOrderResource($order->fresh()->load(['patient', 'doctor', 'visit', 'results.labTest', 'results.validatedBy'])),
                 'Results saved successfully'
             );
         } catch (Exception $e) {
@@ -207,31 +203,30 @@ class LaboratoryController extends BaseController
      * Validate lab order results.
      *
      * @param Request $request
-     * @param LabOrder $labOrder
+     * @param LabOrder $order
      * @return JsonResponse
      */
-    public function validate(Request $request, LabOrder $labOrder): JsonResponse
+    public function validateOrder(Request $request, LabOrder $order): JsonResponse
     {
-        if ($labOrder->status !== 'completed') {
+        if ($order->status !== 'completed') {
             return $this->errorResponse('Order must be completed before validation', 422);
         }
 
-        if ($labOrder->validated_at) {
-            return $this->errorResponse('Order is already validated', 422);
-        }
+        $order->results()
+            ->whereNull('validated_at')
+            ->update([
+                'validated_by' => $request->user()->employee_id,
+                'validated_at' => now(),
+                'updated_by' => $request->user()->id,
+            ]);
 
-        $validated = $request->validate([
-            'validation_notes' => ['nullable', 'string'],
-        ]);
-
-        $labOrder->update([
-            'validated_by' => $request->user()->id,
-            'validated_at' => now(),
-            'validation_notes' => $validated['validation_notes'] ?? null,
+        $order->update([
+            'status' => 'validated',
+            'updated_by' => $request->user()->id,
         ]);
 
         return $this->successResponse(
-            new LabOrderResource($labOrder->fresh()->load(['patient', 'validator'])),
+            new LabOrderResource($order->fresh()->load(['patient', 'doctor', 'results.labTest', 'results.validatedBy'])),
             'Lab order validated successfully'
         );
     }
@@ -240,12 +235,12 @@ class LaboratoryController extends BaseController
      * Cancel a lab order.
      *
      * @param Request $request
-     * @param LabOrder $labOrder
+     * @param LabOrder $order
      * @return JsonResponse
      */
-    public function cancel(Request $request, LabOrder $labOrder): JsonResponse
+    public function cancel(Request $request, LabOrder $order): JsonResponse
     {
-        if (in_array($labOrder->status, ['completed', 'validated', 'cancelled'])) {
+        if (in_array($order->status, ['completed', 'validated', 'cancelled'])) {
             return $this->errorResponse('Cannot cancel this order', 422);
         }
 
@@ -253,15 +248,14 @@ class LaboratoryController extends BaseController
             'cancellation_reason' => ['required', 'string'],
         ]);
 
-        $labOrder->update([
+        $order->update([
             'status' => 'cancelled',
-            'cancelled_by' => $request->user()->id,
-            'cancelled_at' => now(),
-            'cancellation_reason' => $validated['cancellation_reason'],
+            'clinical_notes' => trim((string) ($order->clinical_notes . "\n[DIBATALKAN] " . $validated['cancellation_reason'])),
+            'updated_by' => $request->user()->id,
         ]);
 
         return $this->successResponse(
-            new LabOrderResource($labOrder->fresh()),
+            new LabOrderResource($order->fresh()),
             'Lab order cancelled'
         );
     }
@@ -270,26 +264,26 @@ class LaboratoryController extends BaseController
      * Print lab order results.
      *
      * @param Request $request
-     * @param LabOrder $labOrder
+     * @param LabOrder $order
      * @return JsonResponse
      */
-    public function print(Request $request, LabOrder $labOrder): JsonResponse
+    public function print(Request $request, LabOrder $order): JsonResponse
     {
-        if (!$labOrder->validated_at) {
+        if ($order->status !== 'validated') {
             return $this->errorResponse('Results must be validated before printing', 422);
         }
 
         // This would typically return a PDF URL or stream
         // For now, return the data that would be printed
         return $this->successResponse([
-            'order' => new LabOrderResource($labOrder->load([
+            'order' => new LabOrderResource($order->load([
                 'patient',
                 'doctor',
-                'items.test',
-                'items.results',
-                'validator',
+                'visit',
+                'results.labTest',
+                'results.validatedBy',
             ])),
-            'print_url' => url("/api/lab/orders/{$labOrder->id}/print-pdf"),
+            'print_url' => url("/api/lab/orders/{$order->id}/print-pdf"),
         ]);
     }
 

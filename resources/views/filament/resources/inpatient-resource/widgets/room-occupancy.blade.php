@@ -4,7 +4,7 @@
             <div class="flex items-center gap-2">
                 <x-filament::icon
                     icon="heroicon-o-chart-bar"
-                    class="h-5 w-5 text-gray-500"
+                    style="width: 1.25rem; height: 1.25rem; color: #6b7280;"
                 />
                 Tingkat Hunian Kamar
             </div>

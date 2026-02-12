@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use BackedEnum;
 use UnitEnum;
+use App\Filament\Pages\Auth\Login;
 use Filament\Widgets\AccountWidget;
 use Filament\AvatarProviders\UiAvatarsProvider;
 use Filament\Http\Middleware\Authenticate;
@@ -13,6 +14,7 @@ use App\Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -20,6 +22,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 class AdminPanelProvider extends PanelProvider
 {
@@ -31,15 +34,23 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path($panelPath)
-            ->login()
+            ->login(Login::class)
             ->colors([
-                'primary' => Color::Blue,
-                'secondary' => Color::Gray,
-                'success' => Color::Green,
-                'danger' => Color::Red,
-                'warning' => Color::Yellow,
-                'info' => Color::Cyan,
+                'primary' => Color::Teal,
+                'secondary' => Color::Slate,
+                'success' => Color::Emerald,
+                'danger' => Color::Rose,
+                'warning' => Color::Amber,
+                'info' => Color::Sky,
             ])
+            ->renderHook(
+                PanelsRenderHook::HEAD_END,
+                fn (): string => Blade::render("@include('filament.custom-styles')"),
+            )
+            ->renderHook(
+                PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,
+                fn (): string => Blade::render("@include('filament.login-footer')"),
+            )
             ->font('Inter')
             ->brandName('RumahSakitKu')
             ->brandLogo(fn () => view('filament.logo'))

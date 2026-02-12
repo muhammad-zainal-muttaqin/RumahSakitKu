@@ -13,8 +13,7 @@ namespace App\Http\Middleware;
  * @package App\Http\Middleware
  */
 use Exception;
-use App\Models\Patient\PatientVisit;
-use App\Models\Clinical\MedicalVisit;
+use App\Models\Patient\Visit;
 use Illuminate\Support\Facades\Log;
 use Closure;
 use Illuminate\Http\Request;
@@ -239,25 +238,11 @@ class PatientDataAccessMiddleware
      */
     protected function checkPatientPolyclinicAccess(int|string $patientId, int|string $polyclinicId): bool
     {
-        // This should be implemented based on your actual model structure
-        // Example: Check if patient has active visit in the polyclinic
-
-        if (class_exists('App\Models\Patient\PatientVisit')) {
-            return PatientVisit::where('patient_id', $patientId)
-                ->where('polyclinic_id', $polyclinicId)
-                ->whereIn('status', ['waiting', 'in_progress', 'active'])
-                ->exists();
-        }
-
-        if (class_exists('App\Models\Clinical\MedicalVisit')) {
-            return MedicalVisit::where('patient_id', $patientId)
-                ->where('polyclinic_id', $polyclinicId)
-                ->whereIn('status', ['registered', 'in_progress'])
-                ->exists();
-        }
-
-        // Default deny if models don't exist
-        return false;
+        return Visit::query()
+            ->where('patient_id', $patientId)
+            ->where('polyclinic_id', $polyclinicId)
+            ->whereIn('visit_status', ['pendaftaran', 'menunggu', 'proses'])
+            ->exists();
     }
 
     /**

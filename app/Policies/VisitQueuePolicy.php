@@ -14,8 +14,8 @@ class VisitQueuePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('queues.view') ||
-               $user->hasPermissionTo('pendaftaran.access') ||
+        return $user->can('queues.view') ||
+               $user->can('pendaftaran.access') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran', 'dokter', 'perawat']);
     }
 
@@ -24,8 +24,8 @@ class VisitQueuePolicy
      */
     public function view(User $user, VisitQueue $visitQueue): bool
     {
-        return $user->hasPermissionTo('queues.view') ||
-               $user->hasPermissionTo('pendaftaran.access') ||
+        return $user->can('queues.view') ||
+               $user->can('pendaftaran.access') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran', 'dokter', 'perawat']);
     }
 
@@ -34,8 +34,8 @@ class VisitQueuePolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('queues.manage') ||
-               $user->hasPermissionTo('pendaftaran.access') ||
+        return $user->can('queues.manage') ||
+               $user->can('pendaftaran.access') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran']);
     }
 
@@ -44,8 +44,8 @@ class VisitQueuePolicy
      */
     public function update(User $user, VisitQueue $visitQueue): bool
     {
-        return $user->hasPermissionTo('queues.manage') ||
-               $user->hasPermissionTo('pendaftaran.access') ||
+        return $user->can('queues.manage') ||
+               $user->can('pendaftaran.access') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran']);
     }
 
@@ -54,7 +54,7 @@ class VisitQueuePolicy
      */
     public function delete(User $user, VisitQueue $visitQueue): bool
     {
-        return $user->hasPermissionTo('queues.manage') ||
+        return $user->can('queues.manage') ||
                $user->hasRole(['admin', 'super_admin']);
     }
 
@@ -79,8 +79,8 @@ class VisitQueuePolicy
      */
     public function callNext(User $user): bool
     {
-        return $user->hasPermissionTo('queues.call') ||
-               $user->hasPermissionTo('pendaftaran.access') ||
+        return $user->can('queues.call') ||
+               $user->can('pendaftaran.access') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran']);
     }
 
@@ -89,8 +89,8 @@ class VisitQueuePolicy
      */
     public function call(User $user, VisitQueue $visitQueue): bool
     {
-        return $user->hasPermissionTo('queues.call') ||
-               $user->hasPermissionTo('pendaftaran.access') ||
+        return $user->can('queues.call') ||
+               $user->can('pendaftaran.access') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran']);
     }
 
@@ -99,8 +99,8 @@ class VisitQueuePolicy
      */
     public function skip(User $user, VisitQueue $visitQueue): bool
     {
-        return $user->hasPermissionTo('queues.skip') ||
-               $user->hasPermissionTo('pendaftaran.access') ||
+        return $user->can('queues.skip') ||
+               $user->can('pendaftaran.access') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran']);
     }
 
@@ -109,8 +109,8 @@ class VisitQueuePolicy
      */
     public function complete(User $user, VisitQueue $visitQueue): bool
     {
-        return $user->hasPermissionTo('queues.complete') ||
-               $user->hasPermissionTo('pendaftaran.access') ||
+        return $user->can('queues.complete') ||
+               $user->can('pendaftaran.access') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran', 'dokter', 'perawat']);
     }
 

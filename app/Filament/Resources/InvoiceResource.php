@@ -499,7 +499,7 @@ class InvoiceResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::whereIn('status', ['draft', 'sent', 'partial'])->count();
+        return (string) (static::getModel()::whereIn('status', ['draft', 'sent', 'partial'])->count());
     }
 
     public static function getNavigationBadgeColor(): ?string
@@ -507,3 +507,4 @@ class InvoiceResource extends Resource
         return 'warning';
     }
 }
+

@@ -409,7 +409,7 @@ class PatientResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::count();
+        return (string) (static::getModel()::count());
     }
 
     public static function getNavigationBadgeColor(): ?string
@@ -437,3 +437,4 @@ class PatientResource extends Resource
         return $prefix . '-' . str_pad((string) $nextNumber, 4, '0', STR_PAD_LEFT);
     }
 }
+

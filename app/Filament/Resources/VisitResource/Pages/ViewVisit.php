@@ -103,7 +103,7 @@ class ViewVisit extends ViewRecord
 
                         TextEntry::make('doctor.name')
                             ->label('Dokter')
-                            ->icon('heroicon-m-user-md')
+                            ->icon('heroicon-m-user-circle')
                             ->placeholder('Belum ditugaskan'),
                     ])
                     ->columns(2),
@@ -270,3 +270,4 @@ class ViewVisit extends ViewRecord
         ];
     }
 }
+

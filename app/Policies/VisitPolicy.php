@@ -14,8 +14,8 @@ class VisitPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('visits.view') ||
-               $user->hasPermissionTo('pendaftaran.access') ||
+        return $user->can('visits.view') ||
+               $user->can('pendaftaran.access') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran', 'dokter', 'perawat', 'kasir']);
     }
 
@@ -24,8 +24,8 @@ class VisitPolicy
      */
     public function view(User $user, Visit $visit): bool
     {
-        return $user->hasPermissionTo('visits.view') ||
-               $user->hasPermissionTo('pendaftaran.access') ||
+        return $user->can('visits.view') ||
+               $user->can('pendaftaran.access') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran', 'dokter', 'perawat', 'kasir']);
     }
 
@@ -34,8 +34,8 @@ class VisitPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('visits.create') ||
-               $user->hasPermissionTo('pendaftaran.access') ||
+        return $user->can('visits.create') ||
+               $user->can('pendaftaran.access') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran']);
     }
 
@@ -49,8 +49,8 @@ class VisitPolicy
             return $user->hasRole(['admin', 'super_admin']);
         }
 
-        return $user->hasPermissionTo('visits.edit') ||
-               $user->hasPermissionTo('pendaftaran.access') ||
+        return $user->can('visits.edit') ||
+               $user->can('pendaftaran.access') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran']);
     }
 
@@ -64,7 +64,7 @@ class VisitPolicy
             return $user->hasRole(['admin', 'super_admin']);
         }
 
-        return $user->hasPermissionTo('visits.delete') ||
+        return $user->can('visits.delete') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran']);
     }
 
@@ -94,8 +94,8 @@ class VisitPolicy
             return false;
         }
 
-        return $user->hasPermissionTo('visits.cancel') ||
-               $user->hasPermissionTo('pendaftaran.access') ||
+        return $user->can('visits.cancel') ||
+               $user->can('pendaftaran.access') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran']);
     }
 
@@ -104,8 +104,8 @@ class VisitPolicy
      */
     public function callQueue(User $user, Visit $visit): bool
     {
-        return $user->hasPermissionTo('queues.manage') ||
-               $user->hasPermissionTo('pendaftaran.access') ||
+        return $user->can('queues.manage') ||
+               $user->can('pendaftaran.access') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran']);
     }
 
@@ -114,8 +114,8 @@ class VisitPolicy
      */
     public function createSep(User $user, Visit $visit): bool
     {
-        return $user->hasPermissionTo('bpjs.create_sep') ||
-               $user->hasPermissionTo('pendaftaran.access') ||
+        return $user->can('bpjs.create_sep') ||
+               $user->can('pendaftaran.access') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran']);
     }
 }

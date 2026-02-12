@@ -203,7 +203,7 @@ class RoleResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::count();
+        return (string) (static::getModel()::count());
     }
 
     public static function getNavigationBadgeColor(): ?string
@@ -293,3 +293,4 @@ class RoleResource extends Resource
         return $descriptions[$permission] ?? 'Permission untuk ' . str_replace('_', ' ', $permission);
     }
 }
+

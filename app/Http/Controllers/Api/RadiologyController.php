@@ -237,7 +237,7 @@ class RadiologyController extends BaseController
      * @param RadiologyOrder $radiologyOrder
      * @return JsonResponse
      */
-    public function validate(Request $request, RadiologyOrder $radiologyOrder): JsonResponse
+    public function validateOrder(Request $request, RadiologyOrder $radiologyOrder): JsonResponse
     {
         if ($radiologyOrder->status !== 'completed') {
             return $this->errorResponse('Order must be completed before validation', 422);

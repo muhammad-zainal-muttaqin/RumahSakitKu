@@ -6,7 +6,6 @@ namespace App\Filament\Resources\SurgeryResource\Widgets;
 
 use App\Models\Clinical\Surgery;
 use Filament\Widgets\Widget;
-use Illuminate\Support\Collection;
 
 class OperatingRoomSchedule extends Widget
 {
@@ -15,6 +14,11 @@ class OperatingRoomSchedule extends Widget
     protected int | string | array $columnSpan = 'full';
 
     protected ?string $heading = 'Jadwal OK Hari Ini';
+
+    public function getHeading(): ?string
+    {
+        return $this->heading;
+    }
 
     public function getRooms(): array
     {

@@ -511,7 +511,7 @@ class Backup extends Page implements HasTable
 
     public static function canAccess(): bool
     {
-        return Auth::user()?->hasPermissionTo('manage_backups') ||
+        return Auth::user()?->can('manage_backups') ||
                Auth::user()?->hasRole('admin') ||
                Auth::user()?->hasRole('super_admin');
     }

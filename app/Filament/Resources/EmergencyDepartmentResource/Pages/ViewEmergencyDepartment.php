@@ -164,7 +164,7 @@ class ViewEmergencyDepartment extends ViewRecord
                     ->columns(2),
 
                 \Filament\Schemas\Components\Section::make('Dokter Penanggung Jawab')
-                    ->icon('heroicon-o-user-md')
+                    ->icon('heroicon-o-user-circle')
                     ->schema([
                         TextEntry::make('doctor.name')
                             ->label('Nama Dokter')
@@ -185,3 +185,4 @@ class ViewEmergencyDepartment extends ViewRecord
             ]);
     }
 }
+

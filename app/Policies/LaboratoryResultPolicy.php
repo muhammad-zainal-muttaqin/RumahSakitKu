@@ -14,7 +14,7 @@ class LaboratoryResultPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('laboratory.view') ||
+        return $user->can('laboratory.view') ||
                $user->hasRole(['laboratorium', 'dokter_umum', 'dokter_spesialis', 'perawat', 'admin', 'super_admin']);
     }
 
@@ -23,7 +23,7 @@ class LaboratoryResultPolicy
      */
     public function view(User $user, LaboratoryResult $laboratoryResult): bool
     {
-        return $user->hasPermissionTo('laboratory.view') ||
+        return $user->can('laboratory.view') ||
                $user->hasRole(['laboratorium', 'dokter_umum', 'dokter_spesialis', 'perawat', 'admin', 'super_admin']);
     }
 
@@ -32,7 +32,7 @@ class LaboratoryResultPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('laboratory.create') ||
+        return $user->can('laboratory.create') ||
                $user->hasRole(['laboratorium', 'admin', 'super_admin']);
     }
 
@@ -45,7 +45,7 @@ class LaboratoryResultPolicy
             return $user->hasRole(['super_admin']);
         }
 
-        return $user->hasPermissionTo('laboratory.edit') ||
+        return $user->can('laboratory.edit') ||
                $user->hasRole(['laboratorium', 'admin', 'super_admin']);
     }
 
@@ -54,7 +54,7 @@ class LaboratoryResultPolicy
      */
     public function delete(User $user, LaboratoryResult $laboratoryResult): bool
     {
-        return $user->hasPermissionTo('laboratory.delete') ||
+        return $user->can('laboratory.delete') ||
                $user->hasRole(['admin', 'super_admin']);
     }
 

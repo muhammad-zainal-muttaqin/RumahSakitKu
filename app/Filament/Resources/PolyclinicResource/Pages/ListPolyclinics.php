@@ -46,7 +46,7 @@ class ListPolyclinics extends ListRecords
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('category', 'gigi')),
 
             'anak' => \Filament\Schemas\Components\Tabs\Tab::make('Anak')
-                ->icon('heroicon-o-baby')
+                ->icon('heroicon-o-face-smile')
                 ->badge(Polyclinic::where('category', 'anak')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('category', 'anak')),
 
@@ -66,7 +66,7 @@ class ListPolyclinics extends ListRecords
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('category', 'syaraf')),
 
             'jiwa' => \Filament\Schemas\Components\Tabs\Tab::make('Jiwa')
-                ->icon('heroicon-o-brain')
+                ->icon('heroicon-o-beaker')
                 ->badge(Polyclinic::where('category', 'jiwa')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('category', 'jiwa')),
 
@@ -92,3 +92,4 @@ class ListPolyclinics extends ListRecords
         return 'all';
     }
 }
+

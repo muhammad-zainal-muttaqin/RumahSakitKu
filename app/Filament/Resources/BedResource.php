@@ -47,7 +47,7 @@ class BedResource extends Resource
 {
     protected static ?string $model = Bed::class;
 
-    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-bed';
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-home-modern';
 
     protected static ?string $navigationLabel = 'Tempat Tidur';
 
@@ -452,7 +452,7 @@ class BedResource extends Resource
             ])
             ->emptyStateHeading('Belum ada tempat tidur')
             ->emptyStateDescription('Buat tempat tidur pertama Anda untuk memulai.')
-            ->emptyStateIcon('heroicon-o-bed');
+            ->emptyStateIcon('heroicon-o-home-modern');
     }
 
     public static function getRelations(): array
@@ -481,7 +481,7 @@ class BedResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::count();
+        return (string) (static::getModel()::count());
     }
 
     public static function getNavigationBadgeColor(): ?string
@@ -489,3 +489,5 @@ class BedResource extends Resource
         return 'info';
     }
 }
+
+

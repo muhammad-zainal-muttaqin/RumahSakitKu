@@ -106,7 +106,7 @@ class PrescriptionResource extends Resource
                             ->preload()
                             ->options(fn () => Employee::doctors()->pluck('name', 'id'))
                             ->required()
-                            ->prefixIcon('heroicon-m-user-doctor'),
+                            ->prefixIcon('heroicon-m-user-circle'),
 
                         DateTimePicker::make('prescription_date')
                             ->label('Tanggal Resep')
@@ -589,7 +589,7 @@ class PrescriptionResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::whereIn('status', ['draft', 'verified', 'processed'])->count();
+        return (string) (static::getModel()::whereIn('status', ['draft', 'verified', 'processed'])->count());
     }
 
     public static function getNavigationBadgeColor(): ?string
@@ -604,3 +604,5 @@ class PrescriptionResource extends Resource
         ];
     }
 }
+
+

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Events\Invoice;
 
-use App\Models\Finance\Invoice;
+use App\Models\Financial\Invoice;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;

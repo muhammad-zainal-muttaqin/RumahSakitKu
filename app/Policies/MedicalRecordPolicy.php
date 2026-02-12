@@ -14,7 +14,7 @@ class MedicalRecordPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('medical_records.view') ||
+        return $user->can('medical_records.view') ||
                $user->hasRole(['dokter_umum', 'dokter_spesialis', 'perawat', 'admin', 'super_admin']);
     }
 
@@ -23,7 +23,7 @@ class MedicalRecordPolicy
      */
     public function view(User $user, MedicalRecord $medicalRecord): bool
     {
-        return $user->hasPermissionTo('medical_records.view') ||
+        return $user->can('medical_records.view') ||
                $user->hasRole(['dokter_umum', 'dokter_spesialis', 'perawat', 'admin', 'super_admin']);
     }
 
@@ -32,7 +32,7 @@ class MedicalRecordPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('medical_records.create') ||
+        return $user->can('medical_records.create') ||
                $user->hasRole(['dokter_umum', 'dokter_spesialis', 'perawat', 'admin', 'super_admin']);
     }
 
@@ -45,7 +45,7 @@ class MedicalRecordPolicy
             return $user->hasRole(['super_admin']);
         }
 
-        return $user->hasPermissionTo('medical_records.edit') ||
+        return $user->can('medical_records.edit') ||
                $user->hasRole(['dokter_umum', 'dokter_spesialis', 'admin', 'super_admin']);
     }
 
@@ -54,7 +54,7 @@ class MedicalRecordPolicy
      */
     public function delete(User $user, MedicalRecord $medicalRecord): bool
     {
-        return $user->hasPermissionTo('medical_records.delete') ||
+        return $user->can('medical_records.delete') ||
                $user->hasRole(['admin', 'super_admin']);
     }
 

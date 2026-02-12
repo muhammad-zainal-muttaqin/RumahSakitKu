@@ -428,7 +428,7 @@ class PaymentResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::whereDate('payment_date', today())->count();
+        return (string) (static::getModel()::whereDate('payment_date', today())->count());
     }
 
     public static function getNavigationBadgeColor(): ?string
@@ -436,3 +436,4 @@ class PaymentResource extends Resource
         return 'success';
     }
 }
+

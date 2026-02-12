@@ -335,7 +335,7 @@ class UserResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::where('is_active', true)->count();
+        return (string) (static::getModel()::where('is_active', true)->count());
     }
 
     public static function getNavigationBadgeColor(): ?string
@@ -343,3 +343,4 @@ class UserResource extends Resource
         return 'success';
     }
 }
+

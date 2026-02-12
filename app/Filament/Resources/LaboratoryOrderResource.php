@@ -127,7 +127,7 @@ class LaboratoryOrderResource extends Resource
                             ->preload()
                             ->options(fn () => Employee::doctors()->pluck('name', 'id'))
                             ->required()
-                            ->prefixIcon('heroicon-m-user-doctor'),
+                            ->prefixIcon('heroicon-m-user-circle'),
 
                         DateTimePicker::make('order_date')
                             ->label('Tanggal Order')
@@ -506,7 +506,9 @@ class LaboratoryOrderResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::whereIn('status', ['pending', 'in_progress'])->count() ?: null;
+        $count = static::getModel()::whereIn('status', ['pending', 'in_progress'])->count();
+
+        return $count > 0 ? (string) $count : null;
     }
 
     public static function getNavigationBadgeColor(): ?string
@@ -544,3 +546,5 @@ class LaboratoryOrderResource extends Resource
         return $prefix . str_pad((string) $newNumber, 4, '0', STR_PAD_LEFT);
     }
 }
+
+

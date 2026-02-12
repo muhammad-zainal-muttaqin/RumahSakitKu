@@ -112,7 +112,7 @@
                                     >
                                         <x-filament::icon
                                             :icon="$this->getStatusIcon($bed->status)"
-                                            class="h-3 w-3"
+                                            style="width: 0.75rem; height: 0.75rem;"
                                         />
                                     </x-filament::badge>
                                 </div>

@@ -14,7 +14,7 @@ class InvoicePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('invoices.view') ||
+        return $user->can('invoices.view') ||
                $user->hasRole(['kasir', 'admin', 'super_admin', 'manajemen']);
     }
 
@@ -23,7 +23,7 @@ class InvoicePolicy
      */
     public function view(User $user, Invoice $invoice): bool
     {
-        return $user->hasPermissionTo('invoices.view') ||
+        return $user->can('invoices.view') ||
                $user->hasRole(['kasir', 'admin', 'super_admin', 'manajemen']);
     }
 
@@ -32,7 +32,7 @@ class InvoicePolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('invoices.create') ||
+        return $user->can('invoices.create') ||
                $user->hasRole(['kasir', 'admin', 'super_admin']);
     }
 
@@ -45,7 +45,7 @@ class InvoicePolicy
             return $user->hasRole(['super_admin']);
         }
 
-        return $user->hasPermissionTo('invoices.edit') ||
+        return $user->can('invoices.edit') ||
                $user->hasRole(['kasir', 'admin', 'super_admin']);
     }
 
@@ -58,7 +58,7 @@ class InvoicePolicy
             return false;
         }
 
-        return $user->hasPermissionTo('invoices.delete') ||
+        return $user->can('invoices.delete') ||
                $user->hasRole(['admin', 'super_admin']);
     }
 

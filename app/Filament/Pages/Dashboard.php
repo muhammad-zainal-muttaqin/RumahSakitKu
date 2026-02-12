@@ -13,10 +13,9 @@ use App\Filament\Widgets\RoomOccupancyChart;
 use App\Filament\Widgets\StatsOverviewWidget;
 use App\Filament\Widgets\TopDiseasesChart;
 use App\Filament\Widgets\VisitTrendChart;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Pages\Dashboard\Concerns\HasFiltersForm;
 
@@ -40,22 +39,22 @@ class Dashboard extends BaseDashboard
         $period = $this->filters['period'] ?? 'today';
 
         return [
-            StatsOverviewWidget::class => ['period' => $period],
+            StatsOverviewWidget::make(['period' => $period]),
             AlertsWidget::class,
-            VisitTrendChart::class => ['period' => $period],
-            PatientDistributionChart::class => ['period' => $period],
-            RevenueChart::class => ['period' => $period],
+            VisitTrendChart::make(['period' => $period]),
+            PatientDistributionChart::make(['period' => $period]),
+            RevenueChart::make(['period' => $period]),
             RoomOccupancyChart::class,
-            TopDiseasesChart::class => ['period' => $period],
+            TopDiseasesChart::make(['period' => $period]),
             RecentVisitsTable::class,
         ];
     }
 
-    public function filtersForm(\Filament\Forms\Form $form): \Filament\Forms\Form
+    public function filtersForm(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
-                \Filament\Schemas\Components\Section::make()
+                Section::make()
                     ->schema([
                         Select::make('period')
                             ->label('Periode')

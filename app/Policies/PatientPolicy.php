@@ -14,8 +14,8 @@ class PatientPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('patients.view') ||
-               $user->hasPermissionTo('pendaftaran.access') ||
+        return $user->can('patients.view') ||
+               $user->can('pendaftaran.access') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran', 'dokter', 'perawat']);
     }
 
@@ -24,8 +24,8 @@ class PatientPolicy
      */
     public function view(User $user, Patient $patient): bool
     {
-        return $user->hasPermissionTo('patients.view') ||
-               $user->hasPermissionTo('pendaftaran.access') ||
+        return $user->can('patients.view') ||
+               $user->can('pendaftaran.access') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran', 'dokter', 'perawat']);
     }
 
@@ -34,8 +34,8 @@ class PatientPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('patients.create') ||
-               $user->hasPermissionTo('pendaftaran.access') ||
+        return $user->can('patients.create') ||
+               $user->can('pendaftaran.access') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran']);
     }
 
@@ -44,8 +44,8 @@ class PatientPolicy
      */
     public function update(User $user, Patient $patient): bool
     {
-        return $user->hasPermissionTo('patients.edit') ||
-               $user->hasPermissionTo('pendaftaran.access') ||
+        return $user->can('patients.edit') ||
+               $user->can('pendaftaran.access') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran']);
     }
 
@@ -54,7 +54,7 @@ class PatientPolicy
      */
     public function delete(User $user, Patient $patient): bool
     {
-        return $user->hasPermissionTo('patients.delete') ||
+        return $user->can('patients.delete') ||
                $user->hasRole(['admin', 'super_admin']);
     }
 
@@ -79,7 +79,7 @@ class PatientPolicy
      */
     public function export(User $user): bool
     {
-        return $user->hasPermissionTo('patients.export') ||
+        return $user->can('patients.export') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran']);
     }
 
@@ -88,8 +88,8 @@ class PatientPolicy
      */
     public function printCard(User $user, Patient $patient): bool
     {
-        return $user->hasPermissionTo('patients.print_card') ||
-               $user->hasPermissionTo('pendaftaran.access') ||
+        return $user->can('patients.print_card') ||
+               $user->can('pendaftaran.access') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran']);
     }
 
@@ -98,8 +98,8 @@ class PatientPolicy
      */
     public function createVisit(User $user, Patient $patient): bool
     {
-        return $user->hasPermissionTo('visits.create') ||
-               $user->hasPermissionTo('pendaftaran.access') ||
+        return $user->can('visits.create') ||
+               $user->can('pendaftaran.access') ||
                $user->hasRole(['admin', 'super_admin', 'pendaftaran']);
     }
 }

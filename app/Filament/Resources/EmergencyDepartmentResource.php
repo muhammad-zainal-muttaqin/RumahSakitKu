@@ -185,7 +185,7 @@ class EmergencyDepartmentResource extends Resource
                                                 ->minValue(0)
                                                 ->maxValue(100)
                                                 ->placeholder('16')
-                                                ->suffixIcon('heroicon-m-wind')
+                                                ->suffixIcon('heroicon-m-cloud')
                                                 ->live()
                                                 ->afterStateUpdated(fn (Get $get, Set $set) => self::calculateTriage($get, $set)),
 
@@ -197,7 +197,7 @@ class EmergencyDepartmentResource extends Resource
                                                 ->maxValue(45)
                                                 ->step(0.1)
                                                 ->placeholder('36.5')
-                                                ->suffixIcon('heroicon-m-thermometer')
+                                                ->suffixIcon('heroicon-m-fire')
                                                 ->live()
                                                 ->afterStateUpdated(fn (Get $get, Set $set) => self::calculateTriage($get, $set)),
 
@@ -292,7 +292,7 @@ class EmergencyDepartmentResource extends Resource
 
                     // Step 3: Treatment
                     Forms\Components\Wizard\Step::make('Penanganan')
-                        ->icon('heroicon-o-user-md')
+                        ->icon('heroicon-o-user-circle')
                         ->schema([
                             Forms\Components\Section::make('Penugasan Dokter')
                                 ->schema([
@@ -303,7 +303,7 @@ class EmergencyDepartmentResource extends Resource
                                         ->native(false)
                                         ->options(fn () => Employee::doctors()->pluck('name', 'id'))
                                         ->placeholder('Pilih dokter (opsional)')
-                                        ->prefixIcon('heroicon-m-user-md'),
+                                        ->prefixIcon('heroicon-m-user-circle'),
                                 ]),
 
                             Forms\Components\Section::make('Status dan Prioritas')
@@ -593,7 +593,7 @@ class EmergencyDepartmentResource extends Resource
                 // Transfer to Inpatient (Ranap) Action
                 Tables\Actions\Action::make('transfer_inpatient')
                     ->label('Transfer ke Ranap')
-                    ->icon('heroicon-m-bed')
+                    ->icon('heroicon-m-home-modern')
                     ->color('warning')
                     ->requiresConfirmation()
                     ->modalDescription('Apakah Anda yakin ingin mentransfer pasien ini ke Rawat Inap?')
@@ -680,10 +680,12 @@ class EmergencyDepartmentResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::where('visit_type', 'igd')
+        $count = static::getModel()::where('visit_type', 'igd')
             ->whereDate('visit_date', today())
             ->whereNotIn('status', ['completed', 'cancelled'])
-            ->count() ?: null;
+            ->count();
+
+        return $count > 0 ? (string) $count : null;
     }
 
     public static function getNavigationBadgeColor(): ?string
@@ -778,4 +780,7 @@ class EmergencyDepartmentResource extends Resource
         ]);
     }
 }
+
+
+
 

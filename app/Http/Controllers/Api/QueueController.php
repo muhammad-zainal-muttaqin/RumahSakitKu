@@ -6,10 +6,9 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Resources\QueueResource;
-use App\Models\MasterData\Queue;
+use App\Models\Patient\VisitQueue as Queue;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Queue Management API Controller.
@@ -28,16 +27,16 @@ class QueueController extends BaseController
     public function index(Request $request): JsonResponse
     {
         $query = Queue::query()
-            ->with(['patient', 'clinic', 'doctor', 'visit'])
-            ->when($request->clinic_id, fn($q, $c) => $q->where('clinic_id', $c))
-            ->when($request->doctor_id, fn($q, $d) => $q->where('doctor_id', $d))
+            ->with(['patient', 'polyclinic', 'visit.doctor'])
+            ->when($request->clinic_id, fn($q, $c) => $q->where('polyclinic_id', $c))
+            ->when($request->doctor_id, fn($q, $d) => $q->whereHas('visit', fn ($vq) => $vq->where('doctor_id', $d)))
             ->when($request->status, fn($q, $s) => $q->where('status', $s))
-            ->when($request->date, fn($q, $d) => $q->whereDate('queue_date', $d))
-            ->when($request->priority, fn($q, $p) => $q->where('is_priority', $p));
+            ->when($request->date, fn($q, $d) => $q->whereDate('created_at', $d))
+            ->when($request->priority, fn($q, $p) => $q->whereHas('visit', fn ($vq) => $vq->whereIn('priority', ['urgent', 'emergency'])));
 
         // Default to today's queues if no date specified
         if (!$request->date && !$request->from_date) {
-            $query->whereDate('queue_date', today());
+            $query->whereDate('created_at', today());
         }
 
         $queues = $query->orderBy('is_priority', 'desc')
@@ -56,15 +55,15 @@ class QueueController extends BaseController
     public function display(Request $request): JsonResponse
     {
         $request->validate([
-            'clinic_id' => ['nullable', 'exists:clinics,id'],
+            'clinic_id' => ['nullable', 'exists:polyclinics,id'],
         ]);
 
         $query = Queue::query()
-            ->with(['patient:id,name', 'clinic:id,name', 'doctor:id,name'])
-            ->whereDate('queue_date', today());
+            ->with(['patient:id,name', 'polyclinic:id,name', 'visit.doctor:id,name'])
+            ->whereDate('created_at', today());
 
         if ($request->clinic_id) {
-            $query->where('clinic_id', $request->clinic_id);
+            $query->where('polyclinic_id', $request->clinic_id);
         }
 
         $current = (clone $query)
@@ -87,8 +86,7 @@ class QueueController extends BaseController
 
         $skipped = (clone $query)
             ->where('status', 'skipped')
-            ->whereNull('recalled_at')
-            ->orderBy('skipped_at')
+            ->orderByDesc('updated_at')
             ->limit(5)
             ->get();
 
@@ -118,23 +116,21 @@ class QueueController extends BaseController
         }
 
         // Mark any currently called queues as skipped
-        Queue::where('clinic_id', $queue->clinic_id)
+        Queue::where('polyclinic_id', $queue->polyclinic_id)
             ->where('status', 'called')
             ->where('id', '!=', $queue->id)
             ->update([
                 'status' => 'skipped',
-                'skipped_at' => now(),
             ]);
 
         $queue->update([
             'status' => 'called',
-            'called_by' => $request->user()->id,
             'called_at' => now(),
-            'room_number' => $request->room_number ?? $queue->room_number,
+            'counter_number' => $request->room_number ?? $queue->counter_number,
         ]);
 
         return $this->successResponse(
-            new QueueResource($queue->fresh()->load(['patient', 'clinic', 'doctor'])),
+            new QueueResource($queue->fresh()->load(['patient', 'polyclinic', 'visit.doctor'])),
             'Queue called successfully'
         );
     }
@@ -158,9 +154,6 @@ class QueueController extends BaseController
 
         $queue->update([
             'status' => 'skipped',
-            'skipped_by' => $request->user()->id,
-            'skipped_at' => now(),
-            'skip_reason' => $validated['skip_reason'] ?? null,
         ]);
 
         return $this->successResponse(
@@ -184,7 +177,6 @@ class QueueController extends BaseController
 
         $queue->update([
             'status' => 'completed',
-            'completed_by' => $request->user()->id,
             'completed_at' => now(),
         ]);
 
@@ -209,8 +201,6 @@ class QueueController extends BaseController
 
         $queue->update([
             'status' => 'waiting',
-            'recalled_by' => $request->user()->id,
-            'recalled_at' => now(),
         ]);
 
         return $this->successResponse(
@@ -229,15 +219,15 @@ class QueueController extends BaseController
     {
         $request->validate([
             'date' => ['nullable', 'date'],
-            'clinic_id' => ['nullable', 'exists:clinics,id'],
+            'clinic_id' => ['nullable', 'exists:polyclinics,id'],
         ]);
 
         $date = $request->date ?? today();
 
-        $query = Queue::whereDate('queue_date', $date);
+        $query = Queue::whereDate('created_at', $date);
 
         if ($request->clinic_id) {
-            $query->where('clinic_id', $request->clinic_id);
+            $query->where('polyclinic_id', $request->clinic_id);
         }
 
         $stats = [
@@ -314,14 +304,14 @@ class QueueController extends BaseController
      */
     private function getStatsByClinic(string $date): array
     {
-        return Queue::whereDate('queue_date', $date)
-            ->selectRaw('clinic_id, count(*) as total, sum(case when status = "completed" then 1 else 0 end) as completed')
-            ->groupBy('clinic_id')
-            ->with('clinic:id,name')
+        return Queue::whereDate('created_at', $date)
+            ->selectRaw('polyclinic_id, count(*) as total, sum(case when status = "completed" then 1 else 0 end) as completed')
+            ->groupBy('polyclinic_id')
+            ->with('polyclinic:id,name')
             ->get()
             ->map(function ($item) {
                 return [
-                    'clinic' => $item->clinic?->name,
+                    'clinic' => $item->polyclinic?->name,
                     'total' => $item->total,
                     'completed' => $item->completed,
                 ];
@@ -337,7 +327,7 @@ class QueueController extends BaseController
      */
     private function getStatsByHour(string $date): array
     {
-        return Queue::whereDate('queue_date', $date)
+        return Queue::whereDate('created_at', $date)
             ->selectRaw('HOUR(created_at) as hour, count(*) as total')
             ->groupBy('hour')
             ->orderBy('hour')

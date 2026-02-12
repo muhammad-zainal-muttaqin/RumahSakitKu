@@ -63,7 +63,7 @@
                                 @if($estimatedTime > 0 && $waitingCount > 0)
                                     <div class="flex items-center justify-between text-sm mt-1">
                                         <span class="text-gray-500 dark:text-gray-400 flex items-center gap-1">
-                                            <x-heroicon-o-hourglass class="w-4 h-4" />
+                                            <x-heroicon-o-clock class="w-4 h-4" />
                                             Estimasi
                                         </span>
                                         <span class="text-gray-700 dark:text-gray-300">

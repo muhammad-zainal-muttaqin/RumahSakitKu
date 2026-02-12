@@ -11,7 +11,7 @@
     <x-filament::section>
         <x-slot name="heading">
             <div class="flex items-center gap-2">
-                <x-heroicon-o-clipboard-document-list class="h-5 w-5" />
+                <x-heroicon-o-clipboard-document-list style="width: 1.25rem; height: 1.25rem;" />
                 {{ $reportData['title'] }}
             </div>
         </x-slot>
@@ -79,7 +79,7 @@
             </div>
         @else
             <div class="py-8 text-center text-gray-500 dark:text-gray-400">
-                <x-heroicon-o-inbox class="mx-auto h-12 w-12 opacity-50" />
+                <x-heroicon-o-inbox style="display: block; width: 3rem; height: 3rem; margin: 0 auto; opacity: 0.5;" />
                 <p class="mt-2">Tidak ada data untuk periode yang dipilih</p>
             </div>
         @endif

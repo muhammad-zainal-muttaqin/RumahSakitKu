@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Events\Laboratory;
 
-use App\Models\Laboratory\LaboratoryOrder;
+use App\Models\Clinical\LaboratoryOrder;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;

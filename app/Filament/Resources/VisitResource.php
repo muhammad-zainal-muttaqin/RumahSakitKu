@@ -196,7 +196,7 @@ class VisitResource extends Resource
                                                 ->orWhere('job_title', 'like', '%dr.%');
                                         })->pluck('name', 'id'))
                                         ->placeholder('Pilih dokter (opsional)')
-                                        ->prefixIcon('heroicon-m-user-md'),
+                                        ->prefixIcon('heroicon-m-user-circle'),
                                 ])
                                 ->columns(2),
 
@@ -555,9 +555,11 @@ class VisitResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::whereDate('visit_date', today())
+        $count = static::getModel()::whereDate('visit_date', today())
             ->whereNotIn('status', ['completed', 'cancelled'])
-            ->count() ?: null;
+            ->count();
+
+        return $count > 0 ? (string) $count : null;
     }
 
     public static function getNavigationBadgeColor(): ?string
@@ -588,3 +590,5 @@ class VisitResource extends Resource
         return $prefix . str_pad((string) $newNumber, 4, '0', STR_PAD_LEFT);
     }
 }
+
+

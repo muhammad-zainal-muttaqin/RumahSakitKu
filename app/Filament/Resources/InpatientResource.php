@@ -138,7 +138,7 @@ class InpatientResource extends Resource
                                             ->where('status', 'aktif')
                                             ->pluck('name', 'id'))
                                         ->placeholder('Pilih dokter penanggung jawab')
-                                        ->prefixIcon('heroicon-m-user-md'),
+                                        ->prefixIcon('heroicon-m-user-circle'),
 
                                     Textarea::make('admission_diagnosis')
                                         ->label('Diagnosa Masuk')
@@ -194,7 +194,7 @@ class InpatientResource extends Resource
                                                 ->toArray();
                                         })
                                         ->placeholder('Pilih tempat tidur')
-                                        ->prefixIcon('heroicon-m-bed')
+                                        ->prefixIcon('heroicon-m-home-modern')
                                         ->disabled(fn (Get $get): bool => !$get('room_id')),
 
                                     Placeholder::make('room_info')
@@ -680,9 +680,11 @@ class InpatientResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::where('visit_type', 'rawat_inap')
+        $count = static::getModel()::where('visit_type', 'rawat_inap')
             ->where('is_completed', false)
-            ->count() ?: null;
+            ->count();
+
+        return $count > 0 ? (string) $count : null;
     }
 
     public static function getNavigationBadgeColor(): ?string
@@ -698,3 +700,6 @@ class InpatientResource extends Resource
         ];
     }
 }
+
+
+

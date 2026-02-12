@@ -329,7 +329,7 @@ class VisitQueueResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::today()->waiting()->count();
+        return (string) (static::getModel()::today()->waiting()->count());
     }
 
     public static function getNavigationBadgeColor(): ?string
@@ -337,3 +337,4 @@ class VisitQueueResource extends Resource
         return 'warning';
     }
 }
+

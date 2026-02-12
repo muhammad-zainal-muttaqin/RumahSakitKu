@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Events\Inpatient;
 
-use App\Models\Inpatient\Bed;
-use App\Models\Inpatient\Room;
-use App\Models\Visit\Visit;
+use App\Models\MasterData\Bed;
+use App\Models\MasterData\Room;
+use App\Models\Patient\Visit;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;

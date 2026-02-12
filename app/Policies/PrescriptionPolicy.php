@@ -14,7 +14,7 @@ class PrescriptionPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('prescriptions.view') ||
+        return $user->can('prescriptions.view') ||
                $user->hasRole(['dokter_umum', 'dokter_spesialis', 'farmasi', 'perawat', 'admin', 'super_admin']);
     }
 
@@ -23,7 +23,7 @@ class PrescriptionPolicy
      */
     public function view(User $user, Prescription $prescription): bool
     {
-        return $user->hasPermissionTo('prescriptions.view') ||
+        return $user->can('prescriptions.view') ||
                $user->hasRole(['dokter_umum', 'dokter_spesialis', 'farmasi', 'perawat', 'admin', 'super_admin']);
     }
 
@@ -32,7 +32,7 @@ class PrescriptionPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('prescriptions.create') ||
+        return $user->can('prescriptions.create') ||
                $user->hasRole(['dokter_umum', 'dokter_spesialis', 'admin', 'super_admin']);
     }
 
@@ -45,7 +45,7 @@ class PrescriptionPolicy
             return $user->hasRole(['super_admin']);
         }
 
-        return $user->hasPermissionTo('prescriptions.edit') ||
+        return $user->can('prescriptions.edit') ||
                $user->hasRole(['dokter_umum', 'dokter_spesialis', 'farmasi', 'admin', 'super_admin']);
     }
 
@@ -58,7 +58,7 @@ class PrescriptionPolicy
             return false;
         }
 
-        return $user->hasPermissionTo('prescriptions.delete') ||
+        return $user->can('prescriptions.delete') ||
                $user->hasRole(['admin', 'super_admin']);
     }
 

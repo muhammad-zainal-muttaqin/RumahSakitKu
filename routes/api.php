@@ -153,7 +153,7 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->group(function (): void {
         'destroy' => 'api.lab.orders.destroy',
     ]);
     Route::put('/lab/orders/{order}/results', [LaboratoryController::class, 'results'])->name('api.lab.orders.results');
-    Route::put('/lab/orders/{order}/validate', [LaboratoryController::class, 'validate'])->name('api.lab.orders.validate');
+    Route::put('/lab/orders/{order}/validate', [LaboratoryController::class, 'validateOrder'])->name('api.lab.orders.validate');
 
     // Radiology
     Route::apiResource('radiology/orders', RadiologyController::class)->names([

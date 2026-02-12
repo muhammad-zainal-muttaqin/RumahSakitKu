@@ -469,7 +469,9 @@ class MedicalRecordResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::where('is_finalized', false)->count() ?: null;
+        $count = static::getModel()::where('is_finalized', false)->count();
+
+        return $count > 0 ? (string) $count : null;
     }
 
     public static function getNavigationBadgeColor(): ?string
@@ -477,3 +479,4 @@ class MedicalRecordResource extends Resource
         return 'warning';
     }
 }
+

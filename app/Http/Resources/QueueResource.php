@@ -10,12 +10,10 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @property int $id
- * @property string|null $queue_number
+ * @property int|null $queue_number
  * @property int $patient_id
- * @property int|null $clinic_id
- * @property int|null $doctor_id
+ * @property int|null $polyclinic_id
  * @property string|null $status
- * @property bool $is_priority
  * @property Carbon|null $called_at
  * @property Carbon|null $completed_at
  */
@@ -31,26 +29,35 @@ class QueueResource extends JsonResource
         return [
             'id' => $this->id,
             'queue_number' => $this->queue_number,
+            'display_number' => $this->display_number,
             'patient' => $this->whenLoaded('patient', fn() => [
                 'id' => $this->patient->id,
                 'name' => $this->patient->name,
                 'medical_record_number' => $this->patient->medical_record_number,
             ]),
-            'clinic' => $this->whenLoaded('clinic', fn() => [
-                'id' => $this->clinic->id,
-                'name' => $this->clinic->name,
+            'clinic' => $this->whenLoaded('polyclinic', fn() => [
+                'id' => $this->polyclinic->id,
+                'name' => $this->polyclinic->name,
             ]),
-            'doctor' => $this->whenLoaded('doctor', fn() => [
-                'id' => $this->doctor->id,
-                'name' => $this->doctor->name,
-            ]),
+            'doctor' => $this->whenLoaded('visit', function () {
+                $doctor = $this->visit?->doctor;
+
+                if (! $doctor) {
+                    return null;
+                }
+
+                return [
+                    'id' => $doctor->id,
+                    'name' => $doctor->name,
+                ];
+            }),
             'status' => $this->status,
             'status_label' => $this->getStatusLabel(),
-            'is_priority' => $this->is_priority,
-            'room_number' => $this->room_number,
+            'is_priority' => in_array((string) ($this->visit?->priority ?? ''), ['urgent', 'emergency'], true),
+            'room_number' => $this->counter_number,
             'called_at' => $this->called_at?->toIso8601String(),
             'completed_at' => $this->completed_at?->toIso8601String(),
-            'skipped_at' => $this->skipped_at?->toIso8601String(),
+            'skipped_at' => null,
             'waiting_time' => $this->getWaitingTime(),
             'service_time' => $this->getServiceTime(),
         ];

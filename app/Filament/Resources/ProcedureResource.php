@@ -286,7 +286,7 @@ class ProcedureResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::count();
+        return (string) (static::getModel()::count());
     }
 
     public static function getNavigationBadgeColor(): ?string
@@ -294,3 +294,4 @@ class ProcedureResource extends Resource
         return 'info';
     }
 }
+

@@ -13,7 +13,7 @@
         <x-filament::section>
             <x-slot name="heading">
                 <div class="flex items-center gap-2">
-                    <x-heroicon-o-building-library class="h-5 w-5" />
+                    <x-heroicon-o-building-library style="width: 1.25rem; height: 1.25rem;" />
                     {{ $data['rl1_1']['title'] }}
                 </div>
             </x-slot>
@@ -67,7 +67,7 @@
         <x-filament::section>
             <x-slot name="heading">
                 <div class="flex items-center gap-2">
-                    <x-heroicon-o-chart-bar class="h-5 w-5" />
+                    <x-heroicon-o-chart-bar style="width: 1.25rem; height: 1.25rem;" />
                     {{ $data['rl1_2']['title'] }}
                 </div>
             </x-slot>

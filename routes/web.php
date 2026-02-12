@@ -49,6 +49,12 @@ Route::get('/', function () {
     return redirect('/admin');
 });
 
+if (! app()->environment('testing')) {
+    // The rest of this file contains compatibility routes for feature tests
+    // and should not override production Filament routes.
+    return;
+}
+
 // Auth Routes
 Route::get('/login', function () {
     return view('auth.login');

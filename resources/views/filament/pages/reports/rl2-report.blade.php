@@ -64,7 +64,7 @@
     <x-filament::section class="mt-6">
         <x-slot name="heading">
             <div class="flex items-center gap-2">
-                <x-heroicon-o-users class="h-5 w-5" />
+                <x-heroicon-o-users style="width: 1.25rem; height: 1.25rem;" />
                 Daftar Tenaga Medis
             </div>
         </x-slot>

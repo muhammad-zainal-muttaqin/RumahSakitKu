@@ -3,6 +3,8 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
+use Illuminate\Session\TokenMismatchException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -27,5 +29,23 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->render(function (TokenMismatchException $exception, Request $request) {
+            $isFilamentLogoutRequest = $request->routeIs('filament.*.auth.logout')
+                || $request->is('admin/logout')
+                || $request->is('filament-admin/logout');
+
+            if (! $isFilamentLogoutRequest) {
+                return null;
+            }
+
+            $defaultLoginPath = $request->is('filament-admin/*') ? '/filament-admin/login' : '/admin/login';
+            $loginPath = app('router')->has('filament.admin.auth.login')
+                ? route('filament.admin.auth.login', [], false)
+                : $defaultLoginPath;
+
+            return redirect($loginPath)->with(
+                'warning',
+                'Sesi Anda telah berakhir. Silakan login kembali.'
+            );
+        });
     })->create();

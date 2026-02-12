@@ -243,25 +243,34 @@ class RL5Report extends Page implements HasForms, HasTable
 
             $dateField = $visitType === 'igd' ? 'visit_date' : 'discharge_date';
 
+            $ageExpr = "CAST((julianday('now') - julianday(patients.birth_date)) / 365.25 AS INTEGER)";
+
             return Visit::where('visit_type', $visitType)
                 ->where('discharge_status', 'meninggal')
                 ->whereBetween($dateField, [$start, $end])
                 ->join('patients', 'visits.patient_id', '=', 'patients.id')
                 ->select(
-                    DB::raw('CASE 
-                        WHEN TIMESTAMPDIFF(YEAR, patients.birth_date, CURDATE()) < 1 THEN "< 1 th"
-                        WHEN TIMESTAMPDIFF(YEAR, patients.birth_date, CURDATE()) BETWEEN 1 AND 4 THEN "1-4 th"
-                        WHEN TIMESTAMPDIFF(YEAR, patients.birth_date, CURDATE()) BETWEEN 5 AND 14 THEN "5-14 th"
-                        WHEN TIMESTAMPDIFF(YEAR, patients.birth_date, CURDATE()) BETWEEN 15 AND 44 THEN "15-44 th"
-                        WHEN TIMESTAMPDIFF(YEAR, patients.birth_date, CURDATE()) BETWEEN 45 AND 64 THEN "45-64 th"
-                        ELSE "> 64 th"
-                    END as age_group'),
+                    DB::raw("CASE
+                        WHEN {$ageExpr} < 1 THEN '< 1 th'
+                        WHEN {$ageExpr} BETWEEN 1 AND 4 THEN '1-4 th'
+                        WHEN {$ageExpr} BETWEEN 5 AND 14 THEN '5-14 th'
+                        WHEN {$ageExpr} BETWEEN 15 AND 44 THEN '15-44 th'
+                        WHEN {$ageExpr} BETWEEN 45 AND 64 THEN '45-64 th'
+                        ELSE '> 64 th'
+                    END as age_group"),
                     DB::raw('COUNT(*) as count'),
                     DB::raw('SUM(CASE WHEN patients.gender = "L" THEN 1 ELSE 0 END) as male'),
                     DB::raw('SUM(CASE WHEN patients.gender = "P" THEN 1 ELSE 0 END) as female')
                 )
                 ->groupBy('age_group')
-                ->orderByRaw('FIELD(age_group, "< 1 th", "1-4 th", "5-14 th", "15-44 th", "45-64 th", "> 64 th")')
+                ->orderByRaw("CASE age_group
+                    WHEN '< 1 th' THEN 1
+                    WHEN '1-4 th' THEN 2
+                    WHEN '5-14 th' THEN 3
+                    WHEN '15-44 th' THEN 4
+                    WHEN '45-64 th' THEN 5
+                    WHEN '> 64 th' THEN 6
+                END")
                 ->get()
                 ->toArray();
         });

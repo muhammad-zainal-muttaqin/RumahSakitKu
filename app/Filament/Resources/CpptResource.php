@@ -37,8 +37,8 @@ use UnitEnum;
 
 use App\Filament\Resources\CpptResource\Pages;
 use App\Models\Clinical\Cppt;
+use App\Models\Clinical\MedicalRecord;
 use App\Models\MasterData\Employee;
-use App\Models\Patient\MedicalRecord;
 use Filament\Forms;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
@@ -467,7 +467,9 @@ class CpptResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::whereDate('cppt_date', today())->count() ?: null;
+        $count = static::getModel()::whereDate('cppt_date', today())->count();
+
+        return $count > 0 ? (string) $count : null;
     }
 
     public static function getNavigationBadgeColor(): ?string
@@ -475,3 +477,4 @@ class CpptResource extends Resource
         return 'primary';
     }
 }
+
