@@ -19,33 +19,34 @@ class LiveQueueDisplay extends Widget
 
     public function getCurrentQueues(): Collection
     {
+        $allQueues = VisitQueue::today()
+            ->with(['patient', 'polyclinic'])
+            ->get()
+            ->groupBy('polyclinic_id');
+
         $polyclinics = Polyclinic::active()->orderBy('name')->get();
-        $queues = collect();
 
-        foreach ($polyclinics as $polyclinic) {
-            $currentQueue = VisitQueue::today()
-                ->with(['patient'])
-                ->where('polyclinic_id', $polyclinic->id)
-                ->whereIn('status', ['called', 'in_progress'])
-                ->latest('called_at')
-                ->first();
+        $avgServiceTimes = VisitQueue::today()
+            ->whereNotNull('completed_at')
+            ->whereNotNull('called_at')
+            ->selectRaw('polyclinic_id, AVG(TIMESTAMPDIFF(MINUTE, called_at, completed_at)) as avg_time')
+            ->groupBy('polyclinic_id')
+            ->pluck('avg_time', 'polyclinic_id');
 
-            $waitingCount = VisitQueue::today()
-                ->waiting()
-                ->where('polyclinic_id', $polyclinic->id)
-                ->count();
+        return $polyclinics->map(function ($polyclinic) use ($allQueues, $avgServiceTimes) {
+            $polyQueues = $allQueues->get($polyclinic->id, collect());
+            
+            $currentQueue = $polyQueues->whereIn('status', ['called', 'in_progress'])->sortByDesc('called_at')->first();
+            $waitingCount = $polyQueues->where('status', 'waiting')->count();
+            $estimatedTime = $this->calculateEstimatedTime($polyclinic->id, $waitingCount, $avgServiceTimes);
 
-            $estimatedTime = $this->calculateEstimatedTime($polyclinic->id, $waitingCount);
-
-            $queues->push([
+            return [
                 'polyclinic' => $polyclinic,
                 'current' => $currentQueue,
                 'waiting_count' => $waitingCount,
                 'estimated_time' => $estimatedTime,
-            ]);
-        }
-
-        return $queues;
+            ];
+        });
     }
 
     public function getRecentCalls(): Collection
@@ -60,37 +61,25 @@ class LiveQueueDisplay extends Widget
 
     public function getNextInLine(): Collection
     {
-        $polyclinics = Polyclinic::active()->pluck('id');
-        $nextQueues = collect();
+        $allQueues = VisitQueue::today()
+            ->with(['patient', 'polyclinic'])
+            ->whereIn('status', ['waiting', 'skipped'])
+            ->orderBy('queue_number')
+            ->get()
+            ->groupBy('polyclinic_id');
 
-        foreach ($polyclinics as $polyclinicId) {
-            $next = VisitQueue::today()
-                ->with(['patient', 'polyclinic'])
-                ->where('polyclinic_id', $polyclinicId)
-                ->whereIn('status', ['waiting', 'skipped'])
-                ->orderBy('queue_number')
-                ->first();
-
-            if ($next) {
-                $nextQueues->push($next);
-            }
-        }
-
-        return $nextQueues;
+        return $allQueues->map(function ($queues) {
+            return $queues->first();
+        })->filter();
     }
 
-    private function calculateEstimatedTime(int $polyclinicId, int $waitingCount): int
+    private function calculateEstimatedTime(int $polyclinicId, int $waitingCount, ?Collection $avgServiceTimes = null): int
     {
         if ($waitingCount === 0) {
             return 0;
         }
 
-        $avgServiceTime = VisitQueue::today()
-            ->where('polyclinic_id', $polyclinicId)
-            ->whereNotNull('completed_at')
-            ->whereNotNull('called_at')
-            ->selectRaw('AVG(TIMESTAMPDIFF(MINUTE, called_at, completed_at)) as avg_time')
-            ->value('avg_time') ?? 15;
+        $avgServiceTime = $avgServiceTimes?->get($polyclinicId) ?? 15;
 
         return (int) ceil($avgServiceTime * $waitingCount);
     }

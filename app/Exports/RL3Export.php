@@ -74,31 +74,31 @@ class RL31Sheet implements FromCollection, WithHeadings, WithMapping, WithStyles
 
     private function generateData(string $startDate, string $endDate): Collection
     {
+        $stats = Visit::whereBetween('visit_date', [$startDate, $endDate])
+            ->where('visit_type', 'outpatient')
+            ->selectRaw('polyclinic_id,
+                COUNT(*) as total,
+                SUM(registration_type = "walk_in") as new_patient,
+                SUM(registration_type != "walk_in") as old_patient
+            ')
+            ->groupBy('polyclinic_id')
+            ->get()
+            ->keyBy('polyclinic_id');
+
         $polyclinics = Polyclinic::all();
         $data = collect();
         $no = 1;
 
         foreach ($polyclinics as $polyclinic) {
-            $visitCount = Visit::whereBetween('visit_date', [$startDate, $endDate])
-                ->where('polyclinic_id', $polyclinic->id)
-                ->where('visit_type', 'outpatient')
-                ->count();
+            $stat = $stats->get($polyclinic->id);
 
-            if ($visitCount > 0) {
+            if ($stat && $stat->total > 0) {
                 $data->push((object) [
                     'no' => $no++,
                     'service_unit' => $polyclinic->name,
-                    'new_patient' => Visit::whereBetween('visit_date', [$startDate, $endDate])
-                        ->where('polyclinic_id', $polyclinic->id)
-                        ->where('visit_type', 'outpatient')
-                        ->where('registration_type', 'walk_in')
-                        ->count(),
-                    'old_patient' => Visit::whereBetween('visit_date', [$startDate, $endDate])
-                        ->where('polyclinic_id', $polyclinic->id)
-                        ->where('visit_type', 'outpatient')
-                        ->where('registration_type', '!=', 'walk_in')
-                        ->count(),
-                    'total' => $visitCount,
+                    'new_patient' => $stat->new_patient,
+                    'old_patient' => $stat->old_patient,
+                    'total' => $stat->total,
                 ]);
             }
         }

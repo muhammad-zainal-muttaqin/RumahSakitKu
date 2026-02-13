@@ -90,14 +90,20 @@ class QueueController extends BaseController
             ->limit(5)
             ->get();
 
+        $counts = (clone $query)->selectRaw('
+            SUM(status = "waiting") as waiting,
+            SUM(status = "completed") as completed,
+            SUM(status = "skipped") as skipped
+        ')->first();
+
         return $this->successResponse([
             'current' => $current ? new QueueResource($current) : null,
             'waiting' => QueueResource::collection($waiting),
             'completed' => QueueResource::collection($completed),
             'skipped' => QueueResource::collection($skipped),
-            'total_waiting' => (clone $query)->where('status', 'waiting')->count(),
-            'total_completed' => (clone $query)->where('status', 'completed')->count(),
-            'total_skipped' => (clone $query)->where('status', 'skipped')->count(),
+            'total_waiting' => $counts->waiting ?? 0,
+            'total_completed' => $counts->completed ?? 0,
+            'total_skipped' => $counts->skipped ?? 0,
             'last_updated' => now()->toDateTimeString(),
         ]);
     }
@@ -230,15 +236,25 @@ class QueueController extends BaseController
             $query->where('polyclinic_id', $request->clinic_id);
         }
 
+        $statsData = (clone $query)->selectRaw('
+            COUNT(*) as total,
+            SUM(status = "waiting") as waiting,
+            SUM(status = "called") as called,
+            SUM(status = "in_progress") as in_progress,
+            SUM(status = "completed") as completed,
+            SUM(status = "skipped") as skipped,
+            SUM(status = "cancelled") as cancelled
+        ')->first();
+
         $stats = [
             'date' => $date,
-            'total' => (clone $query)->count(),
-            'waiting' => (clone $query)->where('status', 'waiting')->count(),
-            'called' => (clone $query)->where('status', 'called')->count(),
-            'in_progress' => (clone $query)->where('status', 'in_progress')->count(),
-            'completed' => (clone $query)->where('status', 'completed')->count(),
-            'skipped' => (clone $query)->where('status', 'skipped')->count(),
-            'cancelled' => (clone $query)->where('status', 'cancelled')->count(),
+            'total' => $statsData->total ?? 0,
+            'waiting' => $statsData->waiting ?? 0,
+            'called' => $statsData->called ?? 0,
+            'in_progress' => $statsData->in_progress ?? 0,
+            'completed' => $statsData->completed ?? 0,
+            'skipped' => $statsData->skipped ?? 0,
+            'cancelled' => $statsData->cancelled ?? 0,
             'average_waiting_time' => $this->calculateAverageWaitingTime($query),
             'average_service_time' => $this->calculateAverageServiceTime($query),
             'by_clinic' => $this->getStatsByClinic($date),
@@ -256,20 +272,13 @@ class QueueController extends BaseController
      */
     private function calculateAverageWaitingTime($query): ?float
     {
-        $completed = (clone $query)
+        $avgWait = (clone $query)
             ->whereNotNull('called_at')
             ->whereNotNull('created_at')
-            ->get();
+            ->selectRaw('AVG(TIMESTAMPDIFF(MINUTE, created_at, called_at)) as avg_wait')
+            ->value('avg_wait');
 
-        if ($completed->isEmpty()) {
-            return null;
-        }
-
-        $totalMinutes = $completed->sum(function ($queue) {
-            return $queue->created_at->diffInMinutes($queue->called_at);
-        });
-
-        return round($totalMinutes / $completed->count(), 2);
+        return $avgWait !== null ? round((float) $avgWait, 2) : null;
     }
 
     /**
@@ -280,20 +289,13 @@ class QueueController extends BaseController
      */
     private function calculateAverageServiceTime($query): ?float
     {
-        $completed = (clone $query)
+        $avgService = (clone $query)
             ->whereNotNull('completed_at')
             ->whereNotNull('called_at')
-            ->get();
+            ->selectRaw('AVG(TIMESTAMPDIFF(MINUTE, called_at, completed_at)) as avg_service')
+            ->value('avg_service');
 
-        if ($completed->isEmpty()) {
-            return null;
-        }
-
-        $totalMinutes = $completed->sum(function ($queue) {
-            return $queue->called_at->diffInMinutes($queue->completed_at);
-        });
-
-        return round($totalMinutes / $completed->count(), 2);
+        return $avgService !== null ? round((float) $avgService, 2) : null;
     }
 
     /**

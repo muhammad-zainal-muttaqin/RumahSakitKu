@@ -16,10 +16,14 @@ class RoomOccupancy extends Widget
     public function getOccupancyData(): array
     {
         $roomClasses = ['VVIP', 'VIP', 'Kelas I', 'Kelas II', 'Kelas III', 'ICU', 'NICU', 'PICU', 'HCU'];
+        
+        $allRooms = Room::where('is_active', true)->get();
+        
+        $grouped = $allRooms->groupBy('room_class');
+        
         $data = [];
-
         foreach ($roomClasses as $class) {
-            $rooms = Room::where('room_class', $class)->where('is_active', true)->get();
+            $rooms = $grouped->get($class, collect());
             
             $totalBeds = $rooms->sum('total_beds');
             $availableBeds = $rooms->sum('available_beds');
@@ -40,10 +44,10 @@ class RoomOccupancy extends Widget
 
     public function getTotalStats(): array
     {
-        $rooms = Room::where('is_active', true)->get();
+        $allRooms = Room::where('is_active', true)->get();
         
-        $totalBeds = $rooms->sum('total_beds');
-        $availableBeds = $rooms->sum('available_beds');
+        $totalBeds = $allRooms->sum('total_beds');
+        $availableBeds = $allRooms->sum('available_beds');
         $occupiedBeds = $totalBeds - $availableBeds;
         $occupancyRate = $totalBeds > 0 ? round(($occupiedBeds / $totalBeds) * 100, 1) : 0;
 

@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Patient\Patient;
 use App\Models\Patient\Visit;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -59,27 +60,30 @@ class PatientService
     public function generateMedicalRecordNumber(): string
     {
         try {
+            $cacheKey = 'mrn_sequence:' . now()->format('Ymd');
             $datePrefix = now()->format('ymd');
-            $prefix = "{$datePrefix}-";
 
-            $lastPatient = Patient::where('medical_record_number', 'like', "{$prefix}%")
-                ->orderBy('medical_record_number', 'desc')
-                ->first();
+            return Cache::lock($cacheKey, 10)->block(3, function () use ($cacheKey, $datePrefix) {
+                $current = Cache::increment($cacheKey);
 
-            if ($lastPatient) {
-                $lastSequence = (int) substr($lastPatient->medical_record_number, -2);
-                $nextSequence = $lastSequence + 1;
-            } else {
-                $nextSequence = 1;
-            }
+                if ($current > 1) {
+                    return $datePrefix . '-' . str_pad((string) $current, 2, '0', STR_PAD_LEFT);
+                }
 
-            return $prefix . str_pad((string) $nextSequence, 2, '0', STR_PAD_LEFT);
+                $lastPatient = Patient::where('medical_record_number', 'like', $datePrefix . '-%')
+                    ->orderBy('medical_record_number', 'desc')
+                    ->first();
+
+                $nextSequence = $lastPatient ? (int) substr($lastPatient->medical_record_number, -2) + 1 : 1;
+                Cache::put($cacheKey, $nextSequence, now()->endOfDay());
+
+                return $datePrefix . '-' . str_pad((string) $nextSequence, 2, '0', STR_PAD_LEFT);
+            });
         } catch (Exception $e) {
             Log::error('PatientService: Error generating medical record number', [
                 'error' => $e->getMessage(),
             ]);
 
-            // Fallback with timestamp to avoid collisions
             return now()->format('ymd') . '-' . str_pad((string) random_int(1, 99), 2, '0', STR_PAD_LEFT);
         }
     }
@@ -95,12 +99,54 @@ class PatientService
      */
     public function getPatientStats(int $patientId): array
     {
-        try {
-            $patient = Patient::find($patientId);
+        $cacheKey = "patient_stats:{$patientId}";
 
-            if (!$patient) {
-                Log::warning('PatientService: Patient not found for stats', [
+        return Cache::remember($cacheKey, 300, function () use ($patientId) {
+            try {
+                $patient = Patient::find($patientId);
+
+                if (!$patient) {
+                    Log::warning('PatientService: Patient not found for stats', [
+                        'patient_id' => $patientId,
+                    ]);
+
+                    return [
+                        'visit_count' => 0,
+                        'last_visit' => null,
+                        'total_invoices' => 0,
+                        'total_billed' => 0.0,
+                        'total_paid' => 0.0,
+                        'outstanding_balance' => 0.0,
+                    ];
+                }
+
+                $visitCount = Visit::where('patient_id', $patientId)->count();
+
+                $lastVisit = Visit::where('patient_id', $patientId)
+                    ->orderBy('visit_date', 'desc')
+                    ->first();
+
+                $invoiceStats = DB::table('invoices')
+                    ->where('patient_id', $patientId)
+                    ->whereNull('deleted_at')
+                    ->selectRaw('COUNT(*) as total_invoices')
+                    ->selectRaw('COALESCE(SUM(total_amount), 0) as total_billed')
+                    ->selectRaw('COALESCE(SUM(paid_amount), 0) as total_paid')
+                    ->selectRaw('COALESCE(SUM(balance_due), 0) as outstanding_balance')
+                    ->first();
+
+                return [
+                    'visit_count' => $visitCount,
+                    'last_visit' => $lastVisit?->visit_date?->toDateString(),
+                    'total_invoices' => (int) $invoiceStats->total_invoices,
+                    'total_billed' => (float) $invoiceStats->total_billed,
+                    'total_paid' => (float) $invoiceStats->total_paid,
+                    'outstanding_balance' => (float) $invoiceStats->outstanding_balance,
+                ];
+            } catch (Exception $e) {
+                Log::error('PatientService: Error getting patient stats', [
                     'patient_id' => $patientId,
+                    'error' => $e->getMessage(),
                 ]);
 
                 return [
@@ -112,45 +158,12 @@ class PatientService
                     'outstanding_balance' => 0.0,
                 ];
             }
+        });
+    }
 
-            $visitCount = Visit::where('patient_id', $patientId)->count();
-
-            $lastVisit = Visit::where('patient_id', $patientId)
-                ->orderBy('visit_date', 'desc')
-                ->first();
-
-            $invoiceStats = DB::table('invoices')
-                ->where('patient_id', $patientId)
-                ->whereNull('deleted_at')
-                ->selectRaw('COUNT(*) as total_invoices')
-                ->selectRaw('COALESCE(SUM(total_amount), 0) as total_billed')
-                ->selectRaw('COALESCE(SUM(paid_amount), 0) as total_paid')
-                ->selectRaw('COALESCE(SUM(balance_due), 0) as outstanding_balance')
-                ->first();
-
-            return [
-                'visit_count' => $visitCount,
-                'last_visit' => $lastVisit?->visit_date?->toDateString(),
-                'total_invoices' => (int) $invoiceStats->total_invoices,
-                'total_billed' => (float) $invoiceStats->total_billed,
-                'total_paid' => (float) $invoiceStats->total_paid,
-                'outstanding_balance' => (float) $invoiceStats->outstanding_balance,
-            ];
-        } catch (Exception $e) {
-            Log::error('PatientService: Error getting patient stats', [
-                'patient_id' => $patientId,
-                'error' => $e->getMessage(),
-            ]);
-
-            return [
-                'visit_count' => 0,
-                'last_visit' => null,
-                'total_invoices' => 0,
-                'total_billed' => 0.0,
-                'total_paid' => 0.0,
-                'outstanding_balance' => 0.0,
-            ];
-        }
+    public function clearPatientStatsCache(int $patientId): void
+    {
+        Cache::forget("patient_stats:{$patientId}");
     }
 
     /**

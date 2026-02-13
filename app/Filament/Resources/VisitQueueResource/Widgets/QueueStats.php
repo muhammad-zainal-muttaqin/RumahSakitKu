@@ -42,17 +42,27 @@ class QueueStats extends BaseWidget
         // Stats per polyclinic
         $polyclinics = Polyclinic::active()->orderBy('name')->get();
 
-        foreach ($polyclinics as $polyclinic) {
-            $total = VisitQueue::today()->where('polyclinic_id', $polyclinic->id)->count();
-            $waiting = VisitQueue::today()->waiting()->where('polyclinic_id', $polyclinic->id)->count();
-            $called = VisitQueue::today()->called()->where('polyclinic_id', $polyclinic->id)->count();
-            $completed = VisitQueue::today()->completed()->where('polyclinic_id', $polyclinic->id)->count();
+        $statsByPolyclinic = VisitQueue::today()
+            ->selectRaw('polyclinic_id, 
+                COUNT(*) as total,
+                SUM(CASE WHEN status = "waiting" THEN 1 ELSE 0 END) as waiting,
+                SUM(CASE WHEN status = "called" THEN 1 ELSE 0 END) as called,
+                SUM(CASE WHEN status = "in_progress" THEN 1 ELSE 0 END) as in_progress,
+                SUM(CASE WHEN status = "completed" THEN 1 ELSE 0 END) as completed,
+                SUM(CASE WHEN status = "skipped" THEN 1 ELSE 0 END) as skipped
+            ')
+            ->groupBy('polyclinic_id')
+            ->get()
+            ->keyBy('polyclinic_id');
 
-            if ($total > 0) {
-                $stats[] = Stat::make($polyclinic->name, $total)
-                    ->description("M: {$waiting} | D: {$called} | S: {$completed}")
+        foreach ($polyclinics as $polyclinic) {
+            $polyStats = $statsByPolyclinic->get($polyclinic->id);
+
+            if ($polyStats && $polyStats->total > 0) {
+                $stats[] = Stat::make($polyclinic->name, $polyStats->total)
+                    ->description("M: {$polyStats->waiting} | D: {$polyStats->called} | S: {$polyStats->completed}")
                     ->descriptionIcon('heroicon-m-building-office-2')
-                    ->color($waiting > 10 ? 'danger' : ($waiting > 5 ? 'warning' : 'success'));
+                    ->color($polyStats->waiting > 10 ? 'danger' : ($polyStats->waiting > 5 ? 'warning' : 'success'));
             }
         }
 
@@ -64,15 +74,25 @@ class QueueStats extends BaseWidget
      */
     public static function getPolyclinicStats(int $polyclinicId): Collection
     {
-        $today = now()->toDateString();
+        $stats = VisitQueue::today()
+            ->where('polyclinic_id', $polyclinicId)
+            ->selectRaw('
+                COUNT(*) as total,
+                SUM(CASE WHEN status = "waiting" THEN 1 ELSE 0 END) as waiting,
+                SUM(CASE WHEN status = "called" THEN 1 ELSE 0 END) as called,
+                SUM(CASE WHEN status = "in_progress" THEN 1 ELSE 0 END) as in_progress,
+                SUM(CASE WHEN status = "completed" THEN 1 ELSE 0 END) as completed,
+                SUM(CASE WHEN status = "skipped" THEN 1 ELSE 0 END) as skipped
+            ')
+            ->first();
 
         return collect([
-            'total' => VisitQueue::today()->where('polyclinic_id', $polyclinicId)->count(),
-            'waiting' => VisitQueue::today()->waiting()->where('polyclinic_id', $polyclinicId)->count(),
-            'called' => VisitQueue::today()->called()->where('polyclinic_id', $polyclinicId)->count(),
-            'in_progress' => VisitQueue::today()->where('status', 'in_progress')->where('polyclinic_id', $polyclinicId)->count(),
-            'completed' => VisitQueue::today()->completed()->where('polyclinic_id', $polyclinicId)->count(),
-            'skipped' => VisitQueue::today()->where('status', 'skipped')->where('polyclinic_id', $polyclinicId)->count(),
+            'total' => $stats->total ?? 0,
+            'waiting' => $stats->waiting ?? 0,
+            'called' => $stats->called ?? 0,
+            'in_progress' => $stats->in_progress ?? 0,
+            'completed' => $stats->completed ?? 0,
+            'skipped' => $stats->skipped ?? 0,
         ]);
     }
 

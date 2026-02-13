@@ -256,16 +256,19 @@ class InpatientController extends BaseController
     {
         $inpatient->load(['patient', 'bed.room', 'charges', 'payments']);
 
-        $roomCharges = $inpatient->charges()->where('type', 'room')->sum('amount');
-        $procedureCharges = $inpatient->charges()->where('type', 'procedure')->sum('amount');
-        $medicineCharges = $inpatient->charges()->where('type', 'medicine')->sum('amount');
-        $labCharges = $inpatient->charges()->where('type', 'lab')->sum('amount');
-        $radiologyCharges = $inpatient->charges()->where('type', 'radiology')->sum('amount');
-        $otherCharges = $inpatient->charges()->where('type', 'other')->sum('amount');
+        $charges = $inpatient->charges()
+            ->selectRaw('
+                SUM(CASE WHEN type = "room" THEN amount ELSE 0 END) as room,
+                SUM(CASE WHEN type = "procedure" THEN amount ELSE 0 END) as procedure,
+                SUM(CASE WHEN type = "medicine" THEN amount ELSE 0 END) as medicine,
+                SUM(CASE WHEN type = "lab" THEN amount ELSE 0 END) as lab,
+                SUM(CASE WHEN type = "radiology" THEN amount ELSE 0 END) as radiology,
+                SUM(CASE WHEN type = "other" THEN amount ELSE 0 END) as other,
+                SUM(amount) as total
+            ')
+            ->first();
 
-        $totalCharges = $roomCharges + $procedureCharges + $medicineCharges +
-            $labCharges + $radiologyCharges + $otherCharges;
-
+        $totalCharges = $charges->total ?? 0;
         $totalPayments = $inpatient->payments()->sum('amount');
 
         return $this->successResponse([
@@ -278,12 +281,12 @@ class InpatientController extends BaseController
                 ? $inpatient->admission_date->diffInDays($inpatient->discharge_date)
                 : $inpatient->admission_date->diffInDays(now()),
             'charges' => [
-                'room' => $roomCharges,
-                'procedure' => $procedureCharges,
-                'medicine' => $medicineCharges,
-                'lab' => $labCharges,
-                'radiology' => $radiologyCharges,
-                'other' => $otherCharges,
+                'room' => $charges->room ?? 0,
+                'procedure' => $charges->procedure ?? 0,
+                'medicine' => $charges->medicine ?? 0,
+                'lab' => $charges->lab ?? 0,
+                'radiology' => $charges->radiology ?? 0,
+                'other' => $charges->other ?? 0,
                 'total' => $totalCharges,
             ],
             'payments' => [

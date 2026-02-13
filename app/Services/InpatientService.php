@@ -302,13 +302,23 @@ class InpatientService
     public function getStatsByRoomClass(): array
     {
         $roomClasses = ['VVIP', 'VIP', 'Kelas I', 'Kelas II', 'Kelas III', 'ICU', 'NICU', 'PICU', 'HCU'];
+        
+        $allRooms = Room::where('is_active', true)
+            ->with(['beds' => function ($query) {
+                $query->where('is_active', true);
+            }])
+            ->get()
+            ->groupBy('room_class');
+
         $stats = [];
 
         foreach ($roomClasses as $class) {
-            $rooms = Room::where('room_class', $class)->where('is_active', true)->pluck('id');
+            $rooms = $allRooms->get($class, collect());
             
-            $totalBeds = Bed::whereIn('room_id', $rooms)->where('is_active', true)->count();
-            $occupiedBeds = Bed::whereIn('room_id', $rooms)->where('status', 'terisi')->count();
+            $totalBeds = $rooms->sum('total_beds');
+            $occupiedBeds = $rooms->flatMap(function ($room) {
+                return $room->beds ?? [];
+            })->where('status', 'terisi')->count();
             $availableBeds = $totalBeds - $occupiedBeds;
             
             $stats[$class] = [

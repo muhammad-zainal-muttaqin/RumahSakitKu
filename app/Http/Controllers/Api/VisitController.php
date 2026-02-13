@@ -29,7 +29,12 @@ class VisitController extends BaseController
     public function index(Request $request): JsonResponse
     {
         $query = Visit::query()
-            ->with(['patient', 'doctor', 'clinic', 'visitType'])
+            ->with([
+                'patient:id,name,medical_record_number,nik,phone,gender,birth_date',
+                'doctor:id,name',
+                'clinic:id,name',
+                'visitType:id,name'
+            ])
             ->when($request->search, function ($q, $search) {
                 $q->whereHas('patient', function ($sub) use ($search) {
                     $sub->where('name', 'like', "%{$search}%")
@@ -88,7 +93,12 @@ class VisitController extends BaseController
             DB::commit();
 
             return $this->createdResponse(
-                new VisitResource($visit->load(['patient', 'doctor', 'clinic', 'visitType'])),
+                new VisitResource($visit->load([
+                    'patient:id,name,medical_record_number,nik,phone,gender,birth_date',
+                    'doctor:id,name',
+                    'clinic:id,name',
+                    'visitType:id,name'
+                ])),
                 'Visit registered successfully'
             );
         } catch (Exception $e) {
@@ -107,10 +117,10 @@ class VisitController extends BaseController
     {
         return $this->successResponse(
             new VisitResource($visit->load([
-                'patient',
-                'doctor',
-                'clinic',
-                'visitType',
+                'patient:id,name,medical_record_number,nik,phone,gender,birth_date',
+                'doctor:id,name',
+                'clinic:id,name',
+                'visitType:id,name',
                 'medicalRecord',
                 'prescriptions',
                 'labOrders',
@@ -139,7 +149,11 @@ class VisitController extends BaseController
         ]);
 
         return $this->successResponse(
-            new VisitResource($visit->fresh()->load(['patient', 'doctor', 'clinic'])),
+            new VisitResource($visit->fresh()->load([
+                'patient:id,name,medical_record_number,nik,phone,gender,birth_date',
+                'doctor:id,name',
+                'clinic:id,name'
+            ])),
             'Visit status updated successfully'
         );
     }
@@ -153,7 +167,12 @@ class VisitController extends BaseController
     public function today(Request $request): JsonResponse
     {
         $query = Visit::query()
-            ->with(['patient', 'doctor', 'clinic', 'visitType'])
+            ->with([
+                'patient:id,name,medical_record_number,nik,phone,gender,birth_date',
+                'doctor:id,name',
+                'clinic:id,name',
+                'visitType:id,name'
+            ])
             ->whereDate('visit_date', today())
             ->when($request->clinic_id, fn($q, $c) => $q->where('clinic_id', $c))
             ->when($request->doctor_id, fn($q, $d) => $q->where('doctor_id', $d))
@@ -184,7 +203,11 @@ class VisitController extends BaseController
         ]);
 
         return $this->successResponse(
-            new VisitResource($visit->fresh()->load(['patient', 'doctor', 'clinic'])),
+            new VisitResource($visit->fresh()->load([
+                'patient:id,name,medical_record_number,nik,phone,gender,birth_date',
+                'doctor:id,name',
+                'clinic:id,name'
+            ])),
             'Patient checked in successfully'
         );
     }
@@ -209,7 +232,11 @@ class VisitController extends BaseController
         ]);
 
         return $this->successResponse(
-            new VisitResource($visit->fresh()->load(['patient', 'doctor', 'clinic'])),
+            new VisitResource($visit->fresh()->load([
+                'patient:id,name,medical_record_number,nik,phone,gender,birth_date',
+                'doctor:id,name',
+                'clinic:id,name'
+            ])),
             'Patient checked out successfully'
         );
     }
