@@ -17,6 +17,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 /**
  * User Model
@@ -45,7 +48,7 @@ use Spatie\Permission\Traits\HasRoles;
  *
  * @method static Builder|User active()
  */
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 {
     use HasFactory;
     use Notifiable;
@@ -137,6 +140,14 @@ class User extends Authenticatable
         }
 
         return $this->spatieHasRole($role, $guard);
+    }
+
+    /**
+     * Determine if the user can access the given Filament panel.
+     */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->is_active === true;
     }
 
     /**

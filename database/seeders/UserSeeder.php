@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'employee_id' => null,
                 'is_active' => true,
+                'email_verified_at' => now(),
                 'last_login_at' => null,
                 'last_login_ip' => null,
             ]
@@ -75,6 +76,7 @@ class UserSeeder extends Seeder
                     'password' => Hash::make('password'),
                     'employee_id' => null,
                     'is_active' => true,
+                    'email_verified_at' => now(),
                     'last_login_at' => null,
                     'last_login_ip' => null,
                 ]

@@ -126,30 +126,69 @@ SATUSEHAT_ORGANIZATION_ID=your_org_id
 
 ## Development
 
+### Testing Strategy
+
+This project follows a comprehensive testing strategy:
+
+- **Unit Tests**: Located in `tests/Unit`, test individual models, services, and business logic in isolation. Run with:
+  ```bash
+  make test-unit
+  # or
+  php artisan test --filter=Unit
+  ```
+
+- **Feature Tests**: Located in `tests/Feature`, test complete application flows and HTTP endpoints. Run with:
+  ```bash
+  make test-feature
+  # or
+  php artisan test --filter=Feature
+  ```
+
+- **Full Test Suite**: Run all tests with coverage reporting:
+  ```bash
+  make test-coverage
+  # Generates XML coverage report (coverage.xml) for CI/CD
+  make test-coverage-html
+  # Generates HTML coverage report in storage/app/coverage
+  ```
+
+- **Parallel Testing**: Speed up test execution:
+  ```bash
+  make test-parallel
+  ```
+
+### Code Quality
+
+Static analysis and code style enforcement:
+
 ```bash
-# Run tests
-php artisan test
-
-# Run tests with coverage
-php artisan test --coverage
-
-# Static analysis
-vendor/bin/phpstan analyse --memory-limit=2G
-
-# Code style check
-vendor/bin/php-cs-fixer fix --dry-run --diff
-
-# Code style fix
-vendor/bin/php-cs-fixer fix --allow-risky=yes
-
-# Queue worker
-php artisan queue:work --queue=default,bpjs,satusehat
-
-# Scheduled tasks (crontab)
-* * * * * cd /path/to/project && php artisan schedule:run >> /dev/null 2>&1
+make analyze          # PHPStan level 5 analysis
+make format           # Auto-fix with PHP-CS-Fixer
+make format-check     # Check without fixing
+make lint             # Run all linting checks
+make pint             # Laravel Pint code style
 ```
 
-See `Makefile` for the full list of available commands (`make help`).
+See [DEVELOPMENT.md](docs/DEVELOPMENT.md) for detailed development setup.
+
+### Running Tests Locally
+
+Ensure your `.env` is configured for testing:
+```
+APP_ENV=testing
+DB_CONNECTION=sqlite
+DB_DATABASE=:memory:
+```
+
+Then run:
+```bash
+php artisan test
+```
+
+All tests should pass before committing. The CI pipeline requires:
+- PHPStan: 0 errors
+- PHP-CS-Fixer: no style violations
+- Tests: 100% pass with minimum 80% coverage (enforced via Codecov)
 
 ## Database Schema
 
@@ -191,6 +230,42 @@ docker-compose up -d
 ```
 
 See [DOCKER_SETUP.md](DOCKER_SETUP.md) for the full Docker setup guide.
+
+## Documentation
+
+Comprehensive documentation is available:
+
+### User Guides
+- **[Pendaftaran (Registration)](./docs/user-guide/PENDAFTARAN.md)** - Patient registration and queue management
+- **[Rekam Medis (EMR)](./docs/user-guide/REKAM_MEDIS.md)** - SOAP, CPPT, TTV, diagnosis coding
+- **[Keuangan/Kasir (Finance)](./docs/user-guide/KEUANGAN.md)** - Billing, payments, refunds, receipts
+- **[Rawat Inap (Inpatient)](./docs/user-guide/RAWAT_INAP.md)** - Admission, bed management, discharge
+- **[IGD (Emergency)](./docs/user-guide/IGD.md)** - Triage, emergency care, transfer
+- **[Farmasi (Pharmacy)](./docs/user-guide/FARMASI.md)** - Prescription processing, dispensing, stock management
+- **[Admin (System)](./docs/user-guide/ADMIN.md)** - User management, audit trail, backup/restore
+- **Plus more...** (Bedah Sentral, Penunjang Medis, Laporan) in `docs/user-guide/`
+
+### Developer Guides
+- **[API Reference](./docs/api/README.md)** - Complete REST API documentation (9 modules)
+- **[Development Guide](./docs/DEVELOPMENT.md)** - Coding standards, Git workflow, testing
+- **[Deployment Guide](./docs/DEPLOYMENT.md)** - Production deployment (Nginx, PHP-FPM, SSL, backup)
+- **[Docker Setup](./DOCKER_SETUP.md)** - Docker development and production
+- **[Testing Report](./TESTING_REPORT.md)** - Test coverage, code quality metrics
+
+### Additional Resources
+- **[CHANGELOG.md](./CHANGELOG.md)** - Version history dan release notes
+- **[ROADMAP.md](./ROADMAP.md)** - Future features and development plans (2026-2027)
+- **[FAQ.md](./FAQ.md)** - Frequently asked questions (all modules consolidated)
+- **[UPGRADE.md](./UPGRADE.md)** - Upgrade instructions for each version
+- **[CONTRIBUTING.md](./CONTRIBUTING.md)** - Guidelines for contributors
+- **[SECURITY.md](./SECURITY.md)** - Security policy and vulnerability reporting
+- **[Requirements.md](./Requirements.md)** - Tech stack decisions and benchmarks
+
+### Translation Status
+- 🇮🇩 **Indonesian**: All user guides complete (primary language)
+- 🇺🇸 **English**: API docs, developer guides (partial - translation in progress)
+
+---
 
 ## License
 

@@ -28,3 +28,5 @@ parameters:
 
     # Cache configuration
     tmpDir: storage/app/phpstan
+    
+    baselineNeon: phpstan-baseline.neon

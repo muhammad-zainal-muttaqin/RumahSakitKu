@@ -1,0 +1,4183 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Cache\\Repository\:\:getRedis\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: app/Console/Commands/ClearExpiredCacheCommand.php
+
+		-
+			message: '#^Offset 0 on non\-empty\-list\<string\> on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Console/Commands/ClearExpiredCacheCommand.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: app/Events/Broadcasting/InpatientBedUpdated.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 2
+			path: app/Exports/FinancialReportExport.php
+
+		-
+			message: '#^Method App\\Exports\\FinancialReportExport\:\:query\(\) should return Illuminate\\Database\\Query\\Builder but returns Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\Financial\\Payment\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Exports/FinancialReportExport.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 3
+			path: app/Exports/LabResultsExport.php
+
+		-
+			message: '#^Method App\\Exports\\LabResultsExport\:\:query\(\) should return Illuminate\\Database\\Query\\Builder but returns Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\Clinical\\LaboratoryResult\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Exports/LabResultsExport.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>category_label" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Exports/LabResultsExport.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: app/Exports/LabResultsExport.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 2
+			path: app/Exports/MedicalRecordsExport.php
+
+		-
+			message: '#^Method App\\Exports\\MedicalRecordsExport\:\:query\(\) should return Illuminate\\Database\\Query\\Builder but returns Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\Clinical\\MedicalRecord\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Exports/MedicalRecordsExport.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Exports/MedicalRecordsExport.php
+
+		-
+			message: '#^Method App\\Exports\\PatientsExport\:\:query\(\) should return Illuminate\\Database\\Query\\Builder but returns Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\Patient\\Patient\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Exports/PatientsExport.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 2
+			path: app/Exports/PrescriptionsExport.php
+
+		-
+			message: '#^Method App\\Exports\\PrescriptionsExport\:\:query\(\) should return Illuminate\\Database\\Query\\Builder but returns Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\Clinical\\Prescription\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Exports/PrescriptionsExport.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: app/Exports/PrescriptionsExport.php
+
+		-
+			message: '#^Array has 2 duplicate keys with value ''font'' \(''font'', ''font''\)\.$#'
+			identifier: array.duplicateKey
+			count: 1
+			path: app/Exports/RL1Export.php
+
+		-
+			message: '#^Array has 2 duplicate keys with value ''font'' \(''font'', ''font''\)\.$#'
+			identifier: array.duplicateKey
+			count: 4
+			path: app/Exports/RL3Export.php
+
+		-
+			message: '#^Property App\\Exports\\RL31Sheet\:\:\$period is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: app/Exports/RL3Export.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Exports/VisitsExport.php
+
+		-
+			message: '#^Method App\\Exports\\VisitsExport\:\:query\(\) should return Illuminate\\Database\\Query\\Builder but returns Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\Patient\\Visit\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Exports/VisitsExport.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: app/Exports/VisitsExport.php
+
+		-
+			message: '#^Access to an undefined property App\\Filament\\Pages\\Reports\\RL1Report\:\:\$form\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Pages/Reports/RL1Report.php
+
+		-
+			message: '#^Access to an undefined property App\\Filament\\Pages\\Reports\\RL2Report\:\:\$form\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Pages/Reports/RL2Report.php
+
+		-
+			message: '#^Access to an undefined property App\\Filament\\Pages\\Reports\\RL3Report\:\:\$form\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Pages/Reports/RL3Report.php
+
+		-
+			message: '#^Left side of && is always true\.$#'
+			identifier: booleanAnd.leftAlwaysTrue
+			count: 1
+			path: app/Filament/Pages/Reports/RL3Report.php
+
+		-
+			message: '#^Access to an undefined property App\\Filament\\Pages\\Reports\\RL4Report\:\:\$form\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Pages/Reports/RL4Report.php
+
+		-
+			message: '#^Access to an undefined property App\\Filament\\Pages\\Reports\\RL5Report\:\:\$form\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Pages/Reports/RL5Report.php
+
+		-
+			message: '#^Negated boolean expression is always false\.$#'
+			identifier: booleanNot.alwaysFalse
+			count: 1
+			path: app/Filament/Pages/Reports/RL5Report.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>primary_diagnosis_code" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Pages/Reports/RL5Report.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>primary_diagnosis_name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Pages/Reports/RL5Report.php
+
+		-
+			message: '#^Parameter \#1 \$options of method Filament\\Forms\\Components\\Select\:\:options\(\) expects array\<array\<string\>\|string\>\|Closure\|Illuminate\\Contracts\\Support\\Arrayable\|string\|null, array\{0, 1, 2, 3, 4, 5, 6, 7, \.\.\.\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Filament/Resources/AssessmentResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Infolists\\Components\\BadgeEntry\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/Filament/Resources/AssessmentResource/Pages/ViewAssessment.php
+
+		-
+			message: '#^Class App\\Filament\\Resources\\AuditLogResource\\Pages\\BedResource not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/AuditLogResource/Pages/ViewAuditLog.php
+
+		-
+			message: '#^Class App\\Filament\\Resources\\AuditLogResource\\Pages\\EmployeeResource not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/AuditLogResource/Pages/ViewAuditLog.php
+
+		-
+			message: '#^Class App\\Filament\\Resources\\AuditLogResource\\Pages\\MedicalRecordResource not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/AuditLogResource/Pages/ViewAuditLog.php
+
+		-
+			message: '#^Class App\\Filament\\Resources\\AuditLogResource\\Pages\\MedicineResource not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/AuditLogResource/Pages/ViewAuditLog.php
+
+		-
+			message: '#^Class App\\Filament\\Resources\\AuditLogResource\\Pages\\PatientResource not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/AuditLogResource/Pages/ViewAuditLog.php
+
+		-
+			message: '#^Class App\\Filament\\Resources\\AuditLogResource\\Pages\\PolyclinicResource not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/AuditLogResource/Pages/ViewAuditLog.php
+
+		-
+			message: '#^Class App\\Filament\\Resources\\AuditLogResource\\Pages\\PrescriptionResource not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/AuditLogResource/Pages/ViewAuditLog.php
+
+		-
+			message: '#^Class App\\Filament\\Resources\\AuditLogResource\\Pages\\RoomResource not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/AuditLogResource/Pages/ViewAuditLog.php
+
+		-
+			message: '#^Class App\\Filament\\Resources\\AuditLogResource\\Pages\\UserResource not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/AuditLogResource/Pages/ViewAuditLog.php
+
+		-
+			message: '#^Class App\\Filament\\Resources\\AuditLogResource\\Pages\\VisitResource not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/AuditLogResource/Pages/ViewAuditLog.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$current_visit_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/BedResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/BedResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 9
+			path: app/Filament/Resources/BedResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:setCleaning\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/BedResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:setMaintenance\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/BedResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:setReserved\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/BedResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:vacate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/BedResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_verified\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/CpptResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>is_verified" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/CpptResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>record_number" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/CpptResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$check_in_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$medicalRecord\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$patient\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$patient_id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$visit_date\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:medicalRecord\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Call to static method generateRecordNumber\(\) on an unknown class App\\Filament\\Resources\\MedicalRecord\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Fieldset\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Grid\.$#'
+			identifier: class.notFound
+			count: 4
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Section\.$#'
+			identifier: class.notFound
+			count: 7
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Wizard\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Wizard\\Step\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Invoking callable on an unknown class Filament\\Forms\\Get\.$#'
+			identifier: class.notFound
+			count: 13
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Invoking callable on an unknown class Filament\\Forms\\Set\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Parameter \$get of anonymous function has invalid type Filament\\Forms\\Get\.$#'
+			identifier: class.notFound
+			count: 12
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Parameter \$get of method App\\Filament\\Resources\\EmergencyDepartmentResource\:\:calculateTriage\(\) has invalid type Filament\\Forms\\Get\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Parameter \$set of anonymous function has invalid type Filament\\Forms\\Set\.$#'
+			identifier: class.notFound
+			count: 11
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Parameter \$set of method App\\Filament\\Resources\\EmergencyDepartmentResource\:\:calculateTriage\(\) has invalid type Filament\\Forms\\Set\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>medical_record_number" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>triage_category" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: app/Filament/Resources/EmergencyDepartmentResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/EmergencyDepartmentResource/Pages/CreateEmergencyDepartment.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$patient_id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/EmergencyDepartmentResource/Pages/CreateEmergencyDepartment.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$visit_date\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/EmergencyDepartmentResource/Pages/CreateEmergencyDepartment.php
+
+		-
+			message: '#^Call to an undefined static method App\\Models\\Clinical\\MedicalRecord\:\:generateRecordNumber\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Filament/Resources/EmergencyDepartmentResource/Pages/CreateEmergencyDepartment.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/EmergencyDepartmentResource/Pages/EditEmergencyDepartment.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$medicalRecord\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/EmergencyDepartmentResource/Pages/EditEmergencyDepartment.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$patient_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/EmergencyDepartmentResource/Pages/EditEmergencyDepartment.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$doctor\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/EmergencyDepartmentResource/Pages/ViewEmergencyDepartment.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$medicalRecord\.$#'
+			identifier: property.notFound
+			count: 7
+			path: app/Filament/Resources/EmergencyDepartmentResource/Pages/ViewEmergencyDepartment.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$notes\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/EmergencyDepartmentResource/Pages/ViewEmergencyDepartment.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>chief_complaint" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/EmergencyDepartmentResource/Pages/ViewEmergencyDepartment.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/EmergencyDepartmentResource/Pages/ViewEmergencyDepartment.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>notes" in empty\(\) is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/EmergencyDepartmentResource/Pages/ViewEmergencyDepartment.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>triage_category" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/EmergencyDepartmentResource/Pages/ViewEmergencyDepartment.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>vital_signs" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Filament/Resources/EmergencyDepartmentResource/Pages/ViewEmergencyDepartment.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>triage_category" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/EmergencyDepartmentResource/Widgets/LiveTriageBoard.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_doctor\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Filament/Resources/EmployeeResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/InpatientResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$inpatient_status\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Filament/Resources/InpatientResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_completed\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Filament/Resources/InpatientResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$visit_date\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/InpatientResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>is_completed" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Filament/Resources/InpatientResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>medical_record_number" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/InpatientResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/InpatientResource/Pages/CreateInpatient.php
+
+		-
+			message: '#^Cannot access property \$is_completed on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/InpatientResource/Pages/EditInpatient.php
+
+		-
+			message: '#^Cannot access property \$bed on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Filament/Resources/InpatientResource/Pages/ViewInpatient.php
+
+		-
+			message: '#^Cannot access property \$deposit_amount on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Filament/Resources/InpatientResource/Pages/ViewInpatient.php
+
+		-
+			message: '#^Cannot access property \$inpatient_status on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Filament/Resources/InpatientResource/Pages/ViewInpatient.php
+
+		-
+			message: '#^Cannot access property \$patient on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/InpatientResource/Pages/ViewInpatient.php
+
+		-
+			message: '#^Cannot access property \$visit_date on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/InpatientResource/Pages/ViewInpatient.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:overdue\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/InvoiceResource.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Filament/Resources/InvoiceResource.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/InvoiceResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:overdue\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/InvoiceResource/Pages/ListInvoices.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$balance_due\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/InvoiceResource/RelationManagers/PaymentsRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Filament/Resources/InvoiceResource/RelationManagers/PaymentsRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$medical_record_number\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/LaboratoryOrderResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/LaboratoryOrderResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$patient\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/LaboratoryOrderResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$visit_number\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/LaboratoryOrderResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>medical_record_number" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/LaboratoryOrderResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/LaboratoryOrderResource/RelationManagers/LabResultsRelationManager.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>category_color" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/LaboratoryOrderResource/RelationManagers/LabResultsRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_finalized\.$#'
+			identifier: property.notFound
+			count: 6
+			path: app/Filament/Resources/MedicalRecordResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>is_finalized" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Filament/Resources/MedicalRecordResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_finalized\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Filament/Resources/MedicalRecordResource/Pages/EditMedicalRecord.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:draft\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/MedicalRecordResource/Pages/ListMedicalRecords.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:finalized\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/MedicalRecordResource/Pages/ListMedicalRecords.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_finalized\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Filament/Resources/MedicalRecordResource/Pages/ViewMedicalRecord.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>is_finalized" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: app/Filament/Resources/MedicalRecordResource/Pages/ViewMedicalRecord.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_finalized\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Filament/Resources/MedicalRecordResource/RelationManagers/AssessmentsRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_finalized\.$#'
+			identifier: property.notFound
+			count: 5
+			path: app/Filament/Resources/MedicalRecordResource/RelationManagers/CpptsRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_verified\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/MedicalRecordResource/RelationManagers/CpptsRelationManager.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>is_verified" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/MedicalRecordResource/RelationManagers/CpptsRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_finalized\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Filament/Resources/MedicalRecordResource/RelationManagers/PrescriptionsRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Filament/Resources/MedicalRecordResource/RelationManagers/PrescriptionsRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_expired\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/MedicineResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_expiring_soon\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/MedicineResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_low_stock\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/MedicineResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_out_of_stock\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/MedicineResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:updateStock\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/MedicineResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$age\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/PatientResource.php
+
+		-
+			message: '#^Anonymous function has invalid return type App\\Filament\\Resources\\PatientResource\\RelationManagers\\Builder\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/Filament/Resources/PatientResource/RelationManagers/MedicalRecordsRelationManager.php
+
+		-
+			message: '#^Call to method when\(\) on an unknown class App\\Filament\\Resources\\PatientResource\\RelationManagers\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/PatientResource/RelationManagers/MedicalRecordsRelationManager.php
+
+		-
+			message: '#^Call to method whereDate\(\) on an unknown class App\\Filament\\Resources\\PatientResource\\RelationManagers\\Builder\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/Filament/Resources/PatientResource/RelationManagers/MedicalRecordsRelationManager.php
+
+		-
+			message: '#^Parameter \$query of anonymous function has invalid type App\\Filament\\Resources\\PatientResource\\RelationManagers\\Builder\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/Filament/Resources/PatientResource/RelationManagers/MedicalRecordsRelationManager.php
+
+		-
+			message: '#^Anonymous function has invalid return type App\\Filament\\Resources\\PatientResource\\RelationManagers\\Builder\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/Filament/Resources/PatientResource/RelationManagers/VisitsRelationManager.php
+
+		-
+			message: '#^Call to method when\(\) on an unknown class App\\Filament\\Resources\\PatientResource\\RelationManagers\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/PatientResource/RelationManagers/VisitsRelationManager.php
+
+		-
+			message: '#^Call to method whereDate\(\) on an unknown class App\\Filament\\Resources\\PatientResource\\RelationManagers\\Builder\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/Filament/Resources/PatientResource/RelationManagers/VisitsRelationManager.php
+
+		-
+			message: '#^Parameter \$query of anonymous function has invalid type App\\Filament\\Resources\\PatientResource\\RelationManagers\\Builder\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/Filament/Resources/PatientResource/RelationManagers/VisitsRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_refunded\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/PaymentResource.php
+
+		-
+			message: '#^Parameter \#1 \$string of function str_pad expects string, int\<1, max\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Filament/Resources/PaymentResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>balance_due" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/PaymentResource.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: app/Filament/Resources/PaymentResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$amount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/PaymentResource/Pages/CreatePayment.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$invoice\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/PaymentResource/Pages/CreatePayment.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/PaymentResource/Pages/CreatePayment.php
+
+		-
+			message: '#^Access to an undefined property App\\Filament\\Resources\\PaymentResource\\Pages\\EditPayment\:\:\$oldAmount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/PaymentResource/Pages/EditPayment.php
+
+		-
+			message: '#^Cannot access property \$amount on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Filament/Resources/PaymentResource/Pages/EditPayment.php
+
+		-
+			message: '#^Cannot access property \$invoice on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/PaymentResource/Pages/EditPayment.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:refunded\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/PaymentResource/Pages/ListPayments.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:today\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/PaymentResource/Pages/ListPayments.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$has_reached_quota\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/PolyclinicResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/PrescriptionResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$patient\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/PrescriptionResource.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\MasterData\\Medicine\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 4
+			path: app/Filament/Resources/PrescriptionResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/PrescriptionResource/RelationManagers/PrescriptionItemsRelationManager.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>color" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/ProcedureResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$medical_record_number\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/RadiologyOrderResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/RadiologyOrderResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$patient\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/RadiologyOrderResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$visit_number\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/RadiologyOrderResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>medical_record_number" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/RadiologyOrderResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/RadiologyOrderResource/RelationManagers/RadiologyResultsRelationManager.php
+
+		-
+			message: '#^Anonymous function should return string but returns Illuminate\\View\\View\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Filament/Resources/RadiologyOrderResource/RelationManagers/RadiologyResultsRelationManager.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Filament/Resources/RadiologyOrderResource/RelationManagers/RadiologyResultsRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$available_beds\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/RoomResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$occupancy_rate\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/RoomResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$total_beds\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/RoomResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/RoomResource/RelationManagers/BedsRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Filament/Resources/SurgeryResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$procedure_name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/SurgeryResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 5
+			path: app/Filament/Resources/SurgeryResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\:\:search\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/SurgeryResource.php
+
+		-
+			message: '#^Call to an undefined static method Illuminate\\Database\\Eloquent\\Model\:\:today\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Filament/Resources/SurgeryResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>medical_record_number" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/SurgeryResource.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/SurgeryResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:cito\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/SurgeryResource/Pages/ListSurgeries.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:today\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/SurgeryResource/Pages/ListSurgeries.php
+
+		-
+			message: '#^Cannot access property \$id on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 5
+			path: app/Filament/Resources/SurgeryResource/Pages/ViewSurgery.php
+
+		-
+			message: '#^Cannot access property \$status on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 4
+			path: app/Filament/Resources/SurgeryResource/Pages/ViewSurgery.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>last_login_ip" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/UserResource.php
+
+		-
+			message: '#^Call to static method getUrl\(\) on an unknown class App\\Filament\\Resources\\UserResource\\Pages\\EmployeeResource\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/UserResource/Pages/ViewUser.php
+
+		-
+			message: '#^Call to an undefined static method Illuminate\\Database\\Eloquent\\Model\:\:today\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Filament/Resources/VisitQueueResource.php
+
+		-
+			message: '#^If condition is always true\.$#'
+			identifier: if.alwaysTrue
+			count: 1
+			path: app/Filament/Resources/VisitQueueResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>medical_record_number" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/VisitQueueResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:called\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/VisitQueueResource/Pages/ListVisitQueues.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:completed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/VisitQueueResource/Pages/ListVisitQueues.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:waiting\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/VisitQueueResource/Pages/ListVisitQueues.php
+
+		-
+			message: '#^If condition is always true\.$#'
+			identifier: if.alwaysTrue
+			count: 1
+			path: app/Filament/Resources/VisitQueueResource/Pages/ManageVisitQueue.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$check_in_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/VisitResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_completed\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/VisitResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Filament/Resources/VisitResource.php
+
+		-
+			message: '#^Relation ''employmentDetail'' is not found in App\\Models\\MasterData\\Employee model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Filament/Resources/VisitResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>is_completed" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/VisitResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>medical_record_number" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/VisitResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:today\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/VisitResource/Pages/ListVisits.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Filament/Widgets/RecentVisitsTable.php
+
+		-
+			message: '#^Call to an undefined method App\\Models\\User\:\:createToken\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Http/Controllers/Api/AuthController.php
+
+		-
+			message: '#^Call to an undefined method App\\Models\\User\:\:currentAccessToken\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Http/Controllers/Api/AuthController.php
+
+		-
+			message: '#^Call to an undefined method App\\Models\\User\:\:tokens\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/Api/AuthController.php
+
+		-
+			message: '#^Call to an undefined method App\\Services\\BPJS\\BpjsVclaimService\:\:getParticipantByCardNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/Api/BpjsController.php
+
+		-
+			message: '#^Call to an undefined method App\\Services\\BPJS\\BpjsVclaimService\:\:getParticipantByNIK\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/Api/BpjsController.php
+
+		-
+			message: '#^Call to an undefined method App\\Services\\BPJS\\BpjsVclaimService\:\:getRujukan\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/Api/BpjsController.php
+
+		-
+			message: '#^Call to an undefined method App\\Services\\BPJS\\BpjsVclaimService\:\:getRujukanList\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/Api/BpjsController.php
+
+		-
+			message: '#^Call to an undefined method App\\Services\\BPJS\\BpjsVclaimService\:\:searchDiagnosis\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/Api/BpjsController.php
+
+		-
+			message: '#^Call to an undefined method App\\Services\\BPJS\\BpjsVclaimService\:\:searchPoli\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/Api/BpjsController.php
+
+		-
+			message: '#^Call to an undefined method App\\Services\\BPJS\\BpjsVclaimService\:\:searchProcedure\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/Api/BpjsController.php
+
+		-
+			message: '#^Method App\\Services\\BPJS\\BpjsVclaimService\:\:getFaskes\(\) invoked with 3 parameters, 1\-2 required\.$#'
+			identifier: arguments.count
+			count: 2
+			path: app/Http/Controllers/Api/BpjsController.php
+
+		-
+			message: '#^Call to an undefined method App\\Http\\Controllers\\Api\\BroadcastController\:\:sendError\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: app/Http/Controllers/Api/BroadcastController.php
+
+		-
+			message: '#^Call to an undefined method App\\Http\\Controllers\\Api\\BroadcastController\:\:sendResponse\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Http/Controllers/Api/BroadcastController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Api/InpatientController.php
+
+		-
+			message: '#^Call to an undefined method App\\Models\\Patient\\Visit\:\:charges\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Http/Controllers/Api/InpatientController.php
+
+		-
+			message: '#^Call to an undefined method App\\Models\\Patient\\Visit\:\:payments\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/Api/InpatientController.php
+
+		-
+			message: '#^Call to an undefined method App\\Models\\Patient\\Visit\:\:transfers\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/Api/InpatientController.php
+
+		-
+			message: '#^Call to an undefined method App\\Models\\Financial\\Invoice\:\:items\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/Api/InvoiceController.php
+
+		-
+			message: '#^Relation ''items'' is not found in App\\Models\\Financial\\Invoice model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Http/Controllers/Api/InvoiceController.php
+
+		-
+			message: '#^Relation ''doctor'' is not found in App\\Models\\Clinical\\MedicalRecord model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Http/Controllers/Api/MedicalRecordController.php
+
+		-
+			message: '#^Relation ''icd10'' is not found in App\\Models\\Clinical\\MedicalRecord model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Http/Controllers/Api/MedicalRecordController.php
+
+		-
+			message: '#^Relation ''icd9'' is not found in App\\Models\\Clinical\\MedicalRecord model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Http/Controllers/Api/MedicalRecordController.php
+
+		-
+			message: '#^Part \$query \(Symfony\\Component\\HttpFoundation\\InputBag\<string\>\) of encapsed string cannot be cast to string\.$#'
+			identifier: encapsedStringPart.nonString
+			count: 8
+			path: app/Http/Controllers/Api/PatientController.php
+
+		-
+			message: '#^Relation ''insurance'' is not found in App\\Models\\Patient\\Patient model\.$#'
+			identifier: larastan.relationExistence
+			count: 2
+			path: app/Http/Controllers/Api/PatientController.php
+
+		-
+			message: '#^Relation ''region'' is not found in App\\Models\\Patient\\Patient model\.$#'
+			identifier: larastan.relationExistence
+			count: 2
+			path: app/Http/Controllers/Api/PatientController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Collection\<int, Illuminate\\Database\\Eloquent\\Model\>\|Illuminate\\Database\\Eloquent\\Model\:\:\$medicine\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Api/PrescriptionController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\Patient\\VisitQueue\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Http/Controllers/Api/QueueController.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\MasterData\\Polyclinic\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Controllers/Api/QueueController.php
+
+		-
+			message: '#^Call to an undefined method App\\Models\\Clinical\\RadiologyOrder\:\:images\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Http/Controllers/Api/RadiologyController.php
+
+		-
+			message: '#^Relation ''examination'' is not found in App\\Models\\Clinical\\RadiologyOrder model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Http/Controllers/Api/RadiologyController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\Clinical\\MedicalRecord\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Http/Controllers/Api/ReportController.php
+
+		-
+			message: '#^Relation ''clinic'' is not found in App\\Models\\Patient\\Visit model\.$#'
+			identifier: larastan.relationExistence
+			count: 3
+			path: app/Http/Controllers/Api/ReportController.php
+
+		-
+			message: '#^Relation ''icd10'' is not found in App\\Models\\Clinical\\MedicalRecord model\.$#'
+			identifier: larastan.relationExistence
+			count: 2
+			path: app/Http/Controllers/Api/ReportController.php
+
+		-
+			message: '#^Relation ''visitType'' is not found in App\\Models\\Patient\\Visit model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Http/Controllers/Api/ReportController.php
+
+		-
+			message: '#^Cannot access property \$name on int\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Http/Controllers/Api/RoomController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\MasterData\\Room\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Http/Controllers/Api/RoomController.php
+
+		-
+			message: '#^Relation ''floor'' is not found in App\\Models\\MasterData\\Room model\.$#'
+			identifier: larastan.relationExistence
+			count: 2
+			path: app/Http/Controllers/Api/RoomController.php
+
+		-
+			message: '#^Relation ''roomType'' is not found in App\\Models\\MasterData\\Room model\.$#'
+			identifier: larastan.relationExistence
+			count: 2
+			path: app/Http/Controllers/Api/RoomController.php
+
+		-
+			message: '#^Call to an undefined method App\\Models\\Clinical\\Surgery\:\:assistants\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/Api/SurgeryController.php
+
+		-
+			message: '#^Relation ''anesthetist'' is not found in App\\Models\\Clinical\\Surgery model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Http/Controllers/Api/SurgeryController.php
+
+		-
+			message: '#^Relation ''room'' is not found in App\\Models\\Clinical\\Surgery model\.$#'
+			identifier: larastan.relationExistence
+			count: 2
+			path: app/Http/Controllers/Api/SurgeryController.php
+
+		-
+			message: '#^Relation ''surgeryType'' is not found in App\\Models\\Clinical\\Surgery model\.$#'
+			identifier: larastan.relationExistence
+			count: 2
+			path: app/Http/Controllers/Api/SurgeryController.php
+
+		-
+			message: '#^Relation ''clinic'' is not found in App\\Models\\Patient\\Visit model\.$#'
+			identifier: larastan.relationExistence
+			count: 2
+			path: app/Http/Controllers/Api/VisitController.php
+
+		-
+			message: '#^Relation ''visitType'' is not found in App\\Models\\Patient\\Visit model\.$#'
+			identifier: larastan.relationExistence
+			count: 2
+			path: app/Http/Controllers/Api/VisitController.php
+
+		-
+			message: '#^Call to an undefined method App\\Models\\User\:\:currentAccessToken\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Middleware/Api/EnsureApiToken.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 2
+			path: app/Http/Middleware/PatientDataAccessMiddleware.php
+
+		-
+			message: '#^If condition is always false\.$#'
+			identifier: if.alwaysFalse
+			count: 1
+			path: app/Http/Middleware/PatientDataAccessMiddleware.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Database\\Eloquent\\Collection\<int, Spatie\\Permission\\Models\\Role\>\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: app/Http/Middleware/PatientDataAccessMiddleware.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>polyclinic_id" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Middleware/PatientDataAccessMiddleware.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\InvoiceResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/InvoiceResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\InvoiceResource\:\:\$items\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/InvoiceResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\InvoiceResource\:\:\$notes\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/InvoiceResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\InvoiceResource\:\:\$patient\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Resources/InvoiceResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\InvoiceResource\:\:\$visit\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/InvoiceResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\LabOrderResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/LabOrderResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\LabOrderResource\:\:\$doctor\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/LabOrderResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\LabOrderResource\:\:\$items\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/LabOrderResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\LabOrderResource\:\:\$patient\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Resources/LabOrderResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\LabOrderResource\:\:\$specimen_type\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/LabOrderResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\LabOrderResource\:\:\$validator\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/LabOrderResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\LabOrderResource\:\:\$visit\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/LabOrderResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MedicalRecordResource\:\:\$allergy_history\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/MedicalRecordResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MedicalRecordResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/MedicalRecordResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MedicalRecordResource\:\:\$doctor\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Resources/MedicalRecordResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MedicalRecordResource\:\:\$family_history\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/MedicalRecordResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MedicalRecordResource\:\:\$icd10\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/MedicalRecordResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MedicalRecordResource\:\:\$icd9\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/MedicalRecordResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MedicalRecordResource\:\:\$instructions\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/MedicalRecordResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MedicalRecordResource\:\:\$past_medical_history\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/MedicalRecordResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MedicalRecordResource\:\:\$patient\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Resources/MedicalRecordResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MedicalRecordResource\:\:\$supporting_examination\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/MedicalRecordResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MedicalRecordResource\:\:\$updated_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/MedicalRecordResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MedicalRecordResource\:\:\$visit\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Resources/MedicalRecordResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\MedicalRecordResource\:\:\$vital_signs\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/MedicalRecordResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PatientResource\:\:\$insurance\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Resources/PatientResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PatientResource\:\:\$region\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/PatientResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PatientResource\:\:\$visits\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PatientResource.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Carbon\\Carbon\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: app/Http/Resources/PatientResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PrescriptionResource\:\:\$dispensed_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PrescriptionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PrescriptionResource\:\:\$dispenser\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/PrescriptionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PrescriptionResource\:\:\$doctor\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/PrescriptionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PrescriptionResource\:\:\$items\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PrescriptionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PrescriptionResource\:\:\$medicalRecord\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PrescriptionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PrescriptionResource\:\:\$patient\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Resources/PrescriptionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PrescriptionResource\:\:\$processed_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PrescriptionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PrescriptionResource\:\:\$processor\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/PrescriptionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PrescriptionResource\:\:\$verified_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PrescriptionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PrescriptionResource\:\:\$verifier\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/PrescriptionResource.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Carbon\\Carbon\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Resources/PrescriptionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\QueueResource\:\:\$counter_number\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/QueueResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\QueueResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/QueueResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\QueueResource\:\:\$display_number\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/QueueResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\QueueResource\:\:\$patient\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Resources/QueueResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\QueueResource\:\:\$polyclinic\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/QueueResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\QueueResource\:\:\$visit\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/QueueResource.php
+
+		-
+			message: '#^Method App\\Http\\Resources\\QueueResource\:\:getServiceTime\(\) never returns int so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: app/Http/Resources/QueueResource.php
+
+		-
+			message: '#^Method App\\Http\\Resources\\QueueResource\:\:getServiceTime\(\) should return int\|null but returns float\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Resources/QueueResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>priority" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Resources/QueueResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\RadiologyOrderResource\:\:\$conclusion\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/RadiologyOrderResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\RadiologyOrderResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/RadiologyOrderResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\RadiologyOrderResource\:\:\$doctor\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/RadiologyOrderResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\RadiologyOrderResource\:\:\$examination\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Resources/RadiologyOrderResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\RadiologyOrderResource\:\:\$examination_indication\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/RadiologyOrderResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\RadiologyOrderResource\:\:\$examination_result\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/RadiologyOrderResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\RadiologyOrderResource\:\:\$images\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/RadiologyOrderResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\RadiologyOrderResource\:\:\$patient\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Resources/RadiologyOrderResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\RadiologyOrderResource\:\:\$radiologist\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/RadiologyOrderResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\RadiologyOrderResource\:\:\$suggestion\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/RadiologyOrderResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\RadiologyOrderResource\:\:\$validated_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/RadiologyOrderResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\SurgeryResource\:\:\$actual_end_time\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/SurgeryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\SurgeryResource\:\:\$actual_procedure\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/SurgeryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\SurgeryResource\:\:\$actual_start_time\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/SurgeryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\SurgeryResource\:\:\$anesthesia_type\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/SurgeryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\SurgeryResource\:\:\$anesthetist\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/SurgeryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\SurgeryResource\:\:\$assistants\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/SurgeryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\SurgeryResource\:\:\$completed_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/SurgeryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\SurgeryResource\:\:\$complications\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/SurgeryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\SurgeryResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/SurgeryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\SurgeryResource\:\:\$estimated_duration\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/SurgeryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\SurgeryResource\:\:\$findings\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/SurgeryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\SurgeryResource\:\:\$patient\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Resources/SurgeryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\SurgeryResource\:\:\$patient_condition\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/SurgeryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\SurgeryResource\:\:\$planned_procedure\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/SurgeryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\SurgeryResource\:\:\$room\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Resources/SurgeryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\SurgeryResource\:\:\$started_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/SurgeryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\SurgeryResource\:\:\$surgeon\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/SurgeryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\SurgeryResource\:\:\$surgeryType\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Resources/SurgeryResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\VisitResource\:\:\$bpjs_number\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/VisitResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\VisitResource\:\:\$checked_in_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/VisitResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\VisitResource\:\:\$checked_out_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/VisitResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\VisitResource\:\:\$clinic\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Resources/VisitResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\VisitResource\:\:\$doctor\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Resources/VisitResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\VisitResource\:\:\$is_new_patient\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/VisitResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\VisitResource\:\:\$labOrders\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/VisitResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\VisitResource\:\:\$medicalRecord\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/VisitResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\VisitResource\:\:\$patient\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Http/Resources/VisitResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\VisitResource\:\:\$prescriptions\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/VisitResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\VisitResource\:\:\$queue_number\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/VisitResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\VisitResource\:\:\$radiologyOrders\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/VisitResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\VisitResource\:\:\$visitType\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Resources/VisitResource.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Carbon\\Carbon\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Resources/VisitResource.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Jobs/ArchiveMedicalRecordJob.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type App\\Models\\Patient\\Visit\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Jobs/ArchiveMedicalRecordJob.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>bpjs_code" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Jobs/Bpjs/CreateSepJob.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Jobs/Bpjs/CreateSepJob.php
+
+		-
+			message: '#^Negated boolean expression is always false\.$#'
+			identifier: booleanNot.alwaysFalse
+			count: 1
+			path: app/Jobs/Bpjs/SyncVisitToBpjsJob.php
+
+		-
+			message: '#^Call to function method_exists\(\) with App\\Models\\Clinical\\MedicalRecord and ''logAudit'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Jobs/EMR/FinalizeExpiredRecordsJob.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\MedicalRecord\:\:logAudit\(\) invoked with 2 parameters, 3 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/Jobs/EMR/FinalizeExpiredRecordsJob.php
+
+		-
+			message: '#^Instantiated class App\\Notifications\\DailyReconciliationNotification not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Jobs/Finance/ProcessDailyReconciliationJob.php
+
+		-
+			message: '#^Call to function method_exists\(\) with App\\Models\\MasterData\\Bed and ''logAudit'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Jobs/Inpatient/CheckExpiredReservationsJob.php
+
+		-
+			message: '#^Method App\\Models\\MasterData\\Bed\:\:logAudit\(\) invoked with 2 parameters, 3 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/Jobs/Inpatient/CheckExpiredReservationsJob.php
+
+		-
+			message: '#^Call to static method raw\(\) on an unknown class App\\Jobs\\Pharmacy\\DB\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Jobs/Pharmacy/CheckLowStockJob.php
+
+		-
+			message: '#^Missing parameter \$medicine \(App\\Models\\MasterData\\Medicine\) in call to App\\Notifications\\LowStockNotification constructor\.$#'
+			identifier: argument.missing
+			count: 1
+			path: app/Jobs/Pharmacy/CheckLowStockJob.php
+
+		-
+			message: '#^Relation ''user'' is not found in App\\Models\\MasterData\\Employee model\.$#'
+			identifier: larastan.relationExistence
+			count: 2
+			path: app/Jobs/Pharmacy/CheckLowStockJob.php
+
+		-
+			message: '#^Unknown parameter \$criticalStockMedicines in call to App\\Notifications\\LowStockNotification constructor\.$#'
+			identifier: argument.unknown
+			count: 1
+			path: app/Jobs/Pharmacy/CheckLowStockJob.php
+
+		-
+			message: '#^Unknown parameter \$expiringMedicines in call to App\\Notifications\\LowStockNotification constructor\.$#'
+			identifier: argument.unknown
+			count: 1
+			path: app/Jobs/Pharmacy/CheckLowStockJob.php
+
+		-
+			message: '#^Unknown parameter \$lowStockMedicines in call to App\\Notifications\\LowStockNotification constructor\.$#'
+			identifier: argument.unknown
+			count: 1
+			path: app/Jobs/Pharmacy/CheckLowStockJob.php
+
+		-
+			message: '#^Unknown parameter \$outOfStockMedicines in call to App\\Notifications\\LowStockNotification constructor\.$#'
+			identifier: argument.unknown
+			count: 1
+			path: app/Jobs/Pharmacy/CheckLowStockJob.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Jobs/Queue/SendQueueNotificationJob.php
+
+		-
+			message: '#^Instantiated class App\\Notifications\\ReportGeneratedNotification not found\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/Jobs/Reports/GenerateMonthlyReportJob.php
+
+		-
+			message: '#^Method App\\Jobs\\Reports\\GenerateMonthlyReportJob\:\:generateReport\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: app/Jobs/Reports/GenerateMonthlyReportJob.php
+
+		-
+			message: '#^Parameter \$responseTimeMs of static method App\\Models\\SatuSehatLog\:\:log\(\) expects int\|null, float given\.$#'
+			identifier: argument.type
+			count: 2
+			path: app/Jobs/SatuSehat/SyncEncounterJob.php
+
+		-
+			message: '#^Parameter \$responseTimeMs of static method App\\Models\\SatuSehatLog\:\:log\(\) expects int\|null, float given\.$#'
+			identifier: argument.type
+			count: 2
+			path: app/Jobs/SatuSehat/SyncPatientToSatuSehatJob.php
+
+		-
+			message: '#^Function activity not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: app/Listeners/Audit/LogModelChanges.php
+
+		-
+			message: '#^Function activity not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: app/Listeners/Bpjs/SyncToBpjsOnVisit.php
+
+		-
+			message: '#^Left side of && is always true\.$#'
+			identifier: booleanAnd.leftAlwaysTrue
+			count: 1
+			path: app/Listeners/Bpjs/SyncToBpjsOnVisit.php
+
+		-
+			message: '#^Function activity not found\.$#'
+			identifier: function.notFound
+			count: 2
+			path: app/Listeners/Inpatient/UpdateBedOccupancy.php
+
+		-
+			message: '#^Function activity not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: app/Listeners/Invoice/ProcessPaymentReconciliation.php
+
+		-
+			message: '#^Instantiated class App\\Mail\\InvoiceCreatedMail not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Listeners/Invoice/SendInvoiceNotification.php
+
+		-
+			message: '#^Left side of && is always true\.$#'
+			identifier: booleanAnd.leftAlwaysTrue
+			count: 2
+			path: app/Listeners/Invoice/SendInvoiceNotification.php
+
+		-
+			message: '#^Parameter \#1 \$mailable of method Illuminate\\Mail\\PendingMail\:\:send\(\) expects Illuminate\\Contracts\\Mail\\Mailable, App\\Mail\\InvoiceCreatedMail given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Listeners/Invoice/SendInvoiceNotification.php
+
+		-
+			message: '#^Call to an undefined method App\\Models\\MasterData\\Employee\:\:notify\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Listeners/Laboratory/NotifyDoctorOfResults.php
+
+		-
+			message: '#^Call to static method send\(\) on an unknown class App\\Services\\CriticalValueAlertService\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Listeners/Laboratory/NotifyDoctorOfResults.php
+
+		-
+			message: '#^Function activity not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: app/Listeners/Laboratory/NotifyDoctorOfResults.php
+
+		-
+			message: '#^If condition is always true\.$#'
+			identifier: if.alwaysTrue
+			count: 1
+			path: app/Listeners/Laboratory/NotifyDoctorOfResults.php
+
+		-
+			message: '#^Instantiated class App\\Notifications\\LabResultsAvailableNotification not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Listeners/Laboratory/NotifyDoctorOfResults.php
+
+		-
+			message: '#^Function activity not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: app/Listeners/MedicalRecord/ArchiveMedicalRecord.php
+
+		-
+			message: '#^Instantiated class App\\Notifications\\NewPrescriptionNotification not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Listeners/Prescription/NotifyPharmacy.php
+
+		-
+			message: '#^Function activity not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: app/Listeners/Prescription/UpdateStock.php
+
+		-
+			message: '#^Instantiated class App\\Events\\Pharmacy\\LowStockAlert not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Listeners/Prescription/UpdateStock.php
+
+		-
+			message: '#^Function activity not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: app/Listeners/Surgery/CheckSafetyChecklist.php
+
+		-
+			message: '#^Call to an undefined method App\\Models\\MasterData\\Employee\:\:notify\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Listeners/Surgery/NotifySurgeryTeam.php
+
+		-
+			message: '#^Function activity not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: app/Listeners/Surgery/NotifySurgeryTeam.php
+
+		-
+			message: '#^Call to an undefined method App\\Models\\MasterData\\Employee\:\:notify\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Listeners/Visit/NotifyDoctorOfNewVisit.php
+
+		-
+			message: '#^Instantiated class App\\Notifications\\NewVisitNotification not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Listeners/Visit/NotifyDoctorOfNewVisit.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>full_name_with_title" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Mail/AppointmentReminderMail.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Mail/AppointmentReminderMail.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Mail/AppointmentReminderMail.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Mail/InvoiceGeneratedMail.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Visit\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Mail/InvoiceGeneratedMail.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 3
+			path: app/Mail/LabResultsReadyMail.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Clinical\\LaboratoryResult\>\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Mail/LabResultsReadyMail.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Mail/LabResultsReadyMail.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Mail/PaymentReceivedMail.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Mail/PaymentReceivedMail.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Financial\\Invoice\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: app/Mail/PaymentReceivedMail.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Mail/PaymentReceivedMail.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\MasterData\\Polyclinic\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Mail/QueueCalledMail.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Mail/QueueCalledMail.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Mail/WelcomeUserMail.php
+
+		-
+			message: '#^PHPDoc tag @property\-read for property App\\Models\\AuditLog\:\:\$patient contains unknown class App\\Models\\Patient\\Patient\\Patient\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/AuditLog.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Models/BpjsLog.php
+
+		-
+			message: '#^PHPDoc type array\<string\> of property App\\Models\\BpjsLog\:\:\$fillable is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$fillable\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Models/BpjsLog.php
+
+		-
+			message: '#^PHPDoc type array\<string\> of property App\\Models\\BpjsLog\:\:\$hidden is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$hidden\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Models/BpjsLog.php
+
+		-
+			message: '#^Parameter \#1 \$payload of static method Illuminate\\Support\\Facades\\Crypt\:\:decryptString\(\) expects string, array given\.$#'
+			identifier: argument.type
+			count: 2
+			path: app/Models/BpjsLog.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/BpjsLog.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Carbon\\Carbon\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: app/Models/BpjsLog.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 5
+			path: app/Models/Clinical/Assessment.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/Clinical/Assessment.php
+
+		-
+			message: '#^Call to function method_exists\(\) with \$this\(App\\Models\\Clinical\\Assessment\) and ''patient'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/Assessment.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\Assessment\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/Assessment.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\Assessment\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/Assessment.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\Assessment\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/Assessment.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\Assessment\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/Assessment.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/Clinical/Assessment.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Clinical/Assessment.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Clinical/Assessment.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/Clinical/Assessment.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Clinical/Cppt.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/Clinical/Cppt.php
+
+		-
+			message: '#^Call to function method_exists\(\) with \$this\(App\\Models\\Clinical\\Cppt\) and ''patient'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/Cppt.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\Cppt\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/Cppt.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\Cppt\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/Cppt.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\Cppt\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/Cppt.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\Cppt\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/Cppt.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/Clinical/Cppt.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Clinical/Cppt.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Clinical/Cppt.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/Clinical/Cppt.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Clinical/LaboratoryOrder.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/Clinical/LaboratoryOrder.php
+
+		-
+			message: '#^Call to function method_exists\(\) with \$this\(App\\Models\\Clinical\\LaboratoryOrder\) and ''patient'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/LaboratoryOrder.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\LaboratoryOrder\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/LaboratoryOrder.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\LaboratoryOrder\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/LaboratoryOrder.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\LaboratoryOrder\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/LaboratoryOrder.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\LaboratoryOrder\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/LaboratoryOrder.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/Clinical/LaboratoryOrder.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Clinical/LaboratoryOrder.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Clinical/LaboratoryOrder.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/Clinical/LaboratoryOrder.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/Clinical/LaboratoryResult.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\LaboratoryResult\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/LaboratoryResult.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\LaboratoryResult\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/LaboratoryResult.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\LaboratoryResult\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/LaboratoryResult.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\LaboratoryResult\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/LaboratoryResult.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/Clinical/LaboratoryResult.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/Clinical/LaboratoryResult.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 7
+			path: app/Models/Clinical/MedicalRecord.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/Clinical/MedicalRecord.php
+
+		-
+			message: '#^Call to function method_exists\(\) with \$this\(App\\Models\\Clinical\\MedicalRecord\) and ''patient'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/MedicalRecord.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\MedicalRecord\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/MedicalRecord.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\MedicalRecord\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/MedicalRecord.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\MedicalRecord\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/MedicalRecord.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\MedicalRecord\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/MedicalRecord.php
+
+		-
+			message: '#^Property App\\Models\\Clinical\\MedicalRecord\:\:\$visit_date \(Carbon\\Carbon\|null\) does not accept string\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Models/Clinical/MedicalRecord.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/Clinical/MedicalRecord.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Clinical/MedicalRecord.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Clinical/MedicalRecord.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/Clinical/MedicalRecord.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Clinical/Prescription.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/Clinical/Prescription.php
+
+		-
+			message: '#^Call to function method_exists\(\) with \$this\(App\\Models\\Clinical\\Prescription\) and ''patient'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/Prescription.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\Prescription\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/Prescription.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\Prescription\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/Prescription.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\Prescription\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/Prescription.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\Prescription\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/Prescription.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/Clinical/Prescription.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Clinical/Prescription.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Clinical/Prescription.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/Clinical/Prescription.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/Clinical/PrescriptionItem.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\PrescriptionItem\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/PrescriptionItem.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\PrescriptionItem\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/PrescriptionItem.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\PrescriptionItem\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/PrescriptionItem.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\PrescriptionItem\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/PrescriptionItem.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/Clinical/PrescriptionItem.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/Clinical/PrescriptionItem.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Clinical/RadiologyOrder.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/Clinical/RadiologyOrder.php
+
+		-
+			message: '#^Call to function method_exists\(\) with \$this\(App\\Models\\Clinical\\RadiologyOrder\) and ''patient'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/RadiologyOrder.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\RadiologyOrder\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/RadiologyOrder.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\RadiologyOrder\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/RadiologyOrder.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\RadiologyOrder\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/RadiologyOrder.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\RadiologyOrder\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/RadiologyOrder.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/Clinical/RadiologyOrder.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Clinical/RadiologyOrder.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Clinical/RadiologyOrder.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/Clinical/RadiologyOrder.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/Clinical/RadiologyResult.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\RadiologyResult\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/RadiologyResult.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\RadiologyResult\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/RadiologyResult.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\RadiologyResult\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/RadiologyResult.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\RadiologyResult\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/RadiologyResult.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/Clinical/RadiologyResult.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Clinical/RadiologyResult.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/Clinical/RadiologyResult.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Clinical/Surgery.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/Clinical/Surgery.php
+
+		-
+			message: '#^Call to function method_exists\(\) with \$this\(App\\Models\\Clinical\\Surgery\) and ''patient'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/Surgery.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\Surgery\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/Surgery.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\Surgery\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/Surgery.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\Surgery\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/Surgery.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\Surgery\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/Surgery.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/Clinical/Surgery.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Clinical/Surgery.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Clinical/Surgery.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/Clinical/Surgery.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/Clinical/SurgeryImplant.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\SurgeryImplant\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/SurgeryImplant.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Clinical\\SurgeryImplant\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Clinical/SurgeryImplant.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\SurgeryImplant\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/SurgeryImplant.php
+
+		-
+			message: '#^Method App\\Models\\Clinical\\SurgeryImplant\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Clinical/SurgeryImplant.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/Clinical/SurgeryImplant.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/Clinical/SurgeryImplant.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Financial/Invoice.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/Financial/Invoice.php
+
+		-
+			message: '#^Call to function method_exists\(\) with \$this\(App\\Models\\Financial\\Invoice\) and ''patient'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Financial/Invoice.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Financial\\Invoice\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Financial/Invoice.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Financial\\Invoice\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Financial/Invoice.php
+
+		-
+			message: '#^Method App\\Models\\Financial\\Invoice\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Financial/Invoice.php
+
+		-
+			message: '#^Method App\\Models\\Financial\\Invoice\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Financial/Invoice.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/Financial/Invoice.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Financial/Invoice.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Financial/Invoice.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/Financial/Invoice.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Financial/Payment.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/Financial/Payment.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Financial\\Payment\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Financial/Payment.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Financial\\Payment\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Financial/Payment.php
+
+		-
+			message: '#^Method App\\Models\\Financial\\Payment\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Financial/Payment.php
+
+		-
+			message: '#^Method App\\Models\\Financial\\Payment\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Financial/Payment.php
+
+		-
+			message: '#^Negated boolean expression is always false\.$#'
+			identifier: booleanNot.alwaysFalse
+			count: 1
+			path: app/Models/Financial/Payment.php
+
+		-
+			message: '#^Property App\\Models\\Financial\\Payment\:\:\$payment_date \(Carbon\\Carbon\|null\) does not accept string\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Models/Financial/Payment.php
+
+		-
+			message: '#^Ternary operator condition is always false\.$#'
+			identifier: ternary.alwaysFalse
+			count: 1
+			path: app/Models/Financial/Payment.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/Financial/Payment.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/Financial/Payment.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/MasterData/Bed.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\MasterData\\Bed\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/MasterData/Bed.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\MasterData\\Bed\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/MasterData/Bed.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Models/MasterData/Bed.php
+
+		-
+			message: '#^Method App\\Models\\MasterData\\Bed\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/MasterData/Bed.php
+
+		-
+			message: '#^Method App\\Models\\MasterData\\Bed\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/MasterData/Bed.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/MasterData/Bed.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/MasterData/Bed.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/MasterData/Employee.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\MasterData\\Employee\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/MasterData/Employee.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\MasterData\\Employee\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/MasterData/Employee.php
+
+		-
+			message: '#^Method App\\Models\\MasterData\\Employee\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/MasterData/Employee.php
+
+		-
+			message: '#^Method App\\Models\\MasterData\\Employee\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/MasterData/Employee.php
+
+		-
+			message: '#^Property App\\Models\\MasterData\\Employee\:\:\$join_date \(Carbon\\Carbon\|null\) does not accept string\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Models/MasterData/Employee.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/MasterData/Employee.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>age" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/MasterData/Employee.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/MasterData/Employee.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/MasterData/LabTest.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\MasterData\\LabTest\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/MasterData/LabTest.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\MasterData\\LabTest\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/MasterData/LabTest.php
+
+		-
+			message: '#^Method App\\Models\\MasterData\\LabTest\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/MasterData/LabTest.php
+
+		-
+			message: '#^Method App\\Models\\MasterData\\LabTest\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/MasterData/LabTest.php
+
+		-
+			message: '#^PHPDoc tag @property\-read for property App\\Models\\MasterData\\LabTest\:\:\$results contains unknown class App\\Models\\MasterData\\LaboratoryResult\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/MasterData/LabTest.php
+
+		-
+			message: '#^PHPDoc type array\<string\> of property App\\Models\\MasterData\\LabTest\:\:\$fillable is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$fillable\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Models/MasterData/LabTest.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/MasterData/LabTest.php
+
+		-
+			message: '#^Type App\\Models\\MasterData\\LaboratoryResult in generic type Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\MasterData\\LaboratoryResult\> in PHPDoc tag @property\-read for property App\\Models\\MasterData\\LabTest\:\:\$results is not subtype of template type TModel of Illuminate\\Database\\Eloquent\\Model of class Illuminate\\Database\\Eloquent\\Collection\.$#'
+			identifier: generics.notSubtype
+			count: 1
+			path: app/Models/MasterData/LabTest.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/MasterData/LabTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/MasterData/Medicine.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\MasterData\\Medicine\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/MasterData/Medicine.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\MasterData\\Medicine\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/MasterData/Medicine.php
+
+		-
+			message: '#^Method App\\Models\\MasterData\\Medicine\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/MasterData/Medicine.php
+
+		-
+			message: '#^Method App\\Models\\MasterData\\Medicine\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/MasterData/Medicine.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/MasterData/Medicine.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/MasterData/Medicine.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/MasterData/Polyclinic.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\MasterData\\Polyclinic\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/MasterData/Polyclinic.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\MasterData\\Polyclinic\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/MasterData/Polyclinic.php
+
+		-
+			message: '#^Method App\\Models\\MasterData\\Polyclinic\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/MasterData/Polyclinic.php
+
+		-
+			message: '#^Method App\\Models\\MasterData\\Polyclinic\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/MasterData/Polyclinic.php
+
+		-
+			message: '#^Property App\\Models\\MasterData\\Polyclinic\:\:\$close_time \(Carbon\\Carbon\|null\) does not accept string\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Models/MasterData/Polyclinic.php
+
+		-
+			message: '#^Property App\\Models\\MasterData\\Polyclinic\:\:\$open_time \(Carbon\\Carbon\|null\) does not accept string\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Models/MasterData/Polyclinic.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/MasterData/Polyclinic.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/MasterData/Polyclinic.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/MasterData/Procedure.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\MasterData\\Procedure\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/MasterData/Procedure.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\MasterData\\Procedure\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/MasterData/Procedure.php
+
+		-
+			message: '#^Method App\\Models\\MasterData\\Procedure\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/MasterData/Procedure.php
+
+		-
+			message: '#^Method App\\Models\\MasterData\\Procedure\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/MasterData/Procedure.php
+
+		-
+			message: '#^PHPDoc type array\<string\> of property App\\Models\\MasterData\\Procedure\:\:\$fillable is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$fillable\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Models/MasterData/Procedure.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/MasterData/Procedure.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/MasterData/Procedure.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/MasterData/ProcedureCategory.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\MasterData\\ProcedureCategory\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/MasterData/ProcedureCategory.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\MasterData\\ProcedureCategory\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/MasterData/ProcedureCategory.php
+
+		-
+			message: '#^Method App\\Models\\MasterData\\ProcedureCategory\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/MasterData/ProcedureCategory.php
+
+		-
+			message: '#^Method App\\Models\\MasterData\\ProcedureCategory\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/MasterData/ProcedureCategory.php
+
+		-
+			message: '#^PHPDoc type array\<string\> of property App\\Models\\MasterData\\ProcedureCategory\:\:\$fillable is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$fillable\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Models/MasterData/ProcedureCategory.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/MasterData/ProcedureCategory.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/MasterData/ProcedureCategory.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/MasterData/Room.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\MasterData\\Room\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/MasterData/Room.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\MasterData\\Room\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/MasterData/Room.php
+
+		-
+			message: '#^Method App\\Models\\MasterData\\Room\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/MasterData/Room.php
+
+		-
+			message: '#^Method App\\Models\\MasterData\\Room\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/MasterData/Room.php
+
+		-
+			message: '#^Method App\\Models\\MasterData\\Room\:\:getCachedAvailable\(\) should return Illuminate\\Database\\Eloquent\\Collection\<int, static\(App\\Models\\MasterData\\Room\)\> but returns Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\MasterData\\Room\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/MasterData/Room.php
+
+		-
+			message: '#^Method App\\Models\\MasterData\\Room\:\:getCachedOccupancy\(\) should return Illuminate\\Database\\Eloquent\\Collection\<int, static\(App\\Models\\MasterData\\Room\)\> but returns Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\MasterData\\Room\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/MasterData/Room.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/MasterData/Room.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/MasterData/Room.php
+
+		-
+			message: '#^Variable \$value on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.variable
+			count: 1
+			path: app/Models/MasterData/Room.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$medical_record_number\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Patient/Patient.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:generateMedicalRecordNumber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/Patient/Patient.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/Patient/Patient.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Patient/Patient.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Patient\\Patient\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Patient/Patient.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Patient\\Patient\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Patient/Patient.php
+
+		-
+			message: '#^Call to function property_exists\(\) with \$this\(App\\Models\\Patient\\Patient\) and ''auditExclude'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Patient/Patient.php
+
+		-
+			message: '#^Call to function property_exists\(\) with \$this\(App\\Models\\Patient\\Patient\) and ''mrnPrefix'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Patient/Patient.php
+
+		-
+			message: '#^Method App\\Models\\Patient\\Patient\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Patient/Patient.php
+
+		-
+			message: '#^Method App\\Models\\Patient\\Patient\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Patient/Patient.php
+
+		-
+			message: '#^Method App\\Models\\Patient\\Patient\:\:findByMedicalRecordNumber\(\) should return static\(App\\Models\\Patient\\Patient\)\|null but returns App\\Models\\Patient\\Patient\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Patient/Patient.php
+
+		-
+			message: '#^Method App\\Models\\Patient\\Patient\:\:findByMedicalRecordNumberOrFail\(\) should return static\(App\\Models\\Patient\\Patient\) but returns App\\Models\\Patient\\Patient\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Patient/Patient.php
+
+		-
+			message: '#^Method App\\Models\\Patient\\Patient\:\:findByMrnCached\(\) should return static\(App\\Models\\Patient\\Patient\)\|null but returns App\\Models\\Patient\\Patient\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Patient/Patient.php
+
+		-
+			message: '#^Method App\\Models\\Patient\\Patient\:\:findCached\(\) should return static\(App\\Models\\Patient\\Patient\)\|null but returns App\\Models\\Patient\\Patient\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Patient/Patient.php
+
+		-
+			message: '#^Offset 0 on non\-empty\-list\<string\> on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Models/Patient/Patient.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between bool and null will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Models/Patient/Patient.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between int and null will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Models/Patient/Patient.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/Patient/Patient.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 2
+			path: app/Models/Patient/Patient.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>age" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Patient/Patient.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/Patient/Patient.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Models/Patient/Visit.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/Patient/Visit.php
+
+		-
+			message: '#^Call to function method_exists\(\) with \$this\(App\\Models\\Patient\\Visit\) and ''patient'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Patient/Visit.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Patient\\Visit\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Patient/Visit.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Patient\\Visit\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Patient/Visit.php
+
+		-
+			message: '#^Instanceof between Carbon\\Carbon and Carbon\\Carbon will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 2
+			path: app/Models/Patient/Visit.php
+
+		-
+			message: '#^Method App\\Models\\Patient\\Visit\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Patient/Visit.php
+
+		-
+			message: '#^Method App\\Models\\Patient\\Visit\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Patient/Visit.php
+
+		-
+			message: '#^Method App\\Models\\Patient\\Visit\:\:getActiveCached\(\) should return Illuminate\\Database\\Eloquent\\Collection\<int, static\(App\\Models\\Patient\\Visit\)\> but returns Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Patient\\Visit\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Patient/Visit.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/Patient/Visit.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Patient/Visit.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Patient/Visit.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/Patient/Visit.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Patient/VisitQueue.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:logAudit\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/Models/Patient/VisitQueue.php
+
+		-
+			message: '#^Call to function method_exists\(\) with \$this\(App\\Models\\Patient\\VisitQueue\) and ''patient'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Patient/VisitQueue.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Patient\\VisitQueue\)\> and ''forceDeleted'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Patient/VisitQueue.php
+
+		-
+			message: '#^Call to function method_exists\(\) with class\-string\<static\(App\\Models\\Patient\\VisitQueue\)\> and ''restored'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/Patient/VisitQueue.php
+
+		-
+			message: '#^Method App\\Models\\Patient\\VisitQueue\:\:auditLogs\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Patient/VisitQueue.php
+
+		-
+			message: '#^Method App\\Models\\Patient\\VisitQueue\:\:auditLogsByEvent\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Patient/VisitQueue.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/Patient/VisitQueue.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Patient/VisitQueue.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/Patient/VisitQueue.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Models/Patient/VisitQueue.php
+
+		-
+			message: '#^PHPDoc type array\<string\> of property App\\Models\\SatuSehatLog\:\:\$fillable is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$fillable\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Models/SatuSehatLog.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Carbon\\Carbon\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: app/Notifications/BpjsSyncFailedNotification.php
+
+		-
+			message: '#^Variable \$executedAt on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.variable
+			count: 1
+			path: app/Notifications/BpjsSyncFailedNotification.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Notifications\\Messages\\MailMessage\:\:warning\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Notifications/EmergencyAlertNotification.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Notifications\\Messages\\MailMessage\:\:warning\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Notifications/LowStockNotification.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 2
+			path: app/Notifications/QueueCalledNotification.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\MasterData\\Polyclinic\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: app/Notifications/QueueCalledNotification.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Notifications/SurgeryScheduledNotification.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>full_name_with_title" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Notifications/SurgeryScheduledNotification.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: app/Notifications/SurgeryScheduledNotification.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Notifications/VisitCompletedNotification.php
+
+		-
+			message: '#^Access to an undefined property App\\Providers\\TelescopeServiceProvider\:\:\$app\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Providers/TelescopeServiceProvider.php
+
+		-
+			message: '#^Access to property \$content on an unknown class Laravel\\Telescope\\IncomingEntry\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/Providers/TelescopeServiceProvider.php
+
+		-
+			message: '#^Access to property \$type on an unknown class Laravel\\Telescope\\IncomingEntry\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/Providers/TelescopeServiceProvider.php
+
+		-
+			message: '#^Call to method isFailedJob\(\) on an unknown class Laravel\\Telescope\\IncomingEntry\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Providers/TelescopeServiceProvider.php
+
+		-
+			message: '#^Call to method isFailedRequest\(\) on an unknown class Laravel\\Telescope\\IncomingEntry\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Providers/TelescopeServiceProvider.php
+
+		-
+			message: '#^Call to method isReportableException\(\) on an unknown class Laravel\\Telescope\\IncomingEntry\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Providers/TelescopeServiceProvider.php
+
+		-
+			message: '#^Call to method isScheduledTask\(\) on an unknown class Laravel\\Telescope\\IncomingEntry\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Providers/TelescopeServiceProvider.php
+
+		-
+			message: '#^Call to static method filter\(\) on an unknown class Laravel\\Telescope\\Telescope\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Providers/TelescopeServiceProvider.php
+
+		-
+			message: '#^Call to static method hideRequestHeaders\(\) on an unknown class Laravel\\Telescope\\Telescope\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Providers/TelescopeServiceProvider.php
+
+		-
+			message: '#^Call to static method hideRequestParameters\(\) on an unknown class Laravel\\Telescope\\Telescope\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Providers/TelescopeServiceProvider.php
+
+		-
+			message: '#^Call to static method night\(\) on an unknown class Laravel\\Telescope\\Telescope\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Providers/TelescopeServiceProvider.php
+
+		-
+			message: '#^Parameter \$entry of anonymous function has invalid type Laravel\\Telescope\\IncomingEntry\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Providers/TelescopeServiceProvider.php
+
+		-
+			message: '#^Parameter \$entry of method App\\Providers\\TelescopeServiceProvider\:\:isCriticalOperation\(\) has invalid type Laravel\\Telescope\\IncomingEntry\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Providers/TelescopeServiceProvider.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 6
+			path: app/Services/BPJS/BpjsVclaimService.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Services/Billing/BillingService.php
+
+		-
+			message: '#^If condition is always true\.$#'
+			identifier: if.alwaysTrue
+			count: 1
+			path: app/Services/Billing/BillingService.php
+
+		-
+			message: '#^Method App\\Services\\Patient\\PatientService\:\:searchPatients\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Services/Patient/PatientService.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Services/Queue/QueueService.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Patient\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Services/Queue/QueueService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$bed_number\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/ReportService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/ReportService.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 4
+			path: app/Services/ReportService.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\Clinical\\Assessment\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Services/ReportService.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\Patient\\Visit\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 2
+			path: app/Services/ReportService.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>bed_number" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Services/ReportService.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 4
+			path: app/Services/ReportService.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\Patient\\Visit\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Services/SatuSehat/SatuSehatConditionService.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Services/SatuSehat/SatuSehatEncounterService.php
+
+		-
+			message: '#^Cannot call method toIso8601String\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 8
+			path: app/Services/SatuSehat/SatuSehatObservationService.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Services/SatuSehat/SatuSehatService.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Http\\Client\\Response\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Services/SatuSehat/SatuSehatService.php
+
+		-
+			message: '#^Trait App\\Traits\\EnumHelper is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: app/Traits/EnumHelper.php
